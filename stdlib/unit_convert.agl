@@ -1,0 +1,51 @@
+#lang=English
+// Stdlib: Unit conversion. Pure functions, zero effects.
+// Usage: declare `unit_convert = "0.1.0"` in agl.toml [dependencies],
+//        then `import unit_convert`, then `unit_convert.c_to_f(36.6)`.
+
+module unit_convert
+
+// Temperature: Celsius to Fahrenheit
+export fn c_to_f(celsius: Float) -> Float {
+  return celsius * 1.8 + 32.0
+}
+
+// Temperature: Fahrenheit to Celsius
+export fn f_to_c(fahrenheit: Float) -> Float {
+  return (fahrenheit - 32.0) / 1.8
+}
+
+// Length: meters to kilometers
+export fn m_to_km(meters: Float) -> Float {
+  return meters / 1000.0
+}
+
+// Length: kilometers to meters
+export fn km_to_m(kilometers: Float) -> Float {
+  return kilometers * 1000.0
+}
+
+// Length: meters to feet
+export fn m_to_ft(meters: Float) -> Float {
+  return meters * 3.28084
+}
+
+// Weight: kilograms to pounds
+export fn kg_to_lb(kg: Float) -> Float {
+  return kg * 2.20462
+}
+
+// Weight: pounds to kilograms
+export fn lb_to_kg(lb: Float) -> Float {
+  return lb / 2.20462
+}
+
+// Data size: bytes to KB
+export fn bytes_to_kb(bytes: Int) -> Float {
+  return (bytes * 1.0) / 1024.0
+}
+
+// Data size: KB to bytes
+export fn kb_to_bytes(kb: Float) -> Int {
+  return trunc(kb * 1024.0)
+}

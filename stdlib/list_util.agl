@@ -1,0 +1,143 @@
+#lang=English
+// Standard library: list utilities. Pure AGL, no external calls.
+// Note: max / min / avg on an empty list reports "index out of range" or
+//       "cannot divide by zero" on purpose — check `.length` first. The language
+//       does not hide the error from you.
+// Builtin-first (since v0.14): `sum` / `contains` etc. live in the builtin table;
+//       the same-named functions here exist for reading the AGL implementation —
+//       new code should use the builtins.
+//
+// Every function that "returns a new list" leaves the original untouched:
+// there is no in-place mutation, so keep the result: `items = append(items, 4)`.
+
+module list_util
+
+export fn sum_of(nums: List<Int>) -> Int {
+  let total = 0
+  for n in nums {
+    total = total + n
+  }
+  return total
+}
+
+export fn max_of(nums: List<Int>) -> Int {
+  let best = nums[0]
+  for n in nums {
+    if n > best {
+      best = n
+    }
+  }
+  return best
+}
+
+export fn min_of(nums: List<Int>) -> Int {
+  let best = nums[0]
+  for n in nums {
+    if n < best {
+      best = n
+    }
+  }
+  return best
+}
+
+export fn avg_of(nums: List<Int>) -> Float {
+  return sum_of(nums) / nums.length
+}
+
+export fn contains(nums: List<Int>, target: Int) -> Bool {
+  for n in nums {
+    if n == target {
+      return true
+    }
+  }
+  return false
+}
+
+// ── below depends on append / sublist, which only exist from stage 2 ──────────
+
+export fn sorted(nums: List<Int>) -> List<Int> {
+  let built = []
+  for n in nums {
+    built = insert_into(built, n)
+  }
+  return built
+}
+
+fn insert_into(ordered: List<Int>, value: Int) -> List<Int> {
+  // private helper: one step of insertion sort
+  let built = []
+  let placed = false
+  for n in ordered {
+    if !placed && n > value {
+      built = append(built, value)
+      placed = true
+    }
+    built = append(built, n)
+  }
+  if !placed {
+    built = append(built, value)
+  }
+  return built
+}
+
+export fn distinct(nums: List<Int>) -> List<Int> {
+  let built = []
+  for n in nums {
+    if !contains(built, n) {
+      built = append(built, n)
+    }
+  }
+  return built
+}
+
+export fn reversed(nums: List<Int>) -> List<Int> {
+  let built = []
+  for n in nums {
+    built = put_first(built, n)
+  }
+  return built
+}
+
+fn put_first(nums: List<Int>, value: Int) -> List<Int> {
+  let built = [value]
+  for n in nums {
+    built = append(built, n)
+  }
+  return built
+}
+
+export fn index_of(nums: List<Int>, target: Int) -> Int {
+  // -1 when absent, the usual indexOf convention
+  let pos = 0
+  for n in nums {
+    if n == target {
+      return pos
+    }
+    pos = pos + 1
+  }
+  return 0 - 1
+}
+
+export fn take(nums: List<Int>, count: Int) -> List<Int> {
+  // asking for more than there is returns the whole list; this is "first N", not an error
+  if count <= 0 {
+    return []
+  }
+  if count > nums.length {
+    return nums
+  }
+  return sublist(nums, 0, count)
+}
+
+export fn join_with(words: List<String>, sep: String) -> String {
+  let built = ""
+  let first = true
+  for w in words {
+    if !first {
+      built = join(built, sep)
+    }
+    built = join(built, w)
+    first = false
+  }
+  return built
+}

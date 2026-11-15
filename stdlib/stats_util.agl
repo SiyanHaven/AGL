@@ -1,0 +1,60 @@
+#lang=English
+// Stdlib: Statistics utilities. Pure functions, zero effects.
+// Usage: declare `stats_util = "0.1.0"` in agl.toml [dependencies],
+//        then `import stats_util`, then `stats_util.average([1, 2, 3, 4, 5])`.
+
+module stats_util
+
+// Calculate average
+export fn average(nums: List) -> Float {
+  if nums.length == 0 {
+    return 0.0
+  }
+  let total = 0
+  let i = 0
+  while i < nums.length {
+    total = total + nums[i]
+    i = i + 1
+  }
+  return (total * 1.0) / nums.length
+}
+
+// Find max in list
+export fn list_max(nums: List) -> Int {
+  if nums.length == 0 {
+    return 0
+  }
+  let max_val = nums[0]
+  let i = 1
+  while i < nums.length {
+    if nums[i] > max_val {
+      max_val = nums[i]
+    }
+    i = i + 1
+  }
+  return max_val
+}
+
+// Find min in list
+export fn list_min(nums: List) -> Int {
+  if nums.length == 0 {
+    return 0
+  }
+  let min_val = nums[0]
+  let i = 1
+  while i < nums.length {
+    if nums[i] < min_val {
+      min_val = nums[i]
+    }
+    i = i + 1
+  }
+  return min_val
+}
+
+// Calculate range (max - min)
+export fn range(nums: List) -> Int {
+  if nums.length == 0 {
+    return 0
+  }
+  return list_max(nums) - list_min(nums)
+}

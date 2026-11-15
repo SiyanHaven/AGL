@@ -439,6 +439,6 @@ From the root of the extracted AGL directory, run:
 python examples/run_examples.py
 ```
 
-The runtime package passes **5/5** (`doctor`); the source tree passes **27/27**. The example verifier checks and runs all six examples and compares their expected output. Actual output is recorded in [`examples/README.md`](../examples/README.md).
+The runtime package and the source tree both pass **5/5** (`doctor`). The example verifier checks and runs all six examples and compares their expected output. Actual output is recorded in [`examples/README.md`](../examples/README.md).
 
 The minimal runnable block above is verified as `examples/zh/00_最小程序.agl`.

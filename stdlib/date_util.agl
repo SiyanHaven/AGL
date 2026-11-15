@@ -1,0 +1,87 @@
+#语言=英文
+// Stdlib: Date utilities. Pure functions, zero effects.
+// Usage: declare `date_util = "0.1.0"` in agl.toml [dependencies],
+//        then `import date_util`, then `date_util.is_leap(2024)`.
+
+module date_util
+
+// Is it a leap year?
+// Rule: divisible by 4 but not by 100, or divisible by 400
+export fn is_leap(year: Int) -> Bool {
+  if year % 400 == 0 {
+    return true
+  }
+  if year % 100 == 0 {
+    return false
+  }
+  return year % 4 == 0
+}
+
+// How many days in the given month?
+export fn days_in_month(year: Int, month: Int) -> Int {
+  if month == 2 {
+    if is_leap(year) {
+      return 29
+    }
+    return 28
+  }
+  if month == 4 {
+    return 30
+  }
+  if month == 6 {
+    return 30
+  }
+  if month == 9 {
+    return 30
+  }
+  if month == 11 {
+    return 30
+  }
+  return 31
+}
+
+// Day of the year (1-366)
+export fn day_of_year(year: Int, month: Int, day: Int) -> Int {
+  let total = day
+  let passed = 1
+  while passed < month {
+    total = total + days_in_month(year, passed)
+    passed = passed + 1
+  }
+  return total
+}
+
+// Is it a weekend? (simplified: day 6 and 0 of week)
+export fn is_weekend(day_of_week: Int) -> Bool {
+  let dow = day_of_week % 7
+  if dow == 6 {
+    return true
+  }
+  if dow == 0 {
+    return true
+  }
+  return false
+}
+
+// Compare two dates: -1 (a earlier), 0 (same), 1 (b earlier)
+export fn compare_dates(ya: Int, ma: Int, da: Int, yb: Int, mb: Int, db: Int) -> Int {
+  if ya < yb {
+    return -1
+  }
+  if ya > yb {
+    return 1
+  }
+  if ma < mb {
+    return -1
+  }
+  if ma > mb {
+    return 1
+  }
+  if da < db {
+    return -1
+  }
+  if da > db {
+    return 1
+  }
+  return 0
+}

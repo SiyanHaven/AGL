@@ -1,0 +1,53 @@
+#lang=English
+// Log analyzer: read a UTF-8 log, count levels, and list error lines.
+// Run from the repository root:
+//   python -m compiler.cli run examples/en/03_log_analyzer.agl
+
+fn main() effect IO {
+  let log_path = path_join("examples", "en", "sample.log")
+  let load_result = read_file(log_path)
+
+  if load_result {
+    let content = unwrap(load_result)
+    let lines = splitlines(content)
+    let info_count = 0
+    let warn_count = 0
+    let error_count = 0
+    let error_lines = []
+
+    for line in lines {
+      if contains(line, "INFO") {
+        info_count = info_count + 1
+      }
+      if contains(line, "WARN") {
+        warn_count = warn_count + 1
+      }
+      if contains(line, "ERROR") {
+        error_count = error_count + 1
+        error_lines = append(error_lines, line)
+      }
+    }
+
+    let error_rate = 0.0
+    if lines.length > 0 {
+      error_rate = error_count / lines.length * 100.0
+    }
+
+    print("Log Analysis")
+    print("File: sample.log")
+    print("Lines:", lines.length)
+    print("INFO:", info_count, " WARN:", warn_count, " ERROR:", error_count)
+    print("Error rate:", format_number(error_rate, 1), "%")
+    print("")
+    if error_count > 0 {
+      print("Errors:")
+      for line in error_lines {
+        print("  ", line)
+      }
+    } else {
+      print("No errors found.")
+    }
+  } else {
+    print("Failed to read log:", fail_reason(load_result))
+  }
+}

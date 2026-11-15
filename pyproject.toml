@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agl-lang"
+version = "0.53.0"
+description = "AGL（Agent Grounded Language）编译器：中文/英文同构，面向智能体编排"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+keywords = ["agl", "agent", "compiler", "bytecode", "chinese", "english", "declarative"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Chinese (Simplified)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Other",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Compilers",
+    "Topic :: Software Development :: Interpreters",
+]
+
+[project.urls]
+Homepage = "https://github.com/SiyanHaven/AGL"
+Repository = "https://github.com/SiyanHaven/AGL"
+Issues = "https://github.com/SiyanHaven/AGL/issues"
+
+[project.scripts]
+aglc = "compiler.cli:main"
+agl = "compiler.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+  "compiler*",
+  "aglc*",
+  "spec*",
+  "stdlib*",
+  "examples*",
+]
+exclude = ["build*", "dist*", "snapshots*"]
+
+[tool.setuptools.package-data]
+compiler = ["*.toml", "_runtime/*.agb"]
+spec = ["*.toml", "*.json", "*.py", "*.md"]
+stdlib = ["*.agl"]
+aglc = ["*.py"]
+examples = ["README.md", "run_examples.py", "zh/*", "en/*"]

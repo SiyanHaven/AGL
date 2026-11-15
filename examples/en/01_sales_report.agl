@@ -1,0 +1,48 @@
+#lang=English
+// Sales daily report: structs, lists, loops, functions, conditions and number formatting.
+// Run: python -m compiler.cli run examples/en/01_sales_report.agl
+
+type Order {
+  id: String
+  customer: String
+  amount: Float
+  status: String
+}
+
+fn is_completed(order: Order) -> Bool {
+  return order.status == "completed"
+}
+
+fn main() {
+  let orders = [
+    Order(id: "SO-1001", customer: "Qinghe Books", amount: 128.5, status: "completed"),
+    Order(id: "SO-1002", customer: "Yuanshan Coffee", amount: 86.0, status: "completed"),
+    Order(id: "SO-1003", customer: "Nanfeng Stationery", amount: 42.0, status: "cancelled"),
+    Order(id: "SO-1004", customer: "Qinghe Books", amount: 199.9, status: "completed"),
+    Order(id: "SO-1005", customer: "Chenguang Design", amount: 310.0, status: "pending")
+  ]
+
+  let completed_count = 0
+  let completed_amount = 0.0
+  for item in orders {
+    if is_completed(item) {
+      completed_count = completed_count + 1
+      completed_amount = completed_amount + item.amount
+    }
+  }
+
+  let completion_rate = 0.0
+  if orders.length > 0 {
+    completion_rate = completed_count / orders.length * 100.0
+  }
+
+  print("Sales Daily Report")
+  print("Total orders:", orders.length, " Completed:", completed_count)
+  print("Completed amount:", format_number(completed_amount, 2), " CNY")
+  print("Completion rate:", format_number(completion_rate, 1), "%")
+  print("")
+  print("Order ID   Customer            Amount    Status")
+  for item in orders {
+    print(item.id, item.customer, format_number(item.amount, 2), item.status)
+  }
+}

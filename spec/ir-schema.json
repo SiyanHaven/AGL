@@ -1,0 +1,899 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agl.dev/schema/ir-0.2.json",
+  "title": "AGL IR v0.2",
+  "description": "AGL 中间表示的 v0.2（M4）。IR 是唯一真值：中英双分支、所有后端都从这里出发。关键约定：① 每个节点必须带 span（§4.5 R1），缺失即非法；② 类型名与效应名一律用规范英文（Int / Net / IO），保证双分支 IR 可直接比对；③ 标识符、字符串字面量保留原文，不翻译、不改写。",
+  "type": "object",
+  "required": ["ir_version", "lang", "program"],
+  "additionalProperties": false,
+  "properties": {
+    "ir_version": {
+      "const": "0.2",
+      "description": "IR 格式版本。v0.2 起 call 节点可带 target（模块调用 / 方法调用）。任何不兼容变更必须升版本号，并过全量用例回归。"
+    },
+    "lang": {
+      "enum": ["zh", "en"],
+      "description": "来源分支。仅作溯源标记，不参与语义判断。"
+    },
+    "program": { "$ref": "#/$defs/Program" }
+  },
+
+  "$defs": {
+    "Span": {
+      "type": "object",
+      "description": "源码位置。§4.5 R1 硬性要求：每个节点必须有，缺失即 IR 非法。这是错误回译能指向 AGL 源码的唯一依据。",
+      "required": ["file", "line", "col", "endLine", "endCol"],
+      "additionalProperties": false,
+      "properties": {
+        "file": { "type": "string" },
+        "line": { "type": "integer", "minimum": 1 },
+        "col": { "type": "integer", "minimum": 0 },
+        "endLine": { "type": "integer", "minimum": 1 },
+        "endCol": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "Type": {
+      "type": "object",
+      "description": "类型引用。基础类型用规范英文名；自定义类型用 declared 原文。",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": ["Int", "Float", "Bool", "String", "Null", "List", "Map", "Set", "Result", "Error", "Any", "Custom"]
+        },
+        "args": {
+          "type": "array",
+          "description": "泛型实参。List<T> → args:[T]；Map<K,V> → args:[K,V]；Result<T,E> → args:[T,E]",
+          "items": { "$ref": "#/$defs/Type" }
+        },
+        "declared": {
+          "type": "string",
+          "description": "type=Custom 时的原始类型名（保留原文，不翻译）"
+        },
+        "nullable": {
+          "type": "boolean",
+          "default": false,
+          "description": "可空标记（§3.12）"
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "Custom" } } },
+          "then": { "required": ["declared"] }
+        }
+      ]
+    },
+
+    "Effect": {
+      "enum": ["IO", "Net", "model", "Time", "External"],
+      "description": "§3.7 的五个标准效应标签。一律用英文规范名，中文分支的「网络」也存 Net。"
+    },
+
+    "Program": {
+      "type": "object",
+      "required": ["entry", "modules"],
+      "additionalProperties": false,
+      "properties": {
+        "entry": { "type": "string", "description": "入口函数名（原文）" },
+        "modules": { "type": "array", "items": { "$ref": "#/$defs/Module" } }
+      }
+    },
+
+    "Module": {
+      "type": "object",
+      "required": ["name", "functions", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "imports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["module"],
+            "properties": {
+              "module": { "type": "string" },
+              "names": { "type": "array", "items": { "type": "string" } },
+              "kind": { "type": "string", "enum": ["module", "ffi"], "description": "module=AGL 模块/标准库；ffi=外部 Python 库黑盒调用" },
+              "effect": { "$ref": "#/$defs/Effect", "description": "仅 ffi 用：该外部库声明的效应，缺省为 External（最坏情况）" }
+            }
+          }
+        },
+        "exports": { "type": "array", "items": { "type": "string" } },
+        "consts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/StmtLet" },
+          "description": "顶层常量（模块级只读绑定，按源码顺序求值）"
+        },
+        "types": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TypeDecl" },
+          "description": "自定义结构体（字段名原文不翻译）"
+        },
+        "interfaces": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Interface" },
+          "description": "接口契约：纯编译期检查，运行期不产生任何代码"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Dependency" },
+          "description": "顶层依赖块：包名 + 语义化版本锁定（可选；没有依赖时连字段都不出现）"
+        },
+        "declarations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Declaration" },
+          "description": "声明式块：工具 / 智能体 / 规则（纯编译期契约，运行期不产生代码）"
+        },
+        "functions": { "type": "array", "items": { "$ref": "#/$defs/Function" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Param": {
+      "type": "object",
+      "required": ["name", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "参数名原文，不翻译" },
+        "type": { "$ref": "#/$defs/Type" },
+        "default": {
+          "$ref": "#/$defs/Expr",
+          "description": "默认值；有默认值的参数之后不能再有必填参数"
+        }
+      }
+    },
+
+    "TypeDecl": {
+      "type": "object",
+      "required": ["name", "fields", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "类型名原文，不翻译" },
+        "fields": { "type": "array", "items": { "$ref": "#/$defs/Field" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Interface": {
+      "type": "object",
+      "required": ["name", "members", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "接口名原文，不翻译" },
+        "members": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/InterfaceMember" }
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Dependency": {
+      "type": "object",
+      "required": ["name", "version", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "依赖包名原文，不翻译" },
+        "version": { "type": "string", "description": "语义化版本锁定（major.minor.patch）" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "InterfaceMember": {
+      "type": "object",
+      "required": ["name", "params", "return", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "签名函数名原文，不翻译" },
+        "params": { "type": "array", "items": { "$ref": "#/$defs/Param" } },
+        "return": { "$ref": "#/$defs/Type" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Field": {
+      "type": "object",
+      "required": ["name", "type", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "字段名原文，不翻译" },
+        "type": { "$ref": "#/$defs/Type" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Declaration": {
+      "type": "object",
+      "required": ["kind", "name", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["tool", "agent", "rule"] },
+        "name": { "type": "string", "description": "声明名原文，不翻译" },
+        "params": { "type": "array", "items": { "$ref": "#/$defs/Param" } },
+        "return": { "$ref": "#/$defs/Type" },
+        "target": { "$ref": "#/$defs/Expr" },
+        "config": {
+          "type": "object",
+          "description": "工具/智能体配置；键已规范化为英文，值是表达式",
+          "additionalProperties": { "$ref": "#/$defs/Expr" },
+          "propertyNames": {
+            "enum": ["protocol", "endpoint", "max_retry", "timeout_sec",
+                     "permissions", "subscribe", "model", "max_turns"]
+          }
+        },
+        "fields": {
+          "type": "object",
+          "description": "规则字段；键已规范化为英文",
+          "propertyNames": {
+            "enum": ["version", "scope", "priority", "content", "expires"]
+          },
+          "additionalProperties": { "$ref": "#/$defs/Expr" }
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Function": {
+      "type": "object",
+      "required": ["name", "params", "effects", "body", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "函数名原文，不翻译" },
+        "params": { "type": "array", "items": { "$ref": "#/$defs/Param" } },
+        "return": { "$ref": "#/$defs/Type" },
+        "effects": { "type": "array", "items": { "$ref": "#/$defs/Effect" } },
+        "is_async": {
+          "type": "boolean",
+          "default": false,
+          "description": "异步函数（真正的异步运行时：任务 / 等待 / 取消 / 回调全链路）"
+        },
+        "checks": {
+          "type": "array",
+          "description": "§3.16.3 入参校验块。纯编译期静态断言，零运行时成本，但在 IR 中保留以便人审。",
+          "items": { "$ref": "#/$defs/Expr" }
+        },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Stmt": {
+      "oneOf": [
+        { "$ref": "#/$defs/StmtLet" },
+        { "$ref": "#/$defs/StmtLetMulti" },
+        { "$ref": "#/$defs/StmtAssign" },
+        { "$ref": "#/$defs/StmtAssignMulti" },
+        { "$ref": "#/$defs/StmtAugAssign" },
+        { "$ref": "#/$defs/StmtReturn" },
+        { "$ref": "#/$defs/StmtIf" },
+        { "$ref": "#/$defs/StmtWhile" },
+        { "$ref": "#/$defs/StmtFor" },
+        { "$ref": "#/$defs/StmtExpr" },
+        { "$ref": "#/$defs/StmtBreak" },
+        { "$ref": "#/$defs/StmtContinue" },
+        { "$ref": "#/$defs/StmtTry" },
+        { "$ref": "#/$defs/StmtMatch" },
+        { "$ref": "#/$defs/StmtWith" },
+        { "$ref": "#/$defs/StmtOnEvent" }
+      ]
+    },
+
+    "StmtLet": {
+      "type": "object",
+      "required": ["stmt", "name", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "let" },
+        "name": { "type": "string" },
+        "mutable": { "type": "boolean", "default": true, "description": "变量=true，常量=false" },
+        "type": { "$ref": "#/$defs/Type" },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtLetMulti": {
+      "type": "object",
+      "required": ["stmt", "names", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "let_multi" },
+        "names": { "type": "array", "items": { "type": "string" } },
+        "mutable": { "type": "boolean", "default": true, "description": "变量=true，常量=false" },
+        "type": { "$ref": "#/$defs/Type" },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtAssignMulti": {
+      "type": "object",
+      "required": ["stmt", "targets", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "assign_multi" },
+        "targets": { "type": "array", "items": { "$ref": "#/$defs/Expr" } },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtTry": {
+      "type": "object",
+      "required": ["stmt", "body", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "try" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "catch_name": { "type": "string" },
+        "catch_type": { "type": "string", "description": "异常类型名（值错误/ValueError 等），缺省表示全部异常" },
+        "catch": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "else": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "finally": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtMatch": {
+      "type": "object",
+      "required": ["stmt", "subject", "arms", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "match" },
+        "subject": { "$ref": "#/$defs/Expr" },
+        "arms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pattern", "body"],
+            "additionalProperties": false,
+            "properties": {
+              "pattern": { "$ref": "#/$defs/Expr" },
+              "guard": { "$ref": "#/$defs/Expr" },
+              "bind": { "type": "string", "minLength": 1 },
+              "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } }
+            }
+          }
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtWith": {
+      "type": "object",
+      "required": ["stmt", "expr", "body", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "with" },
+        "expr": { "$ref": "#/$defs/Expr" },
+        "name": { "type": "string" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtAssign": {
+      "type": "object",
+      "required": ["stmt", "target", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "assign" },
+        "target": { "$ref": "#/$defs/Expr" },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtAugAssign": {
+      "type": "object",
+      "required": ["stmt", "target", "op", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "aug_assign" },
+        "target": { "$ref": "#/$defs/Expr" },
+        "op": { "type": "string", "enum": ["+", "-", "*", "/", "%"] },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtReturn": {
+      "type": "object",
+      "required": ["stmt", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "return" },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtIf": {
+      "type": "object",
+      "required": ["stmt", "cond", "then", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "if" },
+        "cond": { "$ref": "#/$defs/Expr" },
+        "then": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "else": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtWhile": {
+      "type": "object",
+      "required": ["stmt", "cond", "body", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "while" },
+        "cond": { "$ref": "#/$defs/Expr" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "else": { "type": "array", "items": { "$ref": "#/$defs/Stmt" }, "description": "否则块：循环没被 中断 打断才执行（原生 while/else）" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtFor": {
+      "type": "object",
+      "required": ["stmt", "item", "iter", "body", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "for" },
+        "item": { "type": "string", "description": "循环变量名原文" },
+        "iter": { "$ref": "#/$defs/Expr" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "else": { "type": "array", "items": { "$ref": "#/$defs/Stmt" }, "description": "否则块：循环没被 中断 打断才执行（原生 for/else）" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtExpr": {
+      "type": "object",
+      "required": ["stmt", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "expr" },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtBreak": {
+      "type": "object",
+      "required": ["stmt", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "break" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtContinue": {
+      "type": "object",
+      "required": ["stmt", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "continue" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtOnEvent": {
+      "type": "object",
+      "required": ["stmt", "event", "task", "param", "param_type", "body", "span"],
+      "additionalProperties": false,
+      "description": "订阅回调：`当收到进度(句柄, 说明: 文本) { … }`。事件只有三种，参数固定两个。",
+      "properties": {
+        "stmt": { "const": "on_event" },
+        "event": { "enum": ["progress", "finish", "fail"] },
+        "task": { "$ref": "#/$defs/Expr" },
+        "param": { "type": "string" },
+        "param_type": { "$ref": "#/$defs/Type" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "StmtTry": {
+      "type": "object",
+      "required": ["stmt", "body", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "stmt": { "const": "try" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "catch_name": { "type": "string" },
+        "catch_type": { "type": "string", "description": "异常类型名（值错误/ValueError 等），缺省表示全部异常" },
+        "catch": { "type": "array", "items": { "$ref": "#/$defs/Stmt" } },
+        "else": { "type": "array", "items": { "$ref": "#/$defs/Stmt" }, "description": "否则块：try 没出错才执行（原生 try/except/else，必须在 捕获 之后、最后 之前）" },
+        "finally": { "type": "array", "items": { "$ref": "#/$defs/Stmt" }, "description": "最后块：无论是否异常都执行（原生 try/except/finally）" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "Expr": {
+      "oneOf": [
+        { "$ref": "#/$defs/ExprLiteral" },
+        { "$ref": "#/$defs/ExprName" },
+        { "$ref": "#/$defs/ExprCall" },
+        { "$ref": "#/$defs/ExprAwait" },
+        { "$ref": "#/$defs/ExprBinop" },
+        { "$ref": "#/$defs/ExprUnop" },
+        { "$ref": "#/$defs/ExprMember" },
+        { "$ref": "#/$defs/ExprIndex" },
+        { "$ref": "#/$defs/ExprList" },
+        { "$ref": "#/$defs/ExprListPattern" },
+        { "$ref": "#/$defs/ExprMapPattern" },
+        { "$ref": "#/$defs/ExprMatch" },
+        { "$ref": "#/$defs/ExprMap" },
+        { "$ref": "#/$defs/ExprSet" },
+        { "$ref": "#/$defs/ExprNamed" },
+        { "$ref": "#/$defs/ExprStructCall" }
+      ]
+    },
+
+    "ExprStructCall": {
+      "type": "object",
+      "required": ["expr", "module", "name", "args", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "struct_call" },
+        "module": { "type": "string", "description": "结构体所属模块（AGL 模块名原文）" },
+        "name": { "type": "string", "description": "结构体类型名原文" },
+        "args": { "type": "array", "items": { "$ref": "#/$defs/Expr" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprMatch": {
+      "type": "object",
+      "required": ["expr", "subject", "arms", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "match" },
+        "subject": { "$ref": "#/$defs/Expr" },
+        "arms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pattern", "body"],
+            "additionalProperties": false,
+            "properties": {
+              "pattern": { "$ref": "#/$defs/Expr" },
+              "bind": { "type": "string", "description": "`变量 名` 绑定的名字原文，不翻译" },
+              "guard": { "$ref": "#/$defs/Expr" },
+              "body": { "$ref": "#/$defs/Expr" }
+            }
+          }
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprNamed": {
+      "type": "object",
+      "required": ["expr", "name", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "named" },
+        "name": { "type": "string", "description": "命名实参的参数名原文，不翻译" },
+        "value": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprLiteral": {
+      "type": "object",
+      "required": ["expr", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "enum": ["string", "int", "float", "bool", "null"] },
+        "value": {
+          "description": "字面量的实际值。字符串保留原文，绝不翻译（§3.17：填充内容属展示层）。"
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprName": {
+      "type": "object",
+      "required": ["expr", "name", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "name" },
+        "name": { "type": "string", "description": "标识符原文，不翻译" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprAwait": {
+      "type": "object",
+      "required": ["expr", "value", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "await" },
+        "value": {
+          "$ref": "#/$defs/Expr",
+          "description": "`等待 表达式` 里的表达式。只有异步函数里才允许出现。"
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprCall": {
+      "type": "object",
+      "required": ["expr", "name", "args", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "call" },
+        "name": {
+          "type": "string",
+          "description": "被调用的函数/方法名原文，不翻译。"
+        },
+        "target": {
+          "$ref": "#/$defs/Expr",
+          "description": "可选。`工具.打招呼()` 里的 `工具`，`列表.追加()` 里的 `列表`。省略表示直接调用本模块函数。"
+        },
+        "builtin": {
+          "type": "string",
+          "description": "可选。由语义层写入：这个调用命中了内建函数，值是 spec/keywords.toml [[builtin]] 里的 canonical。后端只认这个字段决定落地实现，不按名字猜。"
+        },
+        "ffi": {
+          "type": "string",
+          "description": "可选。由语义层写入：这个调用是黑盒 FFI，值是外部 Python 库名。后端生成 `_agl_ffi_call(lib, method, *args)`，不按名字猜。"
+        },
+        "args": { "type": "array", "items": { "$ref": "#/$defs/Expr" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprBinop": {
+      "type": "object",
+      "required": ["expr", "op", "left", "right", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "binop" },
+        "op": {
+          "enum": ["==", "!=", ">", "<", ">=", "<=", "&&", "||", "+", "-", "*", "/", "%"],
+          "description": "一律用符号形式（中文分支的「等于」也存 ==），保证双分支 IR 可比。"
+        },
+        "left": { "$ref": "#/$defs/Expr" },
+        "right": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprUnop": {
+      "type": "object",
+      "required": ["expr", "op", "operand", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "unop" },
+        "op": { "enum": ["!", "-"], "description": "「非」也存 !" },
+        "operand": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprMember": {
+      "type": "object",
+      "required": ["expr", "target", "field", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "member" },
+        "target": { "$ref": "#/$defs/Expr" },
+        "field": { "type": "string", "description": "成员名原文，不翻译" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprIndex": {
+      "type": "object",
+      "required": ["expr", "target", "index", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "index" },
+        "target": { "$ref": "#/$defs/Expr" },
+        "index": { "$ref": "#/$defs/Expr" },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprList": {
+      "type": "object",
+      "required": ["expr", "items", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "list" },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/Expr" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprListPattern": {
+      "type": "object",
+      "description": "列表模式 `[变量 首, 1, _]`，只用于 `匹配` 的 pattern 位置；不是列表字面量。",
+      "required": ["expr", "items", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "list_pattern" },
+        "items": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["kind", "name", "span"],
+                "additionalProperties": false,
+                "properties": {
+                  "kind": { "const": "bind" },
+                  "name": { "type": "string", "minLength": 1 },
+                  "span": { "$ref": "#/$defs/Span" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["kind", "name", "span"],
+                "additionalProperties": false,
+                "properties": {
+                  "kind": { "const": "wild" },
+                  "name": { "const": "_" },
+                  "span": { "$ref": "#/$defs/Span" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["kind", "value", "span"],
+                "additionalProperties": false,
+                "properties": {
+                  "kind": { "const": "literal" },
+                  "value": {
+                    "oneOf": [
+                      { "$ref": "#/$defs/ExprLiteral" },
+                      { "$ref": "#/$defs/ExprName" }
+                    ]
+                  },
+                  "span": { "$ref": "#/$defs/Span" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["kind", "pattern", "span"],
+                "additionalProperties": false,
+                "properties": {
+                  "kind": { "const": "list" },
+                  "pattern": { "$ref": "#/$defs/ExprListPattern" },
+                  "span": { "$ref": "#/$defs/Span" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["kind", "pattern", "span"],
+                "additionalProperties": false,
+                "properties": {
+                  "kind": { "const": "map" },
+                  "pattern": { "$ref": "#/$defs/ExprMapPattern" },
+                  "span": { "$ref": "#/$defs/Span" }
+                }
+              }
+            ]
+          }
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprMapPattern": {
+      "type": "object",
+      "description": "映射模式 `{ \"键\": 模式 }`，只用于 `匹配` 的 pattern 位置；键必须存在、值匹配，允许多余键。",
+      "required": ["expr", "entries", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "map_pattern" },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "oneOf": [
+                  { "$ref": "#/$defs/ExprLiteral" }
+                ]
+              },
+              "value": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": ["kind", "name", "span"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": { "const": "bind" },
+                      "name": { "type": "string", "minLength": 1 },
+                      "span": { "$ref": "#/$defs/Span" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["kind", "name", "span"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": { "const": "wild" },
+                      "name": { "const": "_" },
+                      "span": { "$ref": "#/$defs/Span" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["kind", "value", "span"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": { "const": "literal" },
+                      "value": { "$ref": "#/$defs/ExprLiteral" },
+                      "span": { "$ref": "#/$defs/Span" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["kind", "pattern", "span"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": { "const": "list" },
+                      "pattern": { "$ref": "#/$defs/ExprListPattern" },
+                      "span": { "$ref": "#/$defs/Span" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["kind", "pattern", "span"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": { "const": "map" },
+                      "pattern": { "$ref": "#/$defs/ExprMapPattern" },
+                      "span": { "$ref": "#/$defs/Span" }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprMap": {
+      "type": "object",
+      "required": ["expr", "entries", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "map" },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "value"],
+            "properties": {
+              "key": { "$ref": "#/$defs/Expr" },
+              "value": { "$ref": "#/$defs/Expr" }
+            }
+          }
+        },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    },
+
+    "ExprSet": {
+      "type": "object",
+      "required": ["expr", "items", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "expr": { "const": "set" },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/Expr" } },
+        "span": { "$ref": "#/$defs/Span" }
+      }
+    }
+  }
+}

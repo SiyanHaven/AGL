@@ -1,0 +1,3198 @@
+# AGL 关键字表 v0.53.0
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 本文件是 **M1 词法分析器的唯一输入源**，也是中英双分支转换（aglc convert）
+# 的唯一对照表。任何关键字增删改，必须先改本文件，再改代码，并过全量用例回归。
+#
+# 来源：项目规划设计 §3.2（核心关键字表）/ §3.2.1（扩展关键字表）/ §3.15（运算符词）
+# 冻结：2026-10-27；v0.31 重建：2026-10-29（编码事故后按 en 字段与语言知识逐项恢复，
+#       并新增 清空/按格式/表达式形式 三个内建与科学计数法字面量）
+#
+# stage 字段含义：
+#   1 = 基础关键字（必须支持）
+#   2 = 当前版本启用
+#   3 = 后续版本 启用
+# kind 字段含义：
+#   decl    = 声明类
+#   stmt    = 语句类
+#   type    = 类型
+#   effect  = 效应标签
+#   literal = 字面量
+#   builtin = 内建值 / 入口
+#   modifier= 修饰符
+
+[meta]
+version = "0.53.0"
+frozen_at = "2026-11-02"
+source = "项目规划设计 §3.2 / §3.2.1 / §3.15"
+rule = "先改本表 → 再改代码 → 过全量回归。禁止代码里硬编码关键字。"
+
+[[keyword]]
+zh = "函数"
+en = "fn"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "变量"
+en = "let"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "常量"
+en = "const"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "类型"
+en = "type"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "效应"
+en = "effect"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "如果"
+en = "if"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "否则"
+en = "else"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "循环"
+en = "for"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "在"
+en = "in"
+kind = "stmt"
+stage = 1
+note = "是关键字（不能用作变量名/参数名）；常见写法是 for 里的 `x 在 名单 中` 或 `x 在 名单 中`"
+
+[[keyword]]
+zh = "当"
+en = "while"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "返回"
+en = "return"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "导入"
+en = "import"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "导出"
+en = "export"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "匹配"
+en = "match"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "使用"
+en = "with"
+kind = "stmt"
+stage = 1
+note = "上下文管理器：`使用 表达式 作为 名 { … }`（绑定的名字在块内可用，块结束自动释放）"
+
+[[keyword]]
+zh = "作为"
+en = "as"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "尝试"
+en = "try"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "捕获"
+en = "catch"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "最后"
+en = "finally"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "模块"
+en = "module"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "异步"
+en = "async"
+kind = "modifier"
+stage = 1
+note = "闃舵 2 宸插疄鐜扮湡寮傛杩愯鏃讹紙浠诲姟/绛夊緟/鍙栨秷/鍥炶皟鍏ㄩ摼璺級锛涢樁娈?1 鏇炬寜鍚屾处理"
+
+[[keyword]]
+zh = "中断"
+en = "break"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "继续"
+en = "continue"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "外部"
+en = "ffi"
+kind = "modifier"
+stage = 1
+
+[[keyword]]
+zh = "整数"
+en = "Int"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "浮数"
+en = "Float"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "布尔"
+en = "Bool"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "文本"
+en = "String"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "空"
+en = "Null"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "列表"
+en = "List"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "映射表"
+en = "Map"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "集合"
+en = "Set"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "结果"
+en = "Result"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "错误"
+en = "Error"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "任意"
+en = "Any"
+kind = "type"
+stage = 1
+
+[[keyword]]
+zh = "读写"
+en = "IO"
+kind = "effect"
+stage = 1
+
+[[keyword]]
+zh = "网络"
+en = "Net"
+kind = "effect"
+stage = 1
+
+[[keyword]]
+zh = "模型"
+en = "model"
+kind = "effect"
+stage = 1
+
+[[keyword]]
+zh = "计时"
+en = "Time"
+kind = "effect"
+stage = 1
+
+[[keyword]]
+zh = "外部调用"
+en = "External"
+kind = "effect"
+stage = 1
+
+[[keyword]]
+zh = "主入口"
+en = "main"
+kind = "builtin"
+stage = 1
+
+[[keyword]]
+zh = "成功"
+en = "Ok"
+kind = "builtin"
+stage = 1
+
+[[keyword]]
+zh = "失败"
+en = "Err"
+kind = "builtin"
+stage = 1
+
+[[keyword]]
+zh = "打印"
+en = "print"
+kind = "builtin"
+stage = 1
+
+[[keyword]]
+zh = "真"
+en = "true"
+kind = "literal"
+stage = 1
+
+[[keyword]]
+zh = "假"
+en = "false"
+kind = "literal"
+stage = 1
+
+[[keyword]]
+zh = "校验"
+en = "check"
+kind = "decl"
+stage = 1
+note = "§3.16.3 入参校验块，M3 语义检查器扩展"
+
+[[keyword]]
+zh = "工具"
+en = "tool"
+kind = "decl"
+stage = 2
+
+[[keyword]]
+zh = "入参"
+en = "input"
+kind = "decl"
+stage = 2
+
+[[keyword]]
+zh = "配置"
+en = "config"
+kind = "decl"
+stage = 2
+
+[[keyword]]
+zh = "接口"
+en = "interface"
+kind = "decl"
+stage = 1
+
+[[keyword]]
+zh = "依赖"
+en = "deps"
+kind = "decl"
+stage = 1
+note = "顶层块：`依赖 { 包名 = \"1.2.0\" }`。语义化版本锁定，循环导入仍编译期拒绝"
+
+[[keyword]]
+zh = "等待"
+en = "await"
+kind = "stmt"
+stage = 1
+note = "前缀运算符：`等待 表达式`。只能写在异步函数里"
+
+[[keyword]]
+zh = "当收到进度"
+en = "on_progress"
+kind = "stmt"
+stage = 1
+note = "订阅回调：任务上报进度时触发"
+
+[[keyword]]
+zh = "当任务完成"
+en = "on_finish"
+kind = "stmt"
+stage = 1
+
+[[keyword]]
+zh = "当任务失败"
+en = "on_fail"
+kind = "stmt"
+stage = 1
+note = "订阅回调：任务出错时触发，参数是错误说明"
+
+[[keyword]]
+zh = "智能体"
+en = "agent"
+kind = "decl"
+stage = 2
+
+[[keyword]]
+zh = "规则"
+en = "rule"
+kind = "decl"
+stage = 2
+
+[[operator]]
+zh = "等于"
+en = "=="
+category = "compare"
+
+[[operator]]
+zh = "不等于"
+en = "!="
+category = "compare"
+
+[[operator]]
+zh = "大于"
+en = ">"
+category = "compare"
+
+[[operator]]
+zh = "小于"
+en = "<"
+category = "compare"
+
+[[operator]]
+zh = "大于等于"
+en = ">="
+category = "compare"
+
+[[operator]]
+zh = "小于等于"
+en = "<="
+category = "compare"
+
+[[operator]]
+zh = "并且"
+en = "&&"
+category = "logic"
+
+[[operator]]
+zh = "或"
+en = "||"
+category = "logic"
+
+[[operator]]
+zh = "非"
+en = "!"
+category = "logic"
+arity = "prefix"
+note = "单目前缀运算符：中文写 `非 x`，英文写 `!x`（不紧贴会被当成标识符）"
+
+[[attribute]]
+zh = "长度"
+en = "length"
+canonical = "length"
+applies_to = ["文本", "列表", "映射表", "集合"]
+lower_to = "len"
+readonly = true
+
+[[builtin]]
+zh = "打印"
+en = "print"
+canonical = "print"
+params = ["任意"]
+rest = true
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_print"
+summary_zh = "打印若干值（逗号分隔，自动带空格；与 Python print 一致）"
+summary_en = "print values; several allowed"
+example = '打印("你好", 1)'
+
+[[builtin]]
+zh = "成功"
+en = "Ok"
+canonical = "Ok"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "Ok"
+summary_zh = "造一个成功的结果"
+summary_en = "build a success result"
+example = '成功(1)'
+
+[[builtin]]
+zh = "失败"
+en = "Err"
+canonical = "Err"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "Err"
+summary_zh = "造一个失败的结果"
+summary_en = "build a failure result"
+example = '失败("读不出来")'
+
+[[builtin]]
+zh = "切片"
+en = "slice"
+canonical = "slice"
+params = ["任意", "任意", "任意", "任意"]
+rest = false
+opt = 3
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_slice"
+summary_zh = "取子序列：按 起始/结束/步长 切文本或列表；省略端按 Python 语义（负数从后数、缺省到两端）"
+summary_en = "substring/sublist: start index (inclusive) to end index (exclusive), optional step, like `x[a:b:c]`"
+example = '打印(切片("你好世界", 0, 2))'
+
+[[builtin]]
+zh = "弹出"
+en = "pop"
+canonical = "pop"
+params = ["任意", "任意"]
+rest = false
+opt = 1
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_pop"
+summary_zh = "弹出元素：列表无参弹尾部、带下标弹该位，返回 `[值, 新列表]`；映射表弹键返回 `[值, 新映射]`"
+summary_en = "pop an element: returns [value, new_container]; list `xs.pop([i])` (index defaults to tail), map `d.pop(k)` (missing key raises); auto-dispatch by argument type"
+example = '变量 值, 新列表 = 弹出([10, 20, 30])'
+
+[[builtin]]
+zh = "移除元素"
+en = "remove"
+canonical = "remove"
+params = ["列表", "任意"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_remove"
+summary_zh = "移除第一个等于该值的元素，返回新列表；没有则抛「列表里没有这个元素」（与 Python `xs.remove(x)` 一致）"
+summary_en = "remove the first equal element, return a new list; raises when absent (like `xs.remove(x)`)"
+example = '打印(移除元素([10, 20], 20))'
+
+[[builtin]]
+zh = "插入"
+en = "insert"
+canonical = "insert"
+params = ["列表", "整数", "任意"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_insert"
+summary_zh = "在下标处插入元素，返回新列表；越界按 Python 裁剪（负数从后数、超大追加到尾部）"
+summary_en = "insert an element at an index, return a new list; out-of-range clamped like Python"
+example = '打印(插入([10, 20], 1, 15))'
+
+[[builtin]]
+zh = "元素位置"
+en = "index"
+canonical = "index"
+params = ["任意", "任意"]
+rest = false
+opt = 0
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "_agl_index"
+summary_zh = "找元素在文本/列表里的位置：找到返回 `成功(下标)`，找不到返回 `失败(原因)`"
+summary_en = "index of the first equal element in a string or list; Err when absent (like `s.index(x)` / `xs.index(x)`), consume with `unwrap`"
+example = '打印(取到(元素位置([10, 20], 20)))'
+
+[[builtin]]
+zh = "弹出键"
+en = "pop_key"
+canonical = "pop_key"
+params = ["映射表", "任意", "任意"]
+rest = false
+opt = 1
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_pop_key"
+summary_zh = "弹出映射表的键：返回 `[值, 新映射]`；键不存在且无默认 → 失败（Python `d.pop(k)` 抛 KeyError），有默认 → 给默认值不失败"
+summary_en = "pop a mapping key: returns [value, new_map]; missing key without default fails (KeyError), with default gives it"
+example = '变量 值, 新映射 = 弹出键({"a": 1}, "a")'
+
+[[builtin]]
+zh = "清空"
+en = "clear"
+canonical = "clear"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_clear"
+summary_zh = "清空容器：按实参类型返回空容器（列表 → `[]`、映射表 → 建映射()、集合 → 建集合()），与 Python `x.clear()` 语义一致（Python 原地清空返回 None，AGL 值语义返回新空容器）"
+summary_en = "empty a container by type: list 鈫?[], map 鈫?{}, set 鈫?set(); like `x.clear()` (Python mutates & returns None, AGL value semantics)"
+example = '变量 xs = 清空([10, 20])'
+
+[[builtin]]
+zh = "按格式"
+en = "format_value"
+canonical = "format_value"
+params = ["任意", "文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_format_value"
+summary_zh = "按格式说明把值格式化为文本（透传 Python format 语义：千分位、科学计数、符号、对齐、进制等）"
+summary_en = "pass-through Python format spec: thousands/scientific/sign/custom-fill/`=`-align all go to Python format, like `format(x, spec)`; spec must be a constant string"
+example = '打印(按格式(1234567, ","))'
+
+[[builtin]]
+zh = "表达式形式"
+en = "repr"
+canonical = "repr"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_repr"
+summary_zh = "返回值的表达式形式（如字符串带引号，与 Python repr 一致）"
+summary_en = "debug representation: string quoted / list bracketed, like Python `repr(x)` (f-string `!r`)"
+example = '打印(表达式形式("甲"))'
+
+[[builtin]]
+zh = "切分"
+en = "split"
+canonical = "split"
+params = ["文本", "文本", "整数"]
+rest = false
+opt = 2
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_split"
+summary_zh = "按分隔符切成列表；分隔符为空串时按单个字符切；第三参限次数（Python `split(sep, maxsplit)`）"
+summary_en = "split on a separator; an empty separator splits into characters"
+example = '切分("甲,乙,丙", ",")'
+
+[[builtin]]
+zh = "拼接"
+en = "join"
+canonical = "join"
+params = ["文本"]
+rest = true
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_join"
+summary_zh = "把若干文本拼成一个文本（可变参数；非文本实参报错）"
+summary_en = "concatenate several strings"
+example = '拼接("甲", "乙")'
+
+[[builtin]]
+zh = "替换"
+en = "replace"
+canonical = "replace"
+params = ["文本", "文本", "文本", "整数"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_replace"
+summary_zh = "把文本里匹配的旧段替换成新段；第四参限替换次数（Python `replace(old, new, count)`）"
+summary_en = "replace every occurrence"
+example = '替换("甲乙", "乙", "丙")'
+
+[[builtin]]
+zh = "去空白"
+en = "strip"
+canonical = "strip"
+params = ["文本", "文本"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_strip"
+summary_zh = "去掉文本两端的空白字符；第二参可给要去除的字符集（Python str.strip(chars)）"
+summary_en = "strip leading and trailing whitespace; optional chars arg"
+example = '去空白("  甲 ")'
+
+[[builtin]]
+zh = "转大写"
+en = "upper"
+canonical = "upper"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_upper"
+summary_zh = "字母全部转成大写（对汉字无影响）"
+summary_en = "uppercase letters (no effect on CJK)"
+example = '转大写("abc")'
+
+[[builtin]]
+zh = "转小写"
+en = "lower"
+canonical = "lower"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_lower"
+summary_zh = "字母全部转成小写（对汉字无影响）"
+summary_en = "lowercase letters (no effect on CJK)"
+example = '转小写("ABC")'
+
+[[builtin]]
+zh = "包含"
+en = "contains"
+canonical = "contains"
+params = ["任意", "任意"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_contains"
+summary_zh = "前一个里面有没有后一个：文本看是否包含某段，列表/映射表看是否包含某个值（映射表按键判断）"
+summary_en = "membership: substring for strings, value-in-list, or key-in-map"
+example = '包含("甲乙", "乙")'
+
+[[builtin]]
+zh = "转文本"
+en = "to_text"
+canonical = "to_text"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_to_text"
+summary_zh = "把任意值转成文本（打印以外的场合需要它来拼字符串）"
+summary_en = "turn any value into text"
+example = '转文本(42)'
+
+[[builtin]]
+zh = "格式化数字"
+en = "format_number"
+canonical = "format_number"
+params = ["浮数", "整数", "整数", "布尔"]
+rest = false
+opt = 3
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_format_number"
+summary_zh = "把浮点数格式化为指定小数位的文本；可加第三个参数指定总宽度（右对齐补空格），再加第四个参数「真」表示补零对齐，如 格式化数字(3.14159, 2, 10, 真)"
+summary_en = "format a float to a fixed number of decimal places; an optional third argument sets the field width (right-aligned), a fourth `true` pads with zeros"
+example = '格式化数字(3.14159, 2)'
+
+[[builtin]]
+zh = "任务"
+en = "task"
+canonical = "task"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "任务"
+effect = ""
+needs_await = false
+lower = "_agl_task"
+summary_zh = "启动一个异步任务：传入任务体（异步函数调用），返回句柄；支持 当收到进度/当任务完成/当任务失败 回调与 取消"
+summary_en = "start an async call and get a handle right away; use `await handle` for the result"
+example = '任务(睡眠(10))'
+
+[[builtin]]
+zh = "睡眠"
+en = "sleep"
+canonical = "sleep"
+params = ["整数"]
+rest = false
+opt = 0
+ret = "空"
+effect = "Time"
+needs_await = true
+lower = "_agl_sleep"
+summary_zh = "暂停若干毫秒（唯一会占用时间的操作，所以它带「计时」效应）"
+summary_en = "pause for some milliseconds (the only time-consuming builtin, hence Time)"
+example = '等待 睡眠(10)'
+
+[[builtin]]
+zh = "上报进度"
+en = "report_progress"
+canonical = "report_progress"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_report_progress"
+summary_zh = "向任务汇报进度（文本）"
+summary_en = "report progress from inside an async task"
+example = '上报进度("一半")'
+
+[[builtin]]
+zh = "取消"
+en = "cancel"
+canonical = "cancel"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_cancel"
+summary_zh = "取消一个任务句柄"
+summary_en = "stop a running task; no callback fires after this"
+example = '取消(任务(睡眠(10)))'
+
+[[builtin]]
+zh = "读文件"
+en = "read_file"
+canonical = "read_file"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = "IO"
+needs_await = false
+lower = "_agl_read_file"
+summary_zh = "按 UTF-8 读整个文本文件，返回结果：成功(内容) 或 失败(读文件原因)"
+summary_en = "read a whole text file as UTF-8; Ok(content) or Err(chinese reason)"
+example = '读文件("config.txt")'
+
+[[builtin]]
+zh = "写文件"
+en = "write_file"
+canonical = "write_file"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = "IO"
+needs_await = false
+lower = "_agl_write_file"
+summary_zh = "按 UTF-8 把文本写进文件（覆盖写）；成功(空) 或 失败(写文件原因)"
+summary_en = "write text to a file as UTF-8 (overwrite); Ok(Null) or Err(chinese reason)"
+example = '写文件("out.txt", "你好")'
+
+[[builtin]]
+zh = "存快照"
+en = "save_state"
+canonical = "save_state"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = "IO"
+needs_await = false
+lower = "_agl_save_state"
+summary_zh = "把当前模块的全局变量表写成 UTF-8 JSON 快照；成功(空) 或 失败(存快照原因)"
+summary_en = "save the current module's global variable table to a UTF-8 JSON snapshot; Ok(Null) or Err(chinese reason)"
+example = '存快照("state.json")'
+
+[[builtin]]
+zh = "取快照"
+en = "load_state"
+canonical = "load_state"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = "IO"
+needs_await = false
+lower = "_agl_load_state"
+summary_zh = "从 UTF-8 JSON 快照恢复当前模块的全局变量表；成功(恢复变量数) 或 失败(取快照原因)"
+summary_en = "restore the current module's global variable table from a UTF-8 JSON snapshot; Ok(count) or Err(chinese reason)"
+example = '取快照("state.json")'
+
+[[builtin]]
+zh = "填充"
+en = "fill"
+canonical = "fill"
+params = ["文本"]
+rest = true
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_fill"
+summary_zh = "把 `{}` 按顺序换成后面的值（显示与 `打印` 一致）：如 填充(\"{} 在 {}\", 名字, 城市)"
+summary_en = "replace `{}` in order with the following values (shown like print)"
+example = '填充("{} 在 {}", "甲", "杭州")'
+
+[[builtin]]
+zh = "随机整数"
+en = "randint"
+canonical = "randint"
+params = ["整数", "整数"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_randint"
+summary_zh = "随机整数：在 最小值 与 最大值 之间（含两端）"
+summary_en = "a random integer between min and max, inclusive"
+example = '随机整数(1, 6)'
+
+[[builtin]]
+zh = "正则匹配"
+en = "regex_match"
+canonical = "regex_match"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_matches"
+summary_zh = "正则匹配：文本里是否找到该模式（第二个参数是正则，转义请用 `\\`）"
+summary_en = "whether the regex pattern can be found in the text (re.search)"
+example = '正则匹配("abc123", "\\d+")'
+
+[[builtin]]
+zh = "正则替换"
+en = "regex_sub"
+canonical = "regex_sub"
+params = ["文本", "文本", "文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_regex_sub"
+summary_zh = "正则替换：把文本里所有匹配该模式的部分替换成替换文本"
+summary_en = "replace regex matches in the text (re.sub; \\1 refers to groups)"
+example = '正则替换("a1b2", "\\d", "X")'
+
+[[builtin]]
+zh = "追加写文件"
+en = "append_file"
+canonical = "append_file"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = "IO"
+needs_await = false
+lower = "_agl_append_file"
+summary_zh = "按 UTF-8 把文本追加到文件末尾（不存在则新建）；成功(空) 或 失败(写文件原因)"
+summary_en = "append text to a file as UTF-8 (create if missing); Ok(Null) or Err(chinese reason)"
+example = '追加写文件("out.txt", "下一行")'
+
+[[builtin]]
+zh = "读入"
+en = "input"
+canonical = "input"
+params = ["文本"]
+rest = false
+opt = 1
+ret = "文本"
+effect = "IO"
+needs_await = false
+lower = "_agl_input"
+summary_zh = "读一行输入（可选提示文本；与 Python input 一致）"
+summary_en = "read one line of user input (newline stripped); prints the prompt first when given, omitted like Python `input()`; empty at EOF"
+example = '读入("请输入名字：")'
+
+[[builtin]]
+zh = "是数字"
+en = "isdigit"
+canonical = "isdigit"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_isdigit"
+summary_zh = "文本是否全是数字字符（对汉字返回假）"
+summary_en = "whether the text is all digits and non-empty"
+example = '是数字("123")'
+
+[[builtin]]
+zh = "是字母"
+en = "isalpha"
+canonical = "isalpha"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_isalpha"
+summary_zh = "文本是否全是字母字符（对汉字返回假）"
+summary_en = "whether the text is all letters and non-empty"
+example = '是字母("abc")'
+
+[[builtin]]
+zh = "查找"
+en = "find"
+canonical = "find"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_find"
+summary_zh = "目标子串在文本里第一次出现的位置（从 0 数）；找不到返回 -1"
+summary_en = "index of the first occurrence of the target (from 0); -1 if absent"
+example = '查找("甲乙丙", "乙")'
+
+[[builtin]]
+zh = "以开头"
+en = "startswith"
+canonical = "startswith"
+params = ["文本", "任意"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_startswith"
+summary_zh = "文本是否以指定前缀开头；前缀可以是文本或多个前缀的列表（元组）"
+summary_en = "whether the text starts with the given prefix; a tuple of prefixes is allowed"
+example = '以开头("甲乙", "甲")'
+
+[[builtin]]
+zh = "以结尾"
+en = "endswith"
+canonical = "endswith"
+params = ["文本", "任意"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_endswith"
+summary_zh = "文本是否以给定后缀结尾；后缀可以是文本或多个后缀的列表（元组）"
+summary_en = "whether the text ends with the given suffix; a tuple of suffixes is allowed"
+example = '以结尾("甲乙", "乙")'
+
+[[builtin]]
+zh = "取值"
+en = "get"
+canonical = "get"
+params = ["映射表", "任意", "任意"]
+rest = false
+opt = 1
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_get"
+summary_zh = "从映射表取键对应的值：键不存在给默认值；无默认则失败"
+summary_en = "look up a key in the map; return the default if absent (dict .get)"
+example = '取值({"甲": 1}, "甲", 0)'
+
+[[builtin]]
+zh = "取整"
+en = "trunc"
+canonical = "trunc"
+params = ["浮数"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_trunc"
+summary_zh = "去掉小数部分（向零取整）：1.9 → 1，-1.9 → -1"
+summary_en = "drop the fractional part (toward zero): 1.9 -> 1, -1.9 -> -1"
+example = '取整(1.9)'
+
+[[builtin]]
+zh = "追加"
+en = "append"
+canonical = "append"
+params = ["列表", "任意"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_append"
+summary_zh = "返回一个新列表（末尾多一项）；**不修改原列表**"
+summary_en = "return a NEW list with one more item; the original is untouched"
+example = '追加([1, 2], 3)'
+
+[[builtin]]
+zh = "子列表"
+en = "sublist"
+canonical = "sublist"
+params = ["列表", "整数", "整数"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_sublist"
+summary_zh = "取列表的一段：起（含）到止（不含）"
+summary_en = "slice of a list: start (inclusive) to end (exclusive)"
+example = '子列表([1, 2, 3], 1, 3)'
+
+[[builtin]]
+zh = "转整数"
+en = "to_int"
+canonical = "to_int"
+params = ["任意", "整数"]
+rest = false
+opt = 1
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "_agl_to_int"
+summary_zh = "转整数（文本或数字）；转不了返回 `失败(原因)`，不抛异常；可给进制，2~36，与 Python int(x, base) 一致"
+summary_en = "to integer (text or number); returns Err(reason) when it cannot; optional base (2~36, like int(x, base))"
+example = '转整数("101", 2)'
+
+[[builtin]]
+zh = "转浮数"
+en = "to_float"
+canonical = "to_float"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "_agl_to_float"
+summary_zh = "把文本/整数转成浮数：成功(浮数) 或 失败(原因)"
+summary_en = "text to float; returns Err(reason) when it cannot"
+example = '转浮数("1.5")'
+
+[[builtin]]
+zh = "取到"
+en = "unwrap"
+canonical = "unwrap"
+params = ["结果"]
+rest = false
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_unwrap"
+summary_zh = "从结果里取出值：`成功(x)` 直接返回 x；`失败(原因)` 抛出一个可被「捕获」接住、且显示原因的运行时错误"
+summary_en = "unwrap a result: Ok(x) returns x; Err(reason) raises a catchable runtime error carrying the reason"
+example = '取到(转整数("42"))'
+
+[[builtin]]
+zh = "失败原因"
+en = "fail_reason"
+canonical = "fail_reason"
+params = ["结果"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_fail_reason"
+summary_zh = "取失败结果的失败原因（结果必须是失败）"
+summary_en = "read the failure reason of a result: Err(reason) gives the reason text; Ok(x) gives an empty text"
+example = '失败原因(转整数("四十二"))'
+
+[[builtin]]
+zh = "调用"
+en = "call_fn"
+canonical = "call_fn"
+params = ["列表", "任意"]
+rest = true
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_call_fn"
+summary_zh = "动态调用函数引用：`调用(fn_ref, args...)` 其中 fn_ref 是 `[函数名, 捕获1, 捕获2, ...]` 形式的函数引用列表"
+summary_en = "dynamically call a function reference: `call_fn(fn_ref, args...)` where fn_ref is `[fn_name, cap1, cap2, ...]`"
+example = '调用(["闭包0", 5], 3)'
+
+[[builtin]]
+zh = "绝对值"
+en = "abs"
+canonical = "abs"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_abs"
+summary_zh = "绝对值：整数/浮数都可用"
+summary_en = "absolute value of a number"
+example = '绝对值(-3.14)'
+
+[[builtin]]
+zh = "最小值"
+en = "min"
+canonical = "min"
+params = ["任意"]
+rest = true
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_min"
+summary_zh = "一个列表里取最小的；或若干值里取较小的那个（空列表抛「列表取值越界」）"
+summary_en = "the smallest of a list, or the smaller of several values (empty list raises out-of-range)"
+example = '最小值(3, 5)'
+
+[[builtin]]
+zh = "最大值"
+en = "max"
+canonical = "max"
+params = ["任意"]
+rest = true
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_max"
+summary_zh = "一个列表里取最大的；或若干值里取较大的那个（空列表抛「列表取值越界」）"
+summary_en = "the largest of a list, or the larger of several values (empty list raises out-of-range)"
+example = '最大值(3, 5)'
+
+[[builtin]]
+zh = "合计"
+en = "sum"
+canonical = "sum"
+params = ["列表"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_sum"
+summary_zh = "把列表里的数加起来（列表元素必须是整数或浮数）"
+summary_en = "sum the numbers in a list (empty list is 0)"
+example = '合计([1, 2, 3])'
+
+[[builtin]]
+zh = "当前时间戳"
+en = "now"
+canonical = "now"
+params = []
+rest = false
+opt = 0
+ret = "浮数"
+effect = "Time"
+needs_await = false
+lower = "_agl_now"
+summary_zh = "当前时间戳（秒，浮数；带「计时」效应）"
+summary_en = "current timestamp (seconds since epoch, as a float)"
+example = '打印(当前时间戳())'
+
+[[builtin]]
+zh = "格式化时间"
+en = "strftime"
+canonical = "strftime"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = "Time"
+needs_await = false
+lower = "_agl_strftime"
+summary_zh = "把当前时间按 Python 风格格式串渲染成文本（如 \"%Y\" 得到年份），与 Python 的 time.strftime 同源"
+summary_en = "render the current time with a strftime format string (same as Python's time.strftime)"
+example = '打印(格式化时间("%Y"))'
+
+[[builtin]]
+zh = "合并映射"
+en = "merge_map"
+canonical = "merge_map"
+params = ["映射表"]
+rest = true
+opt = 0
+ret = "映射表"
+effect = ""
+needs_await = false
+lower = "_agl_merge_map"
+summary_zh = "把多个映射表合并成一个（键冲突时后者覆盖，与 Python 的 `{**a, **b}` 一致）；至少传两个"
+summary_en = "merge multiple maps into one (later keys override earlier ones, same as Python `{**a, **b}`); pass at least two"
+example = '打印(合并映射({"a": 1}, {"b": 2}))'
+
+[[builtin]]
+zh = "拼接列表"
+en = "join_list"
+canonical = "join_list"
+params = ["文本", "列表"]
+rest = true
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_join_list"
+summary_zh = "用分隔符把列表元素拼成一个文本（元素必须都是文本，否则报错——与 Python 的 `sep.join(xs)` 一致）"
+summary_en = "join list elements into one string with a separator (elements must be strings, otherwise it errors 鈥?same as Python `sep.join(xs)`)"
+example = '打印(拼接列表("-", ["甲", "乙", "丙"]))'
+
+[[builtin]]
+zh = "排序"
+en = "sorted"
+canonical = "sorted"
+params = ["列表/集合"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_sorted"
+summary_zh = "返回按升序排好的新列表（不修改原列表，与 Python 的 `sorted(xs)` 一致）；带 key / reverse 的形式自动转成 `按键排序` / `反转`"
+summary_en = "return a new list sorted in ascending order (does not modify the original, same as Python `sorted(xs)`); key/reverse forms become `sort_by` / `reverse`"
+example = '打印(排序([3, 1, 2]))'
+
+[[builtin]]
+zh = "按键排序"
+en = "sort_by"
+canonical = "sort_by"
+params = ["列表", "任意"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_sort_by"
+summary_zh = "按键函数排序列表（第二个参数是 函数 名，返回比较键）"
+summary_en = "sort a new list by a key function (does not modify the original, same as Python `sorted(xs, key=f)`); the key must be a function defined in this file; generated when importing `sorted(xs, key=f)`"
+example = '打印(按键排序(["bb", "a", "ccc"], 键函数))'
+
+[[builtin]]
+zh = "反转"
+en = "reverse"
+canonical = "reverse"
+params = ["列表"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_reverse"
+summary_zh = "反转列表（返回新列表，不原地改）"
+summary_en = "return a new list reversed (does not modify the original, same as Python `xs[::-1]`); generated when importing `sorted(xs, reverse=True)`"
+example = '打印(反转([1, 2, 3]))'
+
+[[builtin]]
+zh = "等同"
+en = "is_same"
+canonical = "is_same"
+params = ["任意", "任意"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_is_same"
+summary_zh = "两个值是不是同一个对象（与 Python 的 `a is b` 一致：列表/映射按引用比同一性，数字/文本按值比缓存语义由 Python 运行时决定）；导入 `a is b` 时生成"
+summary_en = "whether two values are the same object (same as Python `a is b`); generated when importing `a is b`"
+example = '打印(等同(1, 1))'
+
+[[builtin]]
+zh = "不等同"
+en = "is_not_same"
+canonical = "is_not_same"
+params = ["任意", "任意"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_is_not_same"
+summary_zh = "两个值不是同一个对象（与 Python 的 `a is not b` 一致）；导入 `a is not b` 时生成"
+summary_en = "whether two values are not the same object (same as Python `a is not b`); generated when importing `a is not b`"
+example = '打印(不等同(1, 2))'
+
+[[builtin]]
+zh = "建集合"
+en = "make_set"
+canonical = "make_set"
+params = ["任意"]
+rest = true
+opt = 0
+ret = "集合"
+effect = ""
+needs_await = false
+lower = "_agl_make_set"
+summary_zh = "造一个集合：可变参数，元素去重；或传一个列表"
+summary_en = "build a set from any number of elements (deduplicated, unordered); no args gives the empty set, same as Python `set()`"
+example = '打印(建集合(1, 2, 2, 3))'
+
+[[builtin]]
+zh = "添加"
+en = "set_add"
+canonical = "add"
+params = ["集合", "任意"]
+rest = false
+opt = 0
+ret = "集合"
+effect = ""
+needs_await = false
+lower = "_agl_add"
+summary_zh = "返回把元素加进去之后的新集合（不修改原集合，与 Python `s.add(x)` 的原地改语义不同，返回的是新集合——与 `追加` 对列表的做法一致）"
+summary_en = "return a new set with the element added (does not modify the original; unlike Python's in-place `s.add(x)`, returns a new set 鈥?same convention as `append` for lists)"
+example = '打印(添加(建集合(1, 2), 3))'
+
+[[builtin]]
+zh = "并集"
+en = "set_union"
+canonical = "union"
+params = ["集合", "集合"]
+rest = false
+opt = 0
+ret = "集合"
+effect = ""
+needs_await = false
+lower = "_agl_union"
+summary_zh = "两个集合的并集（返回新集合）"
+summary_en = "union of several sets (elements appearing in at least one), same as Python `a | b`"
+example = '打印(并集(建集合(1, 2), 建集合(2, 3)))'
+
+[[builtin]]
+zh = "交集"
+en = "set_intersection"
+canonical = "intersection"
+params = ["集合", "集合"]
+rest = false
+opt = 0
+ret = "集合"
+effect = ""
+needs_await = false
+lower = "_agl_intersection"
+summary_zh = "两个集合的交集（返回新集合）"
+summary_en = "intersection of several sets (elements in all of them), same as Python `a & b`"
+example = '打印(交集(建集合(1, 2), 建集合(2, 3)))'
+
+[[builtin]]
+zh = "差集"
+en = "set_difference"
+canonical = "difference"
+params = ["集合", "集合"]
+rest = false
+opt = 0
+ret = "集合"
+effect = ""
+needs_await = false
+lower = "_agl_difference"
+summary_zh = "两个集合的差集：在第一个里但不在第二个里"
+summary_en = "first set minus elements appearing in any other set, same as Python `a - b`"
+example = '打印(差集(建集合(1, 2, 3), 建集合(2)))'
+
+[[builtin]]
+zh = "对称差"
+en = "set_symmetric_difference"
+canonical = "symmetric_difference"
+params = ["集合", "集合"]
+rest = false
+opt = 0
+ret = "集合"
+effect = ""
+needs_await = false
+lower = "_agl_symmetric_difference"
+summary_zh = "对称差：只在其中一个集合里出现的元素（返回新集合）"
+summary_en = "elements in exactly one of the sets, same as Python `a ^ b`"
+example = '打印(对称差(建集合(1, 2), 建集合(2, 3)))'
+
+[[builtin]]
+zh = "是子集"
+en = "is_subset"
+canonical = "is_subset"
+params = ["集合", "集合"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_is_subset"
+summary_zh = "第一个集合的元素是否全在第二个集合里"
+summary_en = "whether every element of the first set is in the second, same as Python `a <= b`"
+example = '打印(是子集(建集合(1), 建集合(1, 2)))'
+
+[[builtin]]
+zh = "是超集"
+en = "is_superset"
+canonical = "is_superset"
+params = ["集合", "集合"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_is_superset"
+summary_zh = "第一个集合是否包含第二个集合的全部元素"
+summary_en = "whether the first set contains every element of the second, same as Python `a >= b`"
+example = '打印(是超集(建集合(1, 2), 建集合(1)))'
+
+[[builtin]]
+zh = "解析JSON"
+en = "parse_json"
+canonical = "parse_json"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "_agl_parse_json"
+summary_zh = "解析 JSON 文本：成功(任意值) 或 失败(原因)"
+summary_en = "parse JSON text into map / list / string / number / bool / null; malformed JSON returns a failure result with a Chinese reason (same as Python `json.loads`, but failures come as `Result`)"
+example = '打印(取到(解析JSON("{\"甲\": 1}")))'
+
+[[builtin]]
+zh = "生成JSON"
+en = "dump_json"
+canonical = "dump_json"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "_agl_dump_json"
+summary_zh = "把任意值序列化成 JSON 文本：成功(文本) 或 失败(原因)"
+summary_en = "render map / list / string / number / bool / null as JSON text (Chinese kept as-is); unsupported shapes return a failure result (same as Python `json.dumps`)"
+example = '打印(取到(生成JSON({"甲": 1})))'
+
+[[builtin]]
+zh = "获取网页"
+en = "fetch"
+canonical = "fetch"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "结果"
+effect = "Net"
+needs_await = false
+lower = "_agl_fetch"
+underscore = "_"
+summary_zh = "按 URL 抓取网页正文（超时 10 秒）；网络失败或返回非 2xx 状态码时给失败结果（中文原因）。带「网络」效应，主入口须声明 `效应 网络`"
+summary_en = "fetch a web page body by URL (10s timeout); network failure or non-2xx status returns a failure result with a Chinese reason. Carries the `Net` effect; the entry must declare `effect Net`"
+example = '打印(获取网页("https://example.com"))'
+
+[[builtin]]
+zh = "计数"
+en = "count"
+canonical = "count"
+params = ["任意", "任意"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_count"
+summary_zh = "统计一个值在文本/列表里出现的次数"
+summary_en = "count how many times a value occurs: substring count for strings (same as Python `s.count(sub)`), element count for lists (`xs.count(x)`)"
+example = '打印(计数("香蕉香蕉苹果", "香蕉"))'
+
+[[builtin]]
+zh = "范围列表"
+en = "range_list"
+canonical = "range_list"
+params = ["整数"]
+rest = true
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_range_list"
+summary_zh = "造整数列表：`范围列表(止)` / `范围列表(起, 止)` / `范围列表(起, 止, 步)`（与 Python range 一致）"
+summary_en = "build a list of integers, same as Python `list(range(...))` (range(stop) / range(start, stop) / range(start, stop, step))"
+example = '打印(范围列表(3))'
+
+[[builtin]]
+zh = "重复"
+en = "repeat"
+canonical = "repeat"
+params = ["任意", "整数"]
+rest = false
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_repeat"
+summary_zh = "把文本或列表重复 N 遍（与 Python `s * n` / `xs * n` 一致）"
+summary_en = "repeat a string or list n times, same as Python `s * n` / `xs * n` (n <= 0 gives empty)"
+example = '打印(重复("ab", 3))'
+
+[[builtin]]
+zh = "标题化"
+en = "title"
+canonical = "title"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_title"
+summary_zh = "把每个单词首字母大写、其余小写（与 Python `str.title()` 一致）"
+summary_en = "title-case the string (first letter of each word uppercase, rest lowercase), same as Python `s.title()`"
+example = '打印(标题化("hello world"))'
+
+[[builtin]]
+zh = "补零"
+en = "zfill"
+canonical = "zfill"
+params = ["文本", "整数"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_zfill"
+summary_zh = "把文本补零成指定宽度的文本，与 Python `s.zfill(w)` 一致（负数时负号在前）"
+summary_en = "zero-pad a string to width, same as Python `s.zfill(w)` (minus sign stays in front)"
+example = '打印(补零(转文本(7), 3))'
+
+[[builtin]]
+zh = "去左空"
+en = "lstrip"
+canonical = "lstrip"
+params = ["文本", "文本"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_lstrip"
+summary_zh = "去掉文本左端的空白；第二参可给要去除的字符集（Python str.lstrip(chars)）"
+summary_en = "strip leading whitespace; optional chars arg"
+example = '打印(去左空("  甲"))'
+
+[[builtin]]
+zh = "去右空"
+en = "rstrip"
+canonical = "rstrip"
+params = ["文本", "文本"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_rstrip"
+summary_zh = "去掉文本右端的空白；第二参可给要去除的字符集（Python str.rstrip(chars)）"
+summary_en = "strip trailing whitespace; optional chars arg"
+example = '打印(去右空("甲 "))'
+
+[[builtin]]
+zh = "左对齐"
+en = "ljust"
+canonical = "ljust"
+params = ["文本", "整数", "文本"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_ljust"
+summary_zh = "文本左对齐并补足到指定宽度，与 Python `s.ljust(w)` 一致；可带填充字符 `s.ljust(w, ch)`"
+summary_en = "left-justify to width, same as Python `s.ljust(w)`; optional fill char"
+example = '打印(左对齐("abc", 5, "-"))'
+
+[[builtin]]
+zh = "右对齐"
+en = "rjust"
+canonical = "rjust"
+params = ["文本", "整数", "文本"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_rjust"
+summary_zh = "文本右对齐并补足到指定宽度，与 Python `s.rjust(w)` 一致；可带填充字符"
+summary_en = "right-justify to width, same as Python `s.rjust(w)`; optional fill char"
+example = '打印(右对齐("abc", 5, "-"))'
+
+[[builtin]]
+zh = "居中"
+en = "center"
+canonical = "center"
+params = ["文本", "整数", "文本"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_center"
+summary_zh = "文本居中并补足到指定宽度，与 Python `s.center(w)` 一致；可带填充字符"
+summary_en = "center to width, same as Python `s.center(w)`; optional fill char"
+example = '打印(居中("abc", 7, "*"))'
+
+[[builtin]]
+zh = "去前缀"
+en = "removeprefix"
+canonical = "removeprefix"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_removeprefix"
+summary_zh = "去掉文本开头指定的前缀（没有则原样返回）"
+summary_en = "remove prefix if present, same as Python `s.removeprefix(p)`"
+example = '打印(去前缀("abc", "a"))'
+
+[[builtin]]
+zh = "去后缀"
+en = "removesuffix"
+canonical = "removesuffix"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_removesuffix"
+summary_zh = "去掉文本结尾指定的后缀（没有则原样返回）"
+summary_en = "remove suffix if present, same as Python `s.removesuffix(sf)`"
+example = '打印(去后缀("abc", "c"))'
+
+[[builtin]]
+zh = "大小写互换"
+en = "swapcase"
+canonical = "swapcase"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_swapcase"
+summary_zh = "大小写互换（与 Python `str.swapcase()` 一致）"
+summary_en = "swap letter cases, same as Python `s.swapcase()`"
+example = '打印(大小写互换("AbC"))'
+
+[[builtin]]
+zh = "首字母大写"
+en = "capitalize"
+canonical = "capitalize"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_capitalize"
+summary_zh = "首字母大写、其余小写（与 Python `str.capitalize()` 一致）"
+summary_en = "capitalize first letter, lowercase rest, same as Python `s.capitalize()`"
+example = '打印(首字母大写("abc"))'
+
+[[builtin]]
+zh = "是小写"
+en = "islower"
+canonical = "islower"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_islower"
+summary_zh = "文本是否全是小写字母"
+summary_en = "whether all letters are lowercase, same as Python `s.islower()`"
+example = '打印(是小写("abc"))'
+
+[[builtin]]
+zh = "是大写"
+en = "isupper"
+canonical = "isupper"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_isupper"
+summary_zh = "文本是否全是大写字母"
+summary_en = "whether all letters are uppercase, same as Python `s.isupper()`"
+example = '打印(是大写("ABC"))'
+
+[[builtin]]
+zh = "是空白"
+en = "isspace"
+canonical = "isspace"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_isspace"
+summary_zh = "文本是否全是空白字符"
+summary_en = "whether all chars are whitespace, same as Python `s.isspace()`"
+example = '打印(是空白("  "))'
+
+[[builtin]]
+zh = "是标题"
+en = "istitle"
+canonical = "istitle"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_istitle"
+summary_zh = "文本是否每个单词首字母大写"
+summary_en = "whether title-cased, same as Python `s.istitle()`"
+example = '打印(是标题("Hello World"))'
+
+[[builtin]]
+zh = "是十进制"
+en = "isdecimal"
+canonical = "isdecimal"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_isdecimal"
+summary_zh = "文本是否全是十进制数字字符"
+summary_en = "whether all chars are decimal digits, same as Python `s.isdecimal()`"
+example = '打印(是十进制("42"))'
+
+[[builtin]]
+zh = "是数字串"
+en = "isnumeric"
+canonical = "isnumeric"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_isnumeric"
+summary_zh = "文本是否全是数字（含全角、罗马数字等）"
+summary_en = "whether all chars are numeric, same as Python `s.isnumeric()`"
+example = '打印(是数字串("42"))'
+
+[[builtin]]
+zh = "转布尔"
+en = "to_bool"
+canonical = "to_bool"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_to_bool"
+summary_zh = "按 Python `bool(x)` 的真值规则转换：数字非 0 为真、文本、列表/映射/集合非空为真"
+summary_en = "convert to bool by Python truthiness: nonzero, non-empty string/list/map/set are true"
+example = '打印(转布尔(0))'
+
+[[builtin]]
+zh = "转列表"
+en = "to_list"
+canonical = "to_list"
+params = ["任意"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_to_list"
+summary_zh = "转成列表：文本拆成字符列表、映射表取键列表、集合取排序后的元素列表，与 Python `list(x)` 语义对齐"
+summary_en = "convert to list: chars of a string, keys of a map, sorted elements of a set, like `list(x)`"
+example = '打印(转列表("abc"))'
+
+[[builtin]]
+zh = "键列表"
+en = "keys"
+canonical = "keys"
+params = ["映射表"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_keys"
+summary_zh = "取映射表的所有键，返回列表"
+summary_en = "list of map keys, same as Python `list(d)` / `d.keys()` (insertion order)"
+example = '打印(键列表({"a": 1, "b": 2}))'
+
+[[builtin]]
+zh = "建映射"
+en = "make_map"
+canonical = "make_map"
+params = ["列表"]
+rest = false
+opt = 0
+ret = "映射表"
+effect = ""
+needs_await = false
+lower = "_agl_make_map"
+summary_zh = "造一个映射表：传键值对列表 `[[键, 值], ...]`"
+summary_en = "build a map from a list of [key, value] pairs, same as Python `dict([(k, v)])`"
+example = '打印(建映射([["a", 1], ["b", 2]]))'
+
+[[builtin]]
+zh = "四舍五入"
+en = "round"
+canonical = "round"
+params = ["浮数", "整数"]
+rest = false
+opt = 1
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_round"
+summary_zh = "四舍五入到整数（与 Python `round(x)` 一致）"
+summary_en = "round to ndigits, same as Python `round(x[, n])` (banker's rounding)"
+example = '打印(四舍五入(3.7))'
+
+[[builtin]]
+zh = "乘方"
+en = "pow"
+canonical = "pow"
+params = ["任意", "任意", "整数"]
+rest = false
+opt = 1
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_pow"
+summary_zh = "乘方运算，与 Python `pow(x, y)` / `pow(x, y, mod)` 一致（三参为模幂）"
+summary_en = "power, same as Python `pow(x, y[, mod])`"
+example = '打印(乘方(2, 10))'
+
+[[builtin]]
+zh = "整除余数"
+en = "divmod"
+canonical = "divmod"
+params = ["整数", "整数"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_divmod"
+summary_zh = "整除与余数：返回 `[商, 余]`（与 Python `divmod(a, b)` 一致）"
+summary_en = "div and mod together, returns [quotient, remainder], like `divmod(a, b)`"
+example = '打印(整除余数(17, 5)[0])'
+
+[[builtin]]
+zh = "上取整"
+en = "ceil"
+canonical = "ceil"
+params = ["浮数"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_ceil"
+summary_zh = "向上取整：不小于它的最小整数（与 Python `math.ceil(x)` 一致，负数也向大取）"
+summary_en = "ceiling: the smallest integer not less than x, like `math.ceil(x)`"
+example = '打印(上取整(3.2))'
+
+[[builtin]]
+zh = "下取整"
+en = "floor"
+canonical = "floor"
+params = ["浮数"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_floor"
+summary_zh = "向下取整：不大于它的最大整数（与 Python `math.floor(x)` 一致，负数也向小取）"
+summary_en = "floor: the largest integer not greater than x, like `math.floor(x)`"
+example = '打印(下取整(3.8))'
+
+[[builtin]]
+zh = "随机选择"
+en = "choice"
+canonical = "choice"
+params = ["列表"]
+rest = false
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_choice"
+summary_zh = "从列表里随机挑一个元素（与 Python `random.choice(xs)` 一致）"
+summary_en = "pick one element at random from a list, like `random.choice(xs)`"
+example = '打印(随机选择([1, 2, 3]))'
+
+[[builtin]]
+zh = "随机种子"
+en = "seed"
+canonical = "seed"
+params = ["整数"]
+rest = false
+opt = 0
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_seed"
+summary_zh = "设置随机数种子，让随机结果可复现（与 Python `random.seed(n)` 一致）"
+summary_en = "seed the random generator so results are reproducible, like `random.seed(n)`"
+example = '随机种子(1)'
+
+[[builtin]]
+zh = "最大默认"
+en = "max_default"
+canonical = "max_default"
+params = ["列表", "任意"]
+rest = false
+opt = 1
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_max_default"
+summary_zh = "列表取最大；列表为空时给默认值（与 Python `max(xs, default=v)` 一致）"
+summary_en = "the largest of a list, or the default when the list is empty, like `max(xs, default=v)`"
+example = '打印(最大默认([], 0))'
+
+[[builtin]]
+zh = "最小默认"
+en = "min_default"
+canonical = "min_default"
+params = ["列表", "任意"]
+rest = false
+opt = 1
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_min_default"
+summary_zh = "列表取最小；列表为空时给默认值（与 Python `min(xs, default=v)` 一致）"
+summary_en = "the smallest of a list, or the default when the list is empty, like `min(xs, default=v)`"
+example = '打印(最小默认([], 0))'
+
+[[builtin]]
+zh = "字符码"
+en = "ord"
+canonical = "ord"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_ord"
+summary_zh = "字符的 Unicode 码点（与 Python `ord(c)` 一致）"
+summary_en = "Unicode code point of a single char, same as Python `ord(c)`"
+example = '打印(字符码("A"))'
+
+[[builtin]]
+zh = "码字符"
+en = "chr"
+canonical = "chr"
+params = ["整数"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_chr"
+summary_zh = "码点对应的字符（与 Python `chr(n)` 一致）"
+summary_en = "single-char string from code point, same as Python `chr(n)`"
+example = '打印(码字符(66))'
+
+[[builtin]]
+zh = "全真"
+en = "all"
+canonical = "all"
+params = ["列表"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_all"
+summary_zh = "列表里是否全为真（与 Python `all(xs)` 一致）"
+summary_en = "whether all elements are truthy (empty list is true), like `all(xs)`"
+example = '打印(全真([真, 真]))'
+
+[[builtin]]
+zh = "有真"
+en = "any"
+canonical = "any"
+params = ["列表"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_any"
+summary_zh = "列表里是否有真（与 Python `any(xs)` 一致）"
+summary_en = "whether any element is truthy (empty list is false), like `any(xs)`"
+example = '打印(有真([假, 真]))'
+
+[[builtin]]
+zh = "键值对列表"
+en = "items"
+canonical = "items"
+params = ["映射表"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_items"
+summary_zh = "取映射表的所有键值对，返回 `[[键, 值], ...]`"
+summary_en = "list of [key, value] pairs, same as Python `d.items()` (insertion order)"
+example = '打印(键值对列表({"a": 1, "b": 2}))'
+
+[[builtin]]
+zh = "值列表"
+en = "values"
+canonical = "values"
+params = ["映射表"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_values"
+summary_zh = "取映射表的所有值，返回列表"
+summary_en = "list of map values, same as Python `d.values()` (insertion order)"
+example = '打印(值列表({"a": 1, "b": 2}))'
+
+[[builtin]]
+zh = "十六进制"
+en = "hex"
+canonical = "hex"
+params = ["整数"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_hex"
+summary_zh = "整数的十六进制文本（带 0x 前缀，与 Python `hex(n)` 一致）"
+summary_en = "hex string with 0x prefix, same as Python `hex(n)`"
+example = '打印(十六进制(255))'
+
+[[builtin]]
+zh = "八进制"
+en = "oct"
+canonical = "oct"
+params = ["整数"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_oct"
+summary_zh = "整数的八进制文本（带 0o 前缀，与 Python `oct(n)` 一致）"
+summary_en = "octal string with 0o prefix, same as Python `oct(n)`"
+example = '打印(八进制(8))'
+
+[[builtin]]
+zh = "二进制"
+en = "bin"
+canonical = "bin"
+params = ["整数"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_bin"
+summary_zh = "整数的二进制文本（带 0b 前缀，与 Python `bin(n)` 一致）"
+summary_en = "binary string with 0b prefix, same as Python `bin(n)`"
+example = '打印(二进制(10))'
+
+[dual_branch]
+rule = "转换仅替换关键字 / 运算符表层；标识符、字符串字面量、注释等填充内容原样保留"
+forbid = "禁止自动直译或拼音化标识符"
+example = "中文 函数 核心(x) → 英文 fn 核心(x)（名字不翻）"
+[[builtin]]
+zh = "分行列表"
+en = "splitlines"
+canonical = "splitlines"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_splitlines"
+summary_zh = "按行拆分文本（与 Python str.splitlines() 一致：\r\n/\r/\n 都算换行，行尾换行符不保留）"
+summary_en = "split text into lines (like str.splitlines())"
+example = '打印(分行列表("甲\n乙"))'
+
+[[builtin]]
+zh = "三切分"
+en = "partition"
+canonical = "partition"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_partition"
+summary_zh = "按分隔符切成 [前, 分隔符, 后] 三段；找不到分隔符时给 [原文, \"\", \"\"]（与 Python str.partition 一致）"
+summary_en = "split into (head, sep, tail); if sep not found, (text, '', '')"
+example = '打印(三切分("a-b-c", "-"))'
+
+[[builtin]]
+zh = "右切分"
+en = "rpartition"
+canonical = "rpartition"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_rpartition"
+summary_zh = "从右往左按分隔符切成 [前, 分隔符, 后]；找不到给 [\"\", \"\", 原文]（Python str.rpartition）"
+summary_en = "split from the right into (head, sep, tail); if sep not found, ('', '', text)"
+example = '打印(右切分("a-b-c", "-"))'
+
+[[builtin]]
+zh = "折叠大小写"
+en = "casefold"
+canonical = "casefold"
+params = ["文本"]
+rest = false
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_casefold"
+summary_zh = "把文本折叠成统一小写（比 lower 更强，处理 Ä→ä 等，Python str.casefold）"
+summary_en = "casefold the text (stronger than lower, e.g. Ä to ä)"
+example = '打印(折叠大小写("Ä"))'
+
+[[builtin]]
+zh = "展开制表符"
+en = "expandtabs"
+canonical = "expandtabs"
+params = ["文本", "整数"]
+rest = false
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_expandtabs"
+summary_zh = "把制表符展开成空格，第二参是每格宽度（默认 8，Python str.expandtabs）"
+summary_en = "expand tabs to spaces; second arg is tab size (default 8)"
+example = '打印(展开制表符("a\tb", 4).长度)'
+
+[[builtin]]
+zh = "右查找"
+en = "rfind"
+canonical = "rfind"
+params = ["文本", "文本"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_rfind"
+summary_zh = "从右往左找子串，返回下标；找不到返回 -1（与 Python `s.rfind(t)` 一致）"
+summary_en = "rightmost occurrence of a substring, or -1 (same as `s.rfind(t)`)"
+example = '打印(右查找("abcabc", "b"))'
+
+[[builtin]]
+zh = "默认键"
+en = "setdefault"
+canonical = "setdefault"
+params = ["映射表", "任意", "任意"]
+rest = false
+opt = 1
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_setdefault"
+summary_zh = "键存在返回其值；否则写入默认值并返回它（就地改映射，与 Python `d.setdefault(k, v)` 一致）"
+summary_en = "return value for key, else insert default and return it (like `d.setdefault(k, v)`)"
+example = '打印(默认键({}, "k", 0))'
+
+[[builtin]]
+zh = "整除"
+en = "floordiv"
+canonical = "floordiv"
+params = ["整数", "整数"]
+rest = false
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_floordiv"
+summary_zh = "向下取整除法（Python 的 `//`，负数向负无穷取整）"
+summary_en = "floor division (Python `//`, rounds toward negative infinity)"
+example = '打印(整除(7, 2))'
+
+[[builtin]]
+zh = "从键构建"
+en = "fromkeys"
+canonical = "fromkeys"
+params = ["列表", "任意"]
+rest = false
+opt = 1
+ret = "映射表"
+effect = ""
+needs_await = false
+lower = "_agl_fromkeys"
+summary_zh = "用键列表新建映射表，统一给默认值；缺省默认值为空（Python `dict.fromkeys(ks, v)`）"
+summary_en = "new mapping from a key list with a default value (like `dict.fromkeys(ks, v)`)"
+example = '打印(从键构建(["a", "b"], 0).长度)'
+
+[[builtin]]
+zh = "是实例"
+en = "isinstance"
+canonical = "isinstance"
+params = ["任意", "任意"]
+rest = false
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_isinstance"
+summary_zh = "判断值是不是给定类型；第二参可用类型列表（Python isinstance(x, int) / isinstance(x, (str, list))）"
+summary_en = "type check; second arg may be a list of types (Python isinstance)"
+example = '打印(是实例(5, "整数"))'
+
+[[builtin]]
+zh = "断言"
+en = "assert"
+canonical = "assert"
+params = ["布尔", "文本"]
+rest = false
+opt = 1
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_assert"
+summary_zh = "条件为假时抛中文断言错误；第二参是失败消息（Python assert 语句）"
+summary_en = "raise an assertion error when the condition is false (Python assert)"
+example = '断言(5 > 1)'
+
+[[builtin]]
+zh = "删除键"
+en = "del_key"
+canonical = "del_key"
+params = ["映射表", "任意"]
+rest = false
+opt = 0
+ret = "映射表"
+effect = ""
+needs_await = false
+lower = "_agl_del_key"
+summary_zh = "删除键返回新映射表（Python `del d[k]` 的无返回值语义在 AGL 里用重绑表达）"
+summary_en = "delete a key and return the new mapping (for `del d[k]`)"
+example = '打印(删除键({1: "a"}, 1).长度)'
+
+[[builtin]]
+zh = "打印无换行"
+en = "print_no_newline"
+canonical = "print_no_newline"
+params = ["任意"]
+rest = true
+opt = 0
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_print_no_newline"
+summary_zh = "打印但不换行（Python `print(..., end=\"\")`）"
+summary_en = "print without a trailing newline (Python `print(..., end=\"\")`)"
+example = '打印无换行("a")'
+
+[[builtin]]
+zh = "内存视图"
+en = "memoryview"
+canonical = "memoryview"
+params = ["任意"]
+opt = 0
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_memoryview"
+summary_zh = "创建二进制缓冲区的零拷贝视图（Python `memoryview`）"
+summary_en = "create a zero-copy view of a binary buffer (Python `memoryview`)"
+example = '打印(内存视图("hello").长度)'
+
+[[builtin]]
+zh = "取属性"
+en = "getattr"
+canonical = "getattr"
+params = ["任意", "文本"]
+opt = 1
+ret = "任意"
+effect = ""
+needs_await = false
+lower = "_agl_getattr"
+summary_zh = "动态取对象属性：getattr(obj, 'name') 等价于 obj.name"
+summary_en = "dynamically get object attribute: getattr(obj, 'name') is equivalent to obj.name"
+example = '打印(取属性("hello", "长度"))'
+
+[[builtin]]
+zh = "有属性"
+en = "hasattr"
+canonical = "hasattr"
+params = ["任意", "文本"]
+opt = 0
+ret = "布尔"
+effect = ""
+needs_await = false
+lower = "_agl_hasattr"
+summary_zh = "判断对象是否有某属性：hasattr(obj, 'name')"
+summary_en = "check if object has attribute: hasattr(obj, 'name')"
+example = '打印(有属性("hello", "长度"))'
+
+[[builtin]]
+zh = "设属性"
+en = "setattr"
+canonical = "setattr"
+params = ["任意", "文本", "任意"]
+opt = 0
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_setattr"
+summary_zh = "动态设对象属性：setattr(obj, 'name', value)"
+summary_en = "dynamically set object attribute: setattr(obj, 'name', value)"
+example = '设属性("hello", "长度", 5)'
+
+[[builtin]]
+zh = "删属性"
+en = "delattr"
+canonical = "delattr"
+params = ["任意", "文本"]
+opt = 0
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_delattr"
+summary_zh = "动态删除对象属性：delattr(obj, 'name')"
+summary_en = "dynamically delete object attribute: delattr(obj, 'name')"
+example = '删属性("hello", "长度")'
+
+[[builtin]]
+zh = "取类名"
+en = "type_name"
+canonical = "type_name"
+params = ["任意"]
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_type_name"
+summary_zh = "取对象的类名：type_name(123) 返回 'int'"
+summary_en = "get object's class name: type_name(123) returns 'int'"
+example = '打印(取类名(123))'
+
+[[builtin]]
+zh = "平方根"
+en = "sqrt"
+canonical = "sqrt"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_sqrt"
+summary_zh = "平方根：sqrt(16) 返回 4.0"
+summary_en = "square root: sqrt(16) returns 4.0"
+example = '打印(平方根(16))'
+
+[[builtin]]
+zh = "对数"
+en = "log"
+canonical = "log"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_log"
+summary_zh = "自然对数：log(1) 返回 0.0"
+summary_en = "natural logarithm: log(1) returns 0.0"
+example = '打印(对数(1))'
+
+[[builtin]]
+zh = "正弦"
+en = "sin"
+canonical = "sin"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_sin"
+summary_zh = "正弦函数：sin(0) 返回 0.0"
+summary_en = "sine: sin(0) returns 0.0"
+example = '打印(正弦(0))'
+
+[[builtin]]
+zh = "余弦"
+en = "cos"
+canonical = "cos"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_cos"
+summary_zh = "余弦函数：cos(0) 返回 1.0"
+summary_en = "cosine: cos(0) returns 1.0"
+example = '打印(余弦(0))'
+
+[[builtin]]
+zh = "指数"
+en = "exp"
+canonical = "exp"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_exp"
+summary_zh = "指数函数：exp(0) 返回 1.0"
+summary_en = "exponential: exp(0) returns 1.0"
+example = '打印(指数(0))'
+
+[[builtin]]
+zh = "正切"
+en = "tan"
+canonical = "tan"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_tan"
+summary_zh = "正切函数：tan(0) 返回 0.0"
+summary_en = "tangent: tan(0) returns 0.0"
+example = '打印(正切(0))'
+
+[[builtin]]
+zh = "反正弦"
+en = "asin"
+canonical = "asin"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_asin"
+summary_zh = "反正弦函数：asin(0) 返回 0.0"
+summary_en = "arcsine: asin(0) returns 0.0"
+example = '打印(反正弦(0))'
+
+[[builtin]]
+zh = "反余弦"
+en = "acos"
+canonical = "acos"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_acos"
+summary_zh = "反余弦函数：acos(1) 返回 0.0"
+summary_en = "arccosine: acos(1) returns 0.0"
+example = '打印(反余弦(1))'
+
+[[builtin]]
+zh = "反正切"
+en = "atan"
+canonical = "atan"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_atan"
+summary_zh = "反正切函数：atan(0) 返回 0.0"
+summary_en = "arctangent: atan(0) returns 0.0"
+example = '打印(反正切(0))'
+
+[[builtin]]
+zh = "度转弧度"
+en = "radians"
+canonical = "radians"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_radians"
+summary_zh = "角度转弧度：radians(180) ≈ 3.14159"
+summary_en = "convert degrees to radians: radians(180) ≈ 3.14159"
+example = '打印(度转弧度(180))'
+
+[[builtin]]
+zh = "弧度转度"
+en = "degrees"
+canonical = "degrees"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_degrees"
+summary_zh = "弧度转角度：degrees(3.14159) ≈ 180.0"
+summary_en = "convert radians to degrees: degrees(3.14159) ≈ 180.0"
+example = '打印(弧度转度(3.14159))'
+
+[[builtin]]
+zh = "双曲正弦"
+en = "sinh"
+canonical = "sinh"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_sinh"
+summary_zh = "双曲正弦：sinh(0) 返回 0.0"
+summary_en = "hyperbolic sine: sinh(0) returns 0.0"
+example = '打印(双曲正弦(0))'
+
+[[builtin]]
+zh = "双曲余弦"
+en = "cosh"
+canonical = "cosh"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_cosh"
+summary_zh = "双曲余弦：cosh(0) 返回 1.0"
+summary_en = "hyperbolic cosine: cosh(0) returns 1.0"
+example = '打印(双曲余弦(0))'
+
+[[builtin]]
+zh = "双曲正切"
+en = "tanh"
+canonical = "tanh"
+params = ["浮数"]
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_tanh"
+summary_zh = "双曲正切：tanh(0) 返回 0.0"
+summary_en = "hyperbolic tangent: tanh(0) returns 0.0"
+example = '打印(双曲正切(0))'
+
+[[builtin]]
+zh = "圆周率"
+en = "pi"
+canonical = "pi"
+params = []
+opt = 0
+ret = "浮数"
+effect = ""
+needs_await = false
+lower = "_agl_pi"
+summary_zh = "圆周率 π ≈ 3.141592653589793"
+summary_en = "mathematical constant π ≈ 3.141592653589793"
+example = '打印(圆周率())'
+
+[[builtin]]
+zh = "取符号"
+en = "sign"
+canonical = "sign"
+params = ["浮数"]
+opt = 0
+ret = "整数"
+effect = ""
+needs_await = false
+lower = "_agl_sign"
+summary_zh = "取符号：正数返回 1，负数返回 -1，零返回 0"
+summary_en = "sign: returns 1, -1, or 0"
+example = '打印(取符号(-5))'
+
+# v0.51：文件IO
+[[builtin]]
+zh = "存在"
+en = "exists"
+canonical = "exists"
+params = ["文本"]
+opt = 0
+ret = "布尔"
+effect = "IO"
+needs_await = false
+lower = "_agl_exists"
+summary_zh = "判断文件/文件夹是否存在"
+summary_en = "exists: check if path exists"
+example = '如果 存在("test.txt") { 打印("在") }'
+
+[[builtin]]
+zh = "列目录"
+en = "list_dir"
+canonical = "list_dir"
+params = ["文本"]
+opt = 0
+ret = "列表"
+effect = "IO"
+needs_await = false
+lower = "_agl_list_dir"
+summary_zh = "列出目录下的文件和文件夹名"
+summary_en = "list_dir: list directory entries"
+example = '变量 文件们 = 列目录(".")'
+
+[[builtin]]
+zh = "建文件夹"
+en = "mkdir"
+canonical = "mkdir"
+params = ["文本"]
+opt = 0
+ret = "空"
+effect = "IO"
+needs_await = false
+lower = "_agl_mkdir"
+summary_zh = "创建文件夹（递归创建）"
+summary_en = "mkdir: create directory"
+example = '建文件夹("output/data")'
+
+[[builtin]]
+zh = "删除文件"
+en = "delete_file"
+canonical = "delete_file"
+params = ["文本"]
+opt = 0
+ret = "空"
+effect = "IO"
+needs_await = false
+lower = "_agl_delete"
+summary_zh = "删除指定文件"
+summary_en = "delete_file: delete a file"
+example = '删除文件("temp.txt")'
+
+# v0.51：其他工具
+[[builtin]]
+zh = "命令行参数"
+en = "args"
+canonical = "args"
+params = []
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_args"
+summary_zh = "获取启动时的命令行参数"
+summary_en = "args: get command line arguments"
+example = '变量 参数们 = 命令行参数()'
+
+[[builtin]]
+zh = "路径拼接"
+en = "path_join"
+canonical = "path_join"
+params = ["文本"]
+rest = true
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_路径拼接"
+summary_zh = "把多个路径片段拼接成完整路径"
+summary_en = "path_join: join path segments"
+example = '变量 完整路径 = 路径拼接("data", "config.json")'
+
+# ── v0.51 一次性补全的常用内建 ──────────────────────────────────────
+[[builtin]]
+zh = "重命名"
+en = "rename"
+canonical = "rename"
+params = ["文本", "文本"]
+opt = 0
+ret = "空"
+effect = "IO"
+needs_await = false
+lower = "_agl_重命名"
+summary_zh = "重命名文件或文件夹"
+summary_en = "rename: rename file/directory"
+example = '重命名("旧.txt", "新.txt")'
+
+[[builtin]]
+zh = "文件大小"
+en = "file_size"
+canonical = "file_size"
+params = ["文本"]
+opt = 0
+ret = "整数"
+effect = "IO"
+needs_await = false
+lower = "_agl_文件大小"
+summary_zh = "获取文件大小（字节）"
+summary_en = "file_size: get file size in bytes"
+example = '变量 s = 文件大小("test.txt")'
+
+[[builtin]]
+zh = "是文件夹"
+en = "is_dir"
+canonical = "is_dir"
+params = ["文本"]
+opt = 0
+ret = "布尔"
+effect = "IO"
+needs_await = false
+lower = "_agl_是文件夹"
+summary_zh = "判断路径是不是文件夹"
+summary_en = "is_dir: check if path is directory"
+example = '如果 是文件夹("data") { 打印("是") }'
+
+[[builtin]]
+zh = "是文件"
+en = "is_file"
+canonical = "is_file"
+params = ["文本"]
+opt = 0
+ret = "布尔"
+effect = "IO"
+needs_await = false
+lower = "_agl_是文件"
+summary_zh = "判断路径是不是文件"
+summary_en = "is_file: check if path is file"
+example = '如果 是文件("test.txt") { 打印("是") }'
+
+# ── v0.51 继续补：类型转换/日期时间/递归遍历 ─────────────────────────
+[[builtin]]
+zh = "现在时间"
+en = "now_str"
+canonical = "now_str"
+params = []
+opt = 0
+ret = "文本"
+effect = "Time"
+needs_await = false
+lower = "_agl_现在时间"
+summary_zh = "获取格式化的当前时间字符串"
+summary_en = "now_str: get formatted current time"
+example = '打印("现在是：", 现在时间())'
+
+[[builtin]]
+zh = "遍历目录"
+en = "walk_dir"
+canonical = "walk_dir"
+params = ["文本"]
+opt = 0
+ret = "列表"
+effect = "IO"
+needs_await = false
+lower = "_agl_遍历目录"
+summary_zh = "递归遍历目录下所有文件，返回完整路径列表"
+summary_en = "walk_dir: recursively list all files"
+example = '变量 所有文件 = 遍历目录(".")'
+
+# ── v0.51 一次性补完的核心常用内建 ─────────────────────────────────
+[[builtin]]
+zh = "范围"
+en = "range"
+canonical = "range"
+params = ["整数", "整数", "整数"]
+opt = 2
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_范围"
+summary_zh = "生成数字序列列表"
+summary_en = "range: generate number sequence"
+example = '变量 数们 = 范围(0, 10)'
+
+[[builtin]]
+zh = "枚举"
+en = "enumerate"
+canonical = "enumerate"
+params = ["列表"]
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_枚举"
+summary_zh = "给列表每个元素加上下标"
+summary_en = "enumerate: add index to each element"
+example = '变量 带下标 = 枚举(["a","b","c"])'
+
+[[builtin]]
+zh = "配对"
+en = "zip"
+canonical = "zip"
+params = ["列表"]
+rest = true
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_配对"
+summary_zh = "把多个列表按位置配对"
+summary_en = "zip: pair elements from multiple lists"
+example = '变量 配对好 = 配对([1,2], ["a","b"])'
+
+[[builtin]]
+zh = "退出"
+en = "exit"
+canonical = "exit"
+params = ["整数"]
+opt = 1
+ret = "空"
+effect = ""
+needs_await = false
+lower = "_agl_退出"
+summary_zh = "退出程序，返回指定错误码"
+summary_en = "exit: exit program with code"
+example = '退出(0)'
+
+[[builtin]]
+zh = "当前目录"
+en = "cwd"
+canonical = "cwd"
+params = []
+opt = 0
+ret = "文本"
+effect = "IO"
+needs_await = false
+lower = "_agl_当前目录"
+summary_zh = "获取当前工作目录路径"
+summary_en = "cwd: get current working directory"
+example = '打印("当前目录：", 当前目录())'
+
+[[builtin]]
+zh = "环境变量"
+en = "getenv"
+canonical = "getenv"
+params = ["文本", "文本"]
+opt = 1
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_环境变量"
+summary_zh = "读取系统环境变量"
+summary_en = "getenv: read environment variable"
+example = '变量 路径 = 环境变量("PATH")'
+
+[[builtin]]
+zh = "MD5"
+en = "md5"
+canonical = "md5"
+params = ["文本"]
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_MD5"
+summary_zh = "计算文本的MD5哈希值"
+summary_en = "md5: calculate MD5 hash of text"
+example = '变量 h = MD5("hello")'
+
+[[builtin]]
+zh = "SHA256"
+en = "sha256"
+canonical = "sha256"
+params = ["文本"]
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_SHA256"
+summary_zh = "计算文本的SHA256哈希值"
+summary_en = "sha256: calculate SHA256 hash of text"
+example = '变量 h = SHA256("hello")'
+
+# ── v0.52：SQLite数据库基础能力 ─────────────────────────────────
+[[builtin]]
+zh = "打开数据库"
+en = "sqlite_open"
+canonical = "sqlite_open"
+params = ["文本"]
+opt = 0
+ret = "结果"
+effect = "IO"
+needs_await = false
+lower = "_agl_打开数据库"
+summary_zh = "打开SQLite数据库文件，返回连接对象"
+summary_en = "sqlite_open: open SQLite database"
+example = '变量 db = 打开数据库("todo.db")'
+
+[[builtin]]
+zh = "执行SQL"
+en = "sqlite_exec"
+canonical = "sqlite_exec"
+params = ["结果", "文本"]
+opt = 0
+ret = "整数"
+effect = "IO"
+needs_await = false
+lower = "_agl_执行SQL"
+summary_zh = "执行增删改SQL语句，返回影响行数"
+summary_en = "sqlite_exec: execute write SQL"
+example = '执行SQL(打开数据库("todo.db"), "DELETE FROM todo")'
+
+[[builtin]]
+zh = "查询SQL"
+en = "sqlite_query"
+canonical = "sqlite_query"
+params = ["结果", "文本"]
+opt = 0
+ret = "列表"
+effect = "IO"
+needs_await = false
+lower = "_agl_查询SQL"
+summary_zh = "执行查询SQL，返回所有结果行"
+summary_en = "sqlite_query: execute read SQL"
+example = '变量 所有 = 查询SQL(打开数据库("todo.db"), "SELECT * FROM todo")'
+
+[[builtin]]
+zh = "关闭数据库"
+en = "sqlite_close"
+canonical = "sqlite_close"
+params = ["结果"]
+opt = 0
+ret = "空"
+effect = "IO"
+needs_await = false
+lower = "_agl_关闭数据库"
+summary_zh = "关闭数据库连接"
+summary_en = "sqlite_close: close database connection"
+example = '关闭数据库(打开数据库("todo.db"))'
+
+[[builtin]]
+zh = "启动HTTP"
+en = "http_serve"
+canonical = "http_serve"
+params = ["整数", "文本"]
+opt = 0
+ret = "空"
+effect = "Net"
+needs_await = false
+lower = "_agl_启动HTTP"
+summary_zh = "启动简单HTTP服务，所有请求返回指定文本"
+summary_en = "http_serve: start simple HTTP server"
+example = '启动HTTP(8080, "你好，AGL Web服务")'
+
+[[builtin]]
+zh = "启动待办Web"
+en = "todo_web_serve"
+canonical = "todo_web_serve"
+params = ["整数", "文本"]
+opt = 0
+ret = "空"
+effect = "Net"
+needs_await = false
+lower = "_agl_启动待办HTTP"
+summary_zh = "启动带数据库的待办Web服务，访问/返回JSON待办列表"
+summary_en = "todo_web_serve: start todo web API with SQLite"
+example = '启动待办Web(8080, "todo.db")'
+
+[[builtin]]
+zh = "执行SQL带参"
+en = "sqlite_exec_param"
+canonical = "sqlite_exec_param"
+params = ["结果", "文本", "列表"]
+opt = 0
+ret = "整数"
+effect = "IO"
+needs_await = false
+lower = "_agl_执行SQL带参"
+summary_zh = "参数化执行增删改SQL，防注入"
+summary_en = "sqlite_exec_param: parameterized write SQL"
+example = '执行SQL带参(打开数据库("todo.db"), "INSERT INTO todo (内容) VALUES(?)", ["买菜"])'
+
+[[builtin]]
+zh = "查询SQL带参"
+en = "sqlite_query_param"
+canonical = "sqlite_query_param"
+params = ["结果", "文本", "列表"]
+opt = 0
+ret = "列表"
+effect = "IO"
+needs_await = false
+lower = "_agl_查询SQL带参"
+summary_zh = "参数化查询SQL，防注入"
+summary_en = "sqlite_query_param: parameterized read SQL"
+example = '变量 所有 = 查询SQL带参(打开数据库("todo.db"), "SELECT * FROM todo WHERE id=?", [1])'
+
+# ── v0.52 复杂数据处理能力 ─────────────────────────────────
+[[builtin]]
+zh = "随机选"
+en = "random_choice"
+canonical = "random_choice"
+params = ["列表"]
+opt = 0
+ret = "结果"
+effect = ""
+needs_await = false
+lower = "_agl_随机选"
+summary_zh = "从列表里随机选一个元素"
+summary_en = "random_choice: pick random element from list"
+example = '变量 选中 = 随机选(["苹果", "香蕉", "橙子"])'
+
+[[builtin]]
+zh = "分割字符串"
+en = "split_string"
+canonical = "split_string"
+params = ["文本", "文本"]
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_分割字符串"
+summary_zh = "按分隔符把字符串切成列表"
+summary_en = "split_string: split string by delimiter to list"
+example = '变量 部分 = 分割字符串("a,b,c", ",")'
+
+[[builtin]]
+zh = "连接字符串"
+en = "join_string"
+canonical = "join_string"
+params = ["文本", "列表"]
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_连接字符串"
+summary_zh = "用分隔符把列表元素拼成字符串"
+summary_en = "join_string: join list elements into string"
+example = '变量 成品 = 连接字符串("-", ["2024", "01", "01"])'
+
+[[builtin]]
+zh = "排序列表"
+en = "sort_list"
+canonical = "sort_list"
+params = ["列表"]
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_排序列表"
+summary_zh = "返回排序后的新列表"
+summary_en = "sort_list: return sorted copy of list"
+example = '变量 排序后 = 排序列表([3, 1, 2])'
+
+[[builtin]]
+zh = "读CSV"
+en = "read_csv"
+canonical = "read_csv"
+params = ["文本"]
+opt = 0
+ret = "列表"
+effect = "IO"
+needs_await = false
+lower = "_agl_读CSV"
+summary_zh = "读取CSV文件，返回二维列表"
+summary_en = "read_csv: read CSV file to 2D list"
+example = '变量 表格 = 读CSV("数据.csv")'
+
+[[builtin]]
+zh = "写CSV"
+en = "write_csv"
+canonical = "write_csv"
+params = ["文本", "列表"]
+opt = 0
+ret = "空"
+effect = "IO"
+needs_await = false
+lower = "_agl_写CSV"
+summary_zh = "把二维列表写入CSV文件"
+summary_en = "write_csv: write 2D list to CSV"
+example = '写CSV("输出.csv", [["名字", "年龄"], ["张三", 18]])'
+
+[[builtin]]
+zh = "格式化"
+en = "format"
+canonical = "format"
+params = ["文本", "列表"]
+opt = 0
+ret = "文本"
+effect = ""
+needs_await = false
+lower = "_agl_格式化"
+summary_zh = "字符串模板占位符替换"
+summary_en = "format: string template formatting"
+example = '打印(格式化("你好，{}，今年{}岁", ["张三", 18]))'
+
+[[builtin]]
+zh = "过滤"
+en = "filter_list"
+canonical = "filter_list"
+params = ["列表", "任意"]
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_过滤"
+summary_zh = "按条件过滤列表，保留满足条件的元素"
+summary_en = "filter_list: filter list by condition"
+example = '变量 文件们 = 过滤(["a.txt", "b.txt"], 是文件)'
+
+[[builtin]]
+zh = "映射"
+en = "map_list"
+canonical = "map_list"
+params = ["列表", "任意"]
+opt = 0
+ret = "列表"
+effect = ""
+needs_await = false
+lower = "_agl_映射"
+summary_zh = "对列表每个元素做转换"
+summary_en = "map_list: transform each list element"
+example = '变量 文本们 = 映射([1,2,3], 转文本)'

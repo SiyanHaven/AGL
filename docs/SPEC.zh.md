@@ -404,7 +404,7 @@ language = "zh"
 python examples/run_examples.py
 ```
 
-运行时包 `doctor` 为 **5/5**；源码树为 **27/27**。示例验证脚本会逐一 `check`、`run` 六个示例并比对预期输出。
+运行时包与源码树 `doctor` 均为 **5/5**。示例验证脚本会逐一 `check`、`run` 六个示例并比对预期输出。
 每个示例的实测输出见 [`examples/README.md`](../examples/README.md)。
 
 规范中的最小可运行代码块已作为 `examples/zh/00_最小程序.agl` 编译并运行。完整应用示例见 `examples/zh/` 与 `examples/en/`。

@@ -1,0 +1,61 @@
+#lang=English
+// Todo list: struct lists, functional updates, completion statistics.
+// Run: python -m compiler.cli run examples/en/02_todo_list.agl
+
+type Task {
+  title: String
+  done: Bool
+}
+
+fn add_task(tasks: List<Task>, title: String) -> List<Task> {
+  return append(tasks, Task(title: title, done: false))
+}
+
+fn mark_done(tasks: List<Task>, target: String) -> List<Task> {
+  let updated = []
+  for item in tasks {
+    if item.title == target {
+      updated = append(updated, Task(title: item.title, done: true))
+    } else {
+      updated = append(updated, item)
+    }
+  }
+  return updated
+}
+
+fn done_count(tasks: List<Task>) -> Int {
+  let count = 0
+  for item in tasks {
+    if item.done == true {
+      count = count + 1
+    }
+  }
+  return count
+}
+
+fn print_list(tasks: List<Task>) {
+  print("Todo List")
+  for item in tasks {
+    let marker = "[ ]"
+    if item.done == true {
+      marker = "[x]"
+    }
+    print(fill("{} {}", marker, item.title))
+  }
+  print(fill("Completed {}/{}", done_count(tasks), tasks.length))
+}
+
+fn main() {
+  let tasks = [
+    Task(title: "Write release notes", done: true),
+    Task(title: "Check MCP tool list", done: false),
+    Task(title: "Run doctor", done: false)
+  ]
+
+  print_list(tasks)
+  print("")
+  tasks = add_task(tasks, "Update example index")
+  tasks = mark_done(tasks, "Check MCP tool list")
+  print("After update:")
+  print_list(tasks)
+}

@@ -1,0 +1,8 @@
+2026-11-15 08:01:02 INFO  service started
+2026-11-15 08:01:05 INFO  loaded 3 modules
+2026-11-15 08:01:12 WARN  cache miss for user/42
+2026-11-15 08:01:13 ERROR database timeout after 5000ms
+2026-11-15 08:01:14 INFO  retry scheduled
+2026-11-15 08:01:20 ERROR payment callback failed
+2026-11-15 08:01:22 WARN  slow response 1200ms
+2026-11-15 08:01:30 INFO  health check ok

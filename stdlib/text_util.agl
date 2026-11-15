@@ -1,0 +1,73 @@
+#lang=English
+// Standard library: text utilities. Written in AGL itself — pure functions, no effects.
+// Usage: add `"text_util" = "0.2.0"` under [dependencies] in agl.toml, then `import text_util`.
+//
+// Stated limit (not hidden): slicing out of range is an error, so every function below
+// checks the length first and returns false / -1 where that is the right answer —
+// it never relies on "truncate silently".
+
+module text_util
+
+export fn split_lines(content: String) -> List<String> {
+  return split(content, "\n")
+}
+
+export fn starts_with(content: String, prefix: String) -> Bool {
+  if prefix.length > content.length {
+    return false
+  }
+  return slice(content, 0, prefix.length) == prefix
+}
+
+export fn ends_with(content: String, suffix: String) -> Bool {
+  if suffix.length > content.length {
+    return false
+  }
+  return slice(content, content.length - suffix.length, content.length) == suffix
+}
+
+export fn repeat(content: String, times: Int) -> String {
+  let built = ""
+  let done = 0
+  while done < times {
+    built = join(built, content)
+    done = done + 1
+  }
+  return built
+}
+
+export fn index_of(content: String, target: String) -> Int {
+  // -1 when absent; 0 when the target is empty (what most languages do)
+  if target.length == 0 {
+    return 0
+  }
+  if target.length > content.length {
+    return 0 - 1
+  }
+  let pos = 0
+  while pos + target.length <= content.length {
+    if slice(content, pos, pos + target.length) == target {
+      return pos
+    }
+    pos = pos + 1
+  }
+  return 0 - 1
+}
+
+export fn count_of(content: String, target: String) -> Int {
+  // non-overlapping: "aaa" contains "aa" once, not twice
+  if target.length == 0 {
+    return 0
+  }
+  let hits = 0
+  let pos = 0
+  while pos + target.length <= content.length {
+    if slice(content, pos, pos + target.length) == target {
+      hits = hits + 1
+      pos = pos + target.length
+    } else {
+      pos = pos + 1
+    }
+  }
+  return hits
+}

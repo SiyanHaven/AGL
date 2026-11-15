@@ -1,0 +1,42 @@
+#lang=English
+// Stdlib: Crypto utilities. Pure functions, zero effects.
+// Usage: declare `crypto_util = "0.1.0"` in agl.toml [dependencies],
+//        then `import crypto_util`, then `crypto_util.caesar_encrypt("hello", 3)`.
+
+module crypto_util
+
+// Caesar cipher: shift each character code by an offset
+// Decrypt by using negative offset
+export fn caesar_encrypt(plaintext: String, shift: Int) -> String {
+  let result = ""
+  let i = 0
+  while i < plaintext.length {
+    let char_code = ord(plaintext[i])
+    let new_code = char_code + shift
+    result = join(result, chr(new_code))
+    i = i + 1
+  }
+  return result
+}
+
+// Simple string reverse (a kind of encoding)
+export fn reverse_text(original: String) -> String {
+  let result = ""
+  let i = original.length - 1
+  while i >= 0 {
+    result = join(result, original[i])
+    i = i - 1
+  }
+  return result
+}
+
+// Simple checksum: sum of all character codes
+export fn checksum(original: String) -> Int {
+  let total = 0
+  let i = 0
+  while i < original.length {
+    total = total + ord(original[i])
+    i = i + 1
+  }
+  return total
+}
