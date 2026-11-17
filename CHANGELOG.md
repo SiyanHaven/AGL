@@ -50,8 +50,9 @@ semantic versioning, with the authoritative value in `spec/keywords.toml`
   Python `RecursionError`; `cmd_info` no longer hard-codes a release number as fallback.
 - `aglc audit` normalizes import aliases and `importlib.import_module` + `getattr` string
   concatenation, and states its static-analysis limits in the report.
-- CLI selfhost builds backfill the AGB line table from the seed compiler when function
-  name and opcode sequence match, restoring `第 N 行` runtime errors.
+- Self-hosted line tracking now carries through the full chain: lexer token line → AST
+  statement `"行"` → IR statement `"行"` → `函数状态["当前行"]` → every `发射` call.
+  The CLI-side Python line backfill was removed; selfhost AGB now has real line tables.
 
 ## [0.53.0] - 2026-11-15
 

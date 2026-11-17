@@ -177,47 +177,8 @@ def compile_with_selfhost(source: Path, out_dir: Path,
             detail = lines[0] if lines else "自举编译器没有产出字节码"
         raise BootstrapError(f"自举编译器编不了这份源码：{detail}")
     if not (want_ir and ir_target is not None and ir_target.exists()):
-        _repair_selfhost_lines(agb_target, check)
         return agb_target, None
-    _repair_selfhost_lines(agb_target, check)
     return agb_target, ir_target
-
-
-def _repair_selfhost_lines(agb_target: Path, check) -> None:
-    """把种子编译器的行号表贴回自举 AGB。
-
-    自举 IR 目前不携带源码 span，导致 AGL 版字节码生成器只能写 0。
-    种子编译器已经算出正确行号；这里只在“函数名 + 指令 op 序列”完全一致时
-    逐条贴回，避免把不同指令布局的产物错配。它是运行期可诊断性的补丁，
-    不是把自举编译器改成 Python 生成。
-    """
-    try:
-        from compiler import bytecode
-
-        self_text = agb_target.read_text(encoding="utf-8")
-        self_agb = bytecode.decode(self_text)
-        seed_agb = bytecode.compile_program(check.ir)
-        seed_funcs = {fn["name"]: fn for fn in
-                      ([seed_agb.get("init")] + list(seed_agb.get("functions") or []))
-                      if fn}
-        changed = False
-        for fn in [self_agb.get("init")] + list(self_agb.get("functions") or []):
-            if not fn:
-                continue
-            seed = seed_funcs.get(fn.get("name"))
-            if not seed:
-                continue
-            self_ops = [ins.get("op") for ins in fn.get("code") or []]
-            seed_ops = [ins.get("op") for ins in seed.get("code") or []]
-            if self_ops == seed_ops and len(seed.get("lines") or []) == len(self_ops):
-                if fn.get("lines") != seed["lines"]:
-                    fn["lines"] = list(seed["lines"])
-                    changed = True
-        if changed:
-            agb_target.write_text(bytecode.encode(self_agb), encoding="utf-8")
-    except Exception:
-        # 行号修补是可诊断性增强，不得让本来能编译的源码因此失败。
-        pass
 
 
 def install_bootstrap(verbose: bool = True) -> BootstrapResult:
