@@ -1262,6 +1262,52 @@ def _agl_ffi_call(lib, method, *args):
         raise _AglFfiCallError(lib, method, str(e), orig=e) from None
 
 
+_AGL_TOOL_BREAKER = {"fingerprints": {}, "tools": {}, "blocked_fp": {}, "blocked_tool": {}}
+_AGL_TOOL_FAIL_LIMIT = 3
+
+
+def _agl_tool_fingerprint(name, arguments):
+    """同一工具 + 规范化实参的指纹；键顺序和空白不影响指纹。"""
+    import hashlib as _hashlib
+    import json as _json
+    raw = _json.dumps(arguments, ensure_ascii=False, sort_keys=True,
+                      separators=(",", ":"), default=repr)
+    return _hashlib.sha256((name + "\n" + raw).encode("utf-8")).hexdigest()[:12]
+
+
+def _agl_tool_blocked_reason(name, fp):
+    state = _AGL_TOOL_BREAKER
+    if name in state["blocked_tool"]:
+        return (f"工具 `{name}` 已熔断：本任务内累计失败达到 {_AGL_TOOL_FAIL_LIMIT} 次；"
+                "换工具、改参数，或走任务代码里写好的降级路径")
+    if fp in state["blocked_fp"]:
+        return (f"工具调用熔断：`{name}` 的同一组实参已失败过；"
+                "换工具、改参数，或走任务代码里写好的降级路径")
+    return None
+
+
+def _agl_tool_note_failure(name, fp):
+    """记一次失败，返回给调用方看的补充说明。"""
+    state = _AGL_TOOL_BREAKER
+    count = state["fingerprints"].get(fp, 0) + 1
+    state["fingerprints"][fp] = count
+    state["blocked_fp"][fp] = True
+    total = state["tools"].get(name, 0) + 1
+    state["tools"][name] = total
+    if total >= _AGL_TOOL_FAIL_LIMIT:
+        state["blocked_tool"][name] = True
+        return f"同一工具已累计失败 {total} 次，达到熔断阈值"
+    return f"同一工具已累计失败 {total} 次"
+
+
+def _agl_tool_note_success(name, fp):
+    state = _AGL_TOOL_BREAKER
+    state["fingerprints"].pop(fp, None)
+    state["blocked_fp"].pop(fp, None)
+    state["tools"].pop(name, None)
+    state["blocked_tool"].pop(name, None)
+
+
 def _agl_call_tool(name, arguments, config):
     """调用声明的工具。目前支持 MCP Streamable HTTP（JSON-RPC over POST）。"""
     import json as _json
@@ -1278,7 +1324,11 @@ def _agl_call_tool(name, arguments, config):
     protocol = config.get("protocol") or config.get("协议")
     endpoint = config.get("endpoint") or config.get("地址")
     timeout = config.get("timeout_sec") or config.get("超时秒数") or 30
-    retries = config.get("max_retry") or config.get("最大重试次数") or 0
+    retries = config.get("max_retry")
+    if retries is None:
+        retries = config.get("最大重试次数")
+    if retries is None:
+        retries = 2
     if protocol != "mcp":
         raise ValueError("工具运行时目前只支持 `协议 = 'mcp'`；"
                          f"收到的是 `{protocol}`")
@@ -1292,6 +1342,11 @@ def _agl_call_tool(name, arguments, config):
         retries = max(0, int(retries))
     except Exception:
         retries = 0
+
+    fp = _agl_tool_fingerprint(name, arguments)
+    blocked = _agl_tool_blocked_reason(name, fp)
+    if blocked:
+        raise RuntimeError(blocked)
 
     def rpc(method, params, session=None, notify=False):
         payload = {"jsonrpc": "2.0", "method": method, "params": params}
@@ -1329,29 +1384,53 @@ def _agl_call_tool(name, arguments, config):
             raise RuntimeError(f"MCP 工具 `{name}` 出错：{err.get('message', err)}")
         return obj.get("result") or {}, sid
 
+    def call_once():
+        init, sid = rpc("initialize", {
+            "protocolVersion": "2024-11-05",
+            "capabilities": {},
+            "clientInfo": {"name": "agl"},
+        })
+        rpc("notifications/initialized", {}, sid, notify=True)
+        result, _ = rpc("tools/call", {"name": name, "arguments": arguments}, sid)
+        if result.get("isError"):
+            detail = []
+            for c in result.get("content") or []:
+                if isinstance(c, dict) and c.get("type") == "text":
+                    detail.append(c.get("text") or "")
+            tail = ("：" + "；".join(x for x in detail if x)) if detail else ""
+            raise RuntimeError(f"工具 `{name}` 返回失败结果{tail}")
+        content = result.get("content") or []
+        texts = [c.get("text") for c in content
+                 if isinstance(c, dict) and c.get("type") == "text"]
+        return "\n".join(texts) if texts else _json.dumps(result, ensure_ascii=False)
+
     last = None
     for attempt in range(retries + 1):
         try:
-            init, sid = rpc("initialize", {
-                "protocolVersion": "2024-11-05",
-                "capabilities": {},
-                "clientInfo": {"name": "agl"},
-            })
-            rpc("notifications/initialized", {}, sid, notify=True)
-            result, _ = rpc("tools/call", {"name": name, "arguments": arguments}, sid)
-            if result.get("isError"):
-                raise RuntimeError(f"工具 `{name}` 返回失败结果")
-            content = result.get("content") or []
-            texts = [c.get("text") for c in content
-                     if isinstance(c, dict) and c.get("type") == "text"]
-            return "\n".join(texts) if texts else _json.dumps(result, ensure_ascii=False)
+            out = call_once()
+            _agl_tool_note_success(name, fp)
+            return out
+        except _urlerr.HTTPError as e:
+            # 5xx / 429 可能是瞬断，按最大重试次数退避；4xx 是确定性失败，不重试。
+            transient = 500 <= e.code < 600 or e.code == 429
+            last = e
+            if transient and attempt < retries:
+                _time.sleep(min(2 ** attempt, 5))
+                continue
+            note = _agl_tool_note_failure(name, fp)
+            raise RuntimeError(f"工具 `{name}` 调用失败：HTTP {e.code}；{note}") from None
         except (_urlerr.URLError, TimeoutError, OSError) as e:
             last = e
             if attempt < retries:
                 _time.sleep(min(2 ** attempt, 5))
                 continue
-            raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{e}") from None
-    raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{last}")
+            note = _agl_tool_note_failure(name, fp)
+            raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{e}；{note}") from None
+        except Exception as e:
+            note = _agl_tool_note_failure(name, fp)
+            raise RuntimeError(f"工具 `{name}` 调用失败：{e}；{note}") from None
+    note = _agl_tool_note_failure(name, fp)
+    raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{last}；{note}")
 
 
 # ── 内建函数的宿主实现 ─────────────────────────────────────────────────

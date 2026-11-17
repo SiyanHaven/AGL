@@ -117,16 +117,25 @@ def _run_plain_python(path) -> str | None:
     """
     import subprocess
     import sys
+    import time
 
-    try:
-        r = subprocess.run([sys.executable, str(path)],
-                           capture_output=True, text=True,
-                           encoding="utf-8", timeout=30)
-    except Exception:
-        return None
-    if r.returncode != 0:
-        return None
-    return r.stdout
+    for attempt in range(2):
+        try:
+            r = subprocess.run([sys.executable, str(path)],
+                               capture_output=True, text=True,
+                               encoding="utf-8", errors="replace",
+                               timeout=60)
+        except Exception:
+            if attempt:
+                return None
+            time.sleep(0.5)
+            continue
+        if r.returncode == 0:
+            return r.stdout
+        if attempt:
+            return None
+        time.sleep(0.5)
+    return None
 
 
 def _expected_blocker_hint(path) -> str:
@@ -1579,8 +1588,9 @@ def check_tool_runtime() -> Check:
     import json
     import threading
     from http.server import BaseHTTPRequestHandler, HTTPServer
+    from compiler import bytecode, vm
 
-    c = Check("工具声明与 MCP 运行时")
+    c = Check("工具声明与 MCP 运行时（含熔断）")
     bad: list[str] = []
 
     class Handler(BaseHTTPRequestHandler):
@@ -1647,7 +1657,6 @@ def check_tool_runtime() -> Check:
             if not ok or out.strip() != "晴，23度":
                 bad.append("Python 后端没有拿到工具结果：" +
                            (diag.code if diag else out.strip()))
-            from compiler import bytecode, vm
             try:
                 agb = bytecode.compile_program(res.ir)
                 got = vm.run(agb, res.lang, allowed_effects={"External"})
@@ -1665,6 +1674,97 @@ def check_tool_runtime() -> Check:
                 bad.append(f"VM 工具调用失败：{e}")
     finally:
         server.shutdown()
+
+    # T19：真实工具调用入口上的重复调用熔断。
+    # 同一工具 + 同一组实参失败后，下一次同指纹直接拒绝；
+    # 同一工具累计失败到 3 次后熔断整个工具。
+    class FailHandler(BaseHTTPRequestHandler):
+        tool_calls = 0
+
+        def log_message(self, *a):
+            pass
+
+        def do_POST(self):
+            n = int(self.headers.get("Content-Length", 0))
+            req = json.loads(self.rfile.read(n) or b"{}")
+            method = req.get("method")
+            if method == "initialize":
+                body = {"jsonrpc": "2.0", "id": req.get("id"), "result": {
+                    "protocolVersion": "2024-11-05", "capabilities": {"tools": {}},
+                    "serverInfo": {"name": "fake-fail", "version": "0"}}}
+            elif method == "notifications/initialized":
+                self.send_response(202)
+                self.end_headers()
+                return
+            elif method == "tools/call":
+                FailHandler.tool_calls += 1
+                body = {"jsonrpc": "2.0", "id": req.get("id"), "result": {
+                    "content": [{"type": "text", "text": "上游工具坏了"}],
+                    "isError": True}}
+            else:
+                body = {"jsonrpc": "2.0", "id": req.get("id"),
+                        "error": {"message": "unknown"}}
+            data = json.dumps(body, ensure_ascii=False).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+    fail_server = HTTPServer(("127.0.0.1", 0), FailHandler)
+    fail_port = fail_server.server_address[1]
+    fail_thread = threading.Thread(target=fail_server.serve_forever, daemon=True)
+    fail_thread.start()
+    try:
+        fail_src = f'''#语言=中文
+工具 坏天气 {{
+  配置 {{
+    协议 = "mcp"
+    地址 = "http://127.0.0.1:{fail_port}/mcp"
+    超时秒数 = 5
+    最大重试次数 = 0
+  }}
+  入参(城市: 文本)
+  返回 文本
+}}
+
+函数 主入口() 效应 外部调用 {{
+  尝试 {{ 坏天气("甲") }} 捕获 (错: 全部) {{ 打印("一", 失败原因(错)) }}
+  尝试 {{ 坏天气("甲") }} 捕获 (错: 全部) {{ 打印("二", 失败原因(错)) }}
+  尝试 {{ 坏天气("乙") }} 捕获 (错: 全部) {{ 打印("三", 失败原因(错)) }}
+  尝试 {{ 坏天气("丙") }} 捕获 (错: 全部) {{ 打印("四", 失败原因(错)) }}
+  尝试 {{ 坏天气("丁") }} 捕获 (错: 全部) {{ 打印("五", 失败原因(错)) }}
+}}
+'''
+        res2 = pipeline.compile_source(fail_src, "tool_breaker.agl")
+        if not res2.ok:
+            bad.append("熔断用例没有编译通过：" +
+                       "; ".join(d.code for d in res2.diagnostics))
+        else:
+            ok, diag, out = pipeline.run_result(res2)
+            expect = ["同一工具已累计失败 1 次", "同一组实参已失败过",
+                      "同一工具已累计失败 2 次", "达到熔断阈值",
+                      "已熔断：本任务内累计失败达到 3 次"]
+            missing = [x for x in expect if x not in out]
+            if not ok or missing:
+                bad.append("Python 后端熔断行为不完整：" +
+                           ("; ".join(missing) if missing else
+                            (diag.message if diag else out.strip())))
+            if FailHandler.tool_calls != 3:
+                bad.append(f"Python 后端熔断后仍请求了服务器：{FailHandler.tool_calls} 次")
+            try:
+                FailHandler.tool_calls = 0
+                agb2 = bytecode.compile_program(res2.ir)
+                got2 = vm.run(agb2, res2.lang, allowed_effects={"External"})
+                missing2 = [x for x in expect if x not in got2]
+                if missing2:
+                    bad.append("VM 熔断行为不完整：" + "; ".join(missing2))
+                if FailHandler.tool_calls != 3:
+                    bad.append(f"VM 熔断后仍请求了服务器：{FailHandler.tool_calls} 次")
+            except Exception as e:
+                bad.append(f"VM 熔断用例失败：{e}")
+    finally:
+        fail_server.shutdown()
     if bad:
         c.fail("；".join(bad))
     return c

@@ -16,6 +16,10 @@ semantic versioning, with the authoritative value in `spec/keywords.toml`
   timeout and retry). External calls are still denied by default and require
   `--allow-effects External`. The self-hosted compiler now carries declarations through
   IR and lowers tool calls to the same builtin.
+- T19 repeated-call circuit breaker on the unified tool dispatcher: SHA-256 fingerprint
+  over (tool name, canonical arguments), transient retry policy (timeout / reset / 5xx /
+  429), hard block of the same fingerprint after retries are exhausted, per-tool breaker
+  after 3 failures, and reset on success. State is scoped to one program run.
 - `启动网页应用` / `web_serve`: a programmable HTTP server. Every request becomes a request map
   (`方法` / `路径` / `查询` / `Cookie` / `请求体` / `表单` / `头`), is dispatched to an AGL handler by name,
   and the handler returns a response map (`状态` / `类型` / `内容` / `文件` / `头`). JSON / form parsing,
