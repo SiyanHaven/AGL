@@ -24,7 +24,16 @@ except ModuleNotFoundError:  # Python 3.10
     NATIVE = False
 
     def _split_dotted(name: str):
-        return [p.strip().strip('"') for p in name.split(".")]
+        parts = []
+        for part in name.split("."):
+            part = part.strip()
+            if part.startswith('"') and part.endswith('"'):
+                parts.append(part[1:-1])
+            elif _re.fullmatch(r"[A-Za-z0-9_-]+", part):
+                parts.append(part)
+            else:
+                raise ValueError(f"非法 TOML 键：{part}")
+        return parts
 
     def _make_table(root, name: str):
         cur = root
@@ -167,7 +176,7 @@ except ModuleNotFoundError:  # Python 3.10
                 current = _make_table(root, line[1:end])
             elif "=" in line:
                 key, value = line.split("=", 1)
-                key = key.strip().strip('"')
+                key = ".".join(_split_dotted(key.strip()))
                 value = value.strip()
                 if value.startswith('"""') or value.startswith("'''"):
                     quote = value[:3]

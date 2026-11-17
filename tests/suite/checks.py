@@ -2706,6 +2706,7 @@ def check_sources() -> Check:
 
     c = Check("源码规范自检")
     std = set(sys.stdlib_module_names)
+    std.add("tomllib")  # Python 3.11 标准库；3.10 走内置回退，不是第三方依赖
     local_roots = {"compiler", "tests", "aglc", "spec"}
 
     third_party: list[str] = []

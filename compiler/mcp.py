@@ -655,6 +655,8 @@ def serve() -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if argv and argv[0] in ("--version", "-V"):
         print(f"{SERVER_NAME} {SERVER_VERSION}（协议 {PROTOCOL_VERSION}）")
         return 0
