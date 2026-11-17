@@ -13,7 +13,7 @@
 
 本文件只放"检查怎么写"，不放"怎么跑、怎么渲染"——那是 `tests/suite/__init__.py` 的事。
 
-二十八项检查（编号即验收标准的编号）：
+二十九项检查（编号即验收标准的编号）：
   1. 规格文件齐全且可解析
   2. 关键字表自洽（中英唯一、五效应齐全、运算符双向可逆）
   3. IR schema 可解析、定义齐全
@@ -47,12 +47,13 @@
 from __future__ import annotations
 
 import json
-import tomllib
+import os
 from pathlib import Path
 
 from compiler.cli import pipeline
 from compiler.ir import validate_ir
 from compiler.lexer import KeywordTable
+from compiler.tomlutil import loads as toml_loads
 
 REPO = Path(__file__).resolve().parents[2]
 CASES = REPO / "tests" / "cases"
@@ -117,14 +118,16 @@ def _run_plain_python(path) -> str | None:
     """
     import subprocess
     import sys
-    import time
 
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     for attempt in range(2):
         try:
             r = subprocess.run([sys.executable, str(path)],
                                capture_output=True, text=True,
                                encoding="utf-8", errors="replace",
-                               timeout=60)
+                               timeout=60, env=env)
         except Exception:
             if attempt:
                 return None
@@ -160,7 +163,7 @@ def check_spec_files() -> Check:
 def check_keywords() -> Check:
     c = Check("关键字表自洽")
     try:
-        data = tomllib.loads((REPO / "spec" / "keywords.toml").read_text(encoding="utf-8"))
+        data = toml_loads((REPO / "spec" / "keywords.toml").read_text(encoding="utf-8"))
     except Exception as e:
         return c.fail(f"解析失败：{e}").done()
 
@@ -235,7 +238,7 @@ def _load_expect() -> dict[str, dict]:
     path = CASES / "expect.toml"
     if not path.exists():
         return {}
-    data = tomllib.loads(path.read_text(encoding="utf-8"))
+    data = toml_loads(path.read_text(encoding="utf-8"))
     out = {}
     for case in data.get("case", []):
         # expect.toml 里 golden 的路径是 `../golden/x.agl`，消费端按裸文件名
@@ -1774,7 +1777,6 @@ def check_security_defaults() -> Check:
     """安全默认不能回退：回环绑定、协议白名单、BOM、MCP 路径边界。"""
     import os
     import tempfile
-    import tomllib
 
     c = Check("安全默认与路径边界")
     bad: list[str] = []
@@ -1789,7 +1791,7 @@ def check_security_defaults() -> Check:
     if 'HTTPServer(("127.0.0.1"' not in backend:
         bad.append("种子后端仍有服务未绑定回环")
 
-    data = tomllib.loads((REPO / "spec" / "keywords.toml").read_text(encoding="utf-8"))
+    data = toml_loads((REPO / "spec" / "keywords.toml").read_text(encoding="utf-8"))
     web = next((k for k in (data.get("builtin", []) + data.get("keyword", []))
                 if k.get("zh") == "启动网页应用"), None)
     if not web or web.get("params") != ["整数", "文本", "文本"] or web.get("opt") != 1:

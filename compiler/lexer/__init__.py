@@ -21,11 +21,11 @@
 """
 from __future__ import annotations
 
-import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
 from compiler.diagnostics import Code, FixHint, error
+from compiler.tomlutil import load as toml_load
 
 SPEC_DIR = Path(__file__).resolve().parents[2] / "spec"
 KEYWORDS_TOML = SPEC_DIR / "keywords.toml"
@@ -199,7 +199,7 @@ class KeywordTable:
     def load(cls, path: Path = KEYWORDS_TOML) -> "KeywordTable":
         if cls._cache is None:
             with path.open("rb") as f:
-                cls._cache = cls(tomllib.load(f))
+                cls._cache = cls(toml_load(f))
         return cls._cache
 
     # ── 查询 ─────────────────────────────────────────────────────────

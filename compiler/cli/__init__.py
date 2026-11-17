@@ -29,7 +29,6 @@ import json
 import shutil
 import sys
 import tempfile
-import tomllib
 from pathlib import Path
 
 from compiler import convert as convert_mod
@@ -41,6 +40,7 @@ from compiler import diagnostics
 from compiler.cli import pipeline
 from compiler.diagnostics import Diagnostic
 from compiler.ir import dumps, summarize
+from compiler.tomlutil import load as toml_load
 
 REPO = Path(__file__).resolve().parents[2]
 
@@ -49,7 +49,7 @@ def language_version() -> str:
     """版本号只有一个权威来源：spec/keywords.toml 的 meta.version。"""
     try:
         with open(REPO / "spec" / "keywords.toml", "rb") as f:
-            return tomllib.load(f).get("meta", {}).get("version", "0.0.0")
+            return toml_load(f).get("meta", {}).get("version", "0.0.0")
     except Exception:
         return "0.0.0"
 
@@ -1262,13 +1262,11 @@ def cmd_lint(args) -> int:
 
 def cmd_list_builtins(args) -> int:
     """列出所有内建函数。"""
-    import tomllib
-
     # 读 keywords.toml
     keywords_path = Path(__file__).resolve().parents[2] / "spec" / "keywords.toml"
     try:
         with open(keywords_path, "rb") as f:
-            data = tomllib.load(f)
+            data = toml_load(f)
     except Exception as e:
         print(f"读不了 keywords.toml：{e}")
         return 1
@@ -1301,15 +1299,13 @@ def _fallback_version() -> str:
 
 def cmd_info(args) -> int:
     """显示 AGL 的基本信息。"""
-    import tomllib
-
     info = {}
 
     # 版本号 / 内建函数数量：都从同一份关键字表读，避免版本号和内建数各写一份。
     keywords_path = Path(__file__).resolve().parents[2] / "spec" / "keywords.toml"
     try:
         with open(keywords_path, "rb") as f:
-            data = tomllib.load(f)
+            data = toml_load(f)
         info["version"] = "v" + str(data.get("version") or _fallback_version())
         builtins = data.get("builtin", [])
         info["builtin_count"] = len(builtins)

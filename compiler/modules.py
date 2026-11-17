@@ -17,13 +17,13 @@
 from __future__ import annotations
 
 import re
-import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from compiler.diagnostics import Code, FixHint, error
 from compiler.lexer import detect_lang, tokenize
 from compiler.parser import parse
+from compiler.tomlutil import loads as toml_loads
 
 SUFFIX = ".agl"
 CONFIG_NAME = "agl.toml"
@@ -65,7 +65,7 @@ def find_project(entry: Path) -> Project:
         cfg = cur / CONFIG_NAME
         if cfg.exists():
             try:
-                data = tomllib.loads(cfg.read_text(encoding="utf-8"))
+                data = toml_loads(cfg.read_text(encoding="utf-8"))
             except Exception as e:
                 detail = f"{type(e).__name__}: {e}"
                 return Project(root=cur, config_error=detail,

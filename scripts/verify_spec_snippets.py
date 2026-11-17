@@ -68,7 +68,7 @@ def main() -> int:
         if check.returncode != 0:
             failures.append(f"{relative}: check failed\n{check.stdout}{check.stderr}")
             continue
-        result = run(["run", str(path)])
+        result = run(["run", str(path), "--allow-effects", "all"])
         if result.returncode != 0:
             failures.append(f"{relative}: run failed\n{result.stdout}{result.stderr}")
             continue
