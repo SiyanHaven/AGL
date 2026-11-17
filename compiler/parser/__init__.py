@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""M2 语法分析器。产出 AST —— 当前版本 与 IR **同构**。
+"""M2 语法分析器。产出 AST —— 阶段 1 与 IR **同构**。
 
 三个铁律：
   1. **span 只在这里生成**，下游（M4/M5）禁止补 span，否则错误回译会指错行；
@@ -78,7 +78,7 @@ class Parser:
         return self.peek().canonical in canons
 
     def at_text(self, *texts: str) -> bool:
-        """按源码原文判断，用于声明式关键字（避免占用普通标识符）。"""
+        """按源码原文判断，用于阶段 2 声明关键字（避免占用普通标识符）。"""
         return self.peek().text in texts
 
     _AUG_OPS = ("+=", "-=", "*=", "/=", "%=")
@@ -274,7 +274,7 @@ class Parser:
                 self.skip_newlines()
                 continue
             if self.at_canon("module"):
-                # 当前版本 单文件：module 声明仅作标记，忽略
+                # 阶段 1 单文件：module 声明仅作标记，忽略
                 self.eat()
                 self.expect_ident("模块名")
                 self.skip_newlines()
@@ -334,7 +334,7 @@ class Parser:
             module["dependencies"] = dependencies
         return {"entry": entry, "modules": [module]}
 
-    # ── 声明式块（工具 / 智能体 / 规则） ────────────────────
+    # ── 声明式块（阶段 2：工具 / 智能体 / 规则） ────────────────────
     _DECL_FIELDS = {
         "版本": "version", "version": "version",
         "生效范围": "scope", "scope": "scope",
@@ -740,7 +740,7 @@ class Parser:
     def parse_dependencies(self) -> list[dict]:
         """顶层依赖块：`依赖 { 工具包 = "1.2.0" }`。
 
-        只做声明与编译期校验；真正的包解析/下载不在当前版本。
+        只做声明与编译期校验；真正的包解析/下载不在阶段 1。
         版本号必须写成字符串，避免 `1.2.0` 被词法拆成三个数字。
         """
         first = self.eat()  # deps
@@ -1822,4 +1822,18 @@ def _unescape(raw: str) -> str:
 
 
 def parse(tokens: list[Token], filename: str, lang: str) -> dict:
-    return Parser(tokens, filename, lang).parse_program()
+    try:
+        return Parser(tokens, filename, lang).parse_program()
+    except RecursionError:
+        # 递归下降解析器遇到 ~900 层嵌套会耗尽 Python 栈。不能把裸的
+        # RecursionError 甩给用户——那没有文件、没有行号，也看不出是语法问题。
+        tok = tokens[-1] if tokens else None
+        raise error(
+            Code.RECURSION_LIMIT,
+            "语法嵌套太深：括号/块一层套一层，已经超出解析器能处理的深度；"
+            "请把这段表达式或块拆成中间变量，减少嵌套层数",
+            file=filename,
+            line=tok.line if tok else 1,
+            col=tok.col if tok else 1,
+            end_col=tok.end_col if tok else 1,
+        )

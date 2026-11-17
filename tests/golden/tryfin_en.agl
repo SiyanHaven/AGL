@@ -1,0 +1,20 @@
+#lang=English
+// Intent: full try/catch/else/finally order, plus try-finally without catch.
+fn main() {
+  let n = 0
+  try {
+    print("try")
+    n = 1
+  } catch (e) {
+    print("catch")
+  } else {
+    print("else", n)
+  } finally {
+    print("finally")
+  }
+  try {
+    print("try2")
+  } finally {
+    print("finally2")
+  }
+}

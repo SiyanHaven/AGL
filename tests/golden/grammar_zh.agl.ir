@@ -1,0 +1,1208 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "grammar_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "求和",
+            "params": [
+              {
+                "name": "数字们",
+                "type": {
+                  "type": "List",
+                  "args": [
+                    {
+                      "type": "Int"
+                    }
+                  ]
+                }
+              }
+            ],
+            "return": {
+              "type": "Int"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [
+              {
+                "expr": "binop",
+                "op": "!=",
+                "left": {
+                  "expr": "name",
+                  "name": "数字们",
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 5
+                  }
+                },
+                "right": {
+                  "expr": "null",
+                  "value": null,
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 8,
+                    "col": 10,
+                    "endLine": 8,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 11
+                }
+              }
+            ],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "总",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 11,
+                    "col": 9,
+                    "endLine": 11,
+                    "endCol": 10
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "for",
+                "item": "每个",
+                "iter": {
+                  "expr": "name",
+                  "name": "数字们",
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 12,
+                    "col": 10,
+                    "endLine": 12,
+                    "endCol": 13
+                  }
+                },
+                "body": [
+                  {
+                    "stmt": "assign",
+                    "target": {
+                      "expr": "name",
+                      "name": "总",
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 5
+                      }
+                    },
+                    "value": {
+                      "expr": "binop",
+                      "op": "+",
+                      "left": {
+                        "expr": "name",
+                        "name": "总",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 13,
+                          "col": 8,
+                          "endLine": 13,
+                          "endCol": 9
+                        }
+                      },
+                      "right": {
+                        "expr": "name",
+                        "name": "每个",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 13,
+                          "col": 12,
+                          "endLine": 13,
+                          "endCol": 14
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 13,
+                        "col": 8,
+                        "endLine": 13,
+                        "endCol": 14
+                      }
+                    },
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 13,
+                      "col": 4,
+                      "endLine": 13,
+                      "endCol": 14
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "name",
+                  "name": "总",
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 15,
+                    "col": 5,
+                    "endLine": 15,
+                    "endCol": 6
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 6
+                }
+              }
+            ],
+            "span": {
+              "file": "grammar_zh.agl",
+              "line": 6,
+              "col": 0,
+              "endLine": 16,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "分类",
+            "params": [
+              {
+                "name": "分数",
+                "type": {
+                  "type": "Int"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": ">=",
+                  "left": {
+                    "expr": "name",
+                    "name": "分数",
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 19,
+                      "col": 5,
+                      "endLine": 19,
+                      "endCol": 7
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 90,
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 19,
+                      "col": 13,
+                      "endLine": 19,
+                      "endCol": 15
+                    }
+                  },
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 19,
+                    "col": 5,
+                    "endLine": 19,
+                    "endCol": 15
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "return",
+                    "value": {
+                      "expr": "string",
+                      "value": "优",
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 20,
+                        "col": 7,
+                        "endLine": 20,
+                        "endCol": 10
+                      }
+                    },
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 20,
+                      "col": 4,
+                      "endLine": 20,
+                      "endCol": 10
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 26,
+                  "endCol": 0
+                },
+                "else": [
+                  {
+                    "stmt": "if",
+                    "cond": {
+                      "expr": "binop",
+                      "op": ">=",
+                      "left": {
+                        "expr": "name",
+                        "name": "分数",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 21,
+                          "col": 10,
+                          "endLine": 21,
+                          "endCol": 12
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 60,
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 21,
+                          "col": 18,
+                          "endLine": 21,
+                          "endCol": 20
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 21,
+                        "col": 10,
+                        "endLine": 21,
+                        "endCol": 20
+                      }
+                    },
+                    "then": [
+                      {
+                        "stmt": "return",
+                        "value": {
+                          "expr": "string",
+                          "value": "良",
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 22,
+                            "col": 7,
+                            "endLine": 22,
+                            "endCol": 10
+                          }
+                        },
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 22,
+                          "col": 4,
+                          "endLine": 22,
+                          "endCol": 10
+                        }
+                      }
+                    ],
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 21,
+                      "col": 7,
+                      "endLine": 26,
+                      "endCol": 0
+                    },
+                    "else": [
+                      {
+                        "stmt": "return",
+                        "value": {
+                          "expr": "string",
+                          "value": "差",
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 24,
+                            "col": 7,
+                            "endLine": 24,
+                            "endCol": 10
+                          }
+                        },
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 24,
+                          "col": 4,
+                          "endLine": 24,
+                          "endCol": 10
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "span": {
+              "file": "grammar_zh.agl",
+              "line": 18,
+              "col": 0,
+              "endLine": 26,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "读配置",
+            "params": [
+              {
+                "name": "路径",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "effects": [
+              "IO"
+            ],
+            "is_async": false,
+            "checks": [
+              {
+                "expr": "binop",
+                "op": "!=",
+                "left": {
+                  "expr": "name",
+                  "name": "路径",
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 30,
+                    "col": 2,
+                    "endLine": 30,
+                    "endCol": 4
+                  }
+                },
+                "right": {
+                  "expr": "string",
+                  "value": "",
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 30,
+                    "col": 9,
+                    "endLine": 30,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 30,
+                  "col": 2,
+                  "endLine": 30,
+                  "endCol": 11
+                }
+              }
+            ],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "name",
+                  "name": "路径",
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 34,
+                    "col": 5,
+                    "endLine": 34,
+                    "endCol": 7
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 34,
+                  "col": 2,
+                  "endLine": 34,
+                  "endCol": 7
+                }
+              }
+            ],
+            "span": {
+              "file": "grammar_zh.agl",
+              "line": 28,
+              "col": 0,
+              "endLine": 35,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "表",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 38,
+                        "col": 10,
+                        "endLine": 38,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 38,
+                        "col": 13,
+                        "endLine": 38,
+                        "endCol": 14
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 38,
+                        "col": 16,
+                        "endLine": 38,
+                        "endCol": 17
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 38,
+                    "col": 9,
+                    "endLine": 38,
+                    "endCol": 18
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 38,
+                  "col": 2,
+                  "endLine": 38,
+                  "endCol": 18
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "求和",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "表",
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 39,
+                            "col": 8,
+                            "endLine": 39,
+                            "endCol": 9
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 39,
+                        "col": 5,
+                        "endLine": 39,
+                        "endCol": 10
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 39,
+                    "col": 2,
+                    "endLine": 39,
+                    "endCol": 11
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 39,
+                  "col": 2,
+                  "endLine": 39,
+                  "endCol": 11
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "分类",
+                      "args": [
+                        {
+                          "expr": "int",
+                          "value": 95,
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 40,
+                            "col": 8,
+                            "endLine": 40,
+                            "endCol": 10
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 40,
+                        "col": 5,
+                        "endLine": 40,
+                        "endCol": 11
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 40,
+                    "col": 2,
+                    "endLine": 40,
+                    "endCol": 12
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 40,
+                  "col": 2,
+                  "endLine": 40,
+                  "endCol": 12
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "分类",
+                      "args": [
+                        {
+                          "expr": "int",
+                          "value": 70,
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 41,
+                            "col": 8,
+                            "endLine": 41,
+                            "endCol": 10
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 41,
+                        "col": 5,
+                        "endLine": 41,
+                        "endCol": 11
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 41,
+                    "col": 2,
+                    "endLine": 41,
+                    "endCol": 12
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 41,
+                  "col": 2,
+                  "endLine": 41,
+                  "endCol": 12
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "分类",
+                      "args": [
+                        {
+                          "expr": "int",
+                          "value": 10,
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 42,
+                            "col": 8,
+                            "endLine": 42,
+                            "endCol": 10
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 42,
+                        "col": 5,
+                        "endLine": 42,
+                        "endCol": 11
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 42,
+                    "col": 2,
+                    "endLine": 42,
+                    "endCol": 12
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 42,
+                  "col": 2,
+                  "endLine": 42,
+                  "endCol": 12
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "计数",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 44,
+                    "col": 10,
+                    "endLine": 44,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 44,
+                  "col": 2,
+                  "endLine": 44,
+                  "endCol": 11
+                }
+              },
+              {
+                "stmt": "while",
+                "cond": {
+                  "expr": "binop",
+                  "op": "<",
+                  "left": {
+                    "expr": "name",
+                    "name": "计数",
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 45,
+                      "col": 4,
+                      "endLine": 45,
+                      "endCol": 6
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 3,
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 45,
+                      "col": 10,
+                      "endLine": 45,
+                      "endCol": 11
+                    }
+                  },
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 45,
+                    "col": 4,
+                    "endLine": 45,
+                    "endCol": 11
+                  }
+                },
+                "body": [
+                  {
+                    "stmt": "assign",
+                    "target": {
+                      "expr": "name",
+                      "name": "计数",
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 46,
+                        "col": 4,
+                        "endLine": 46,
+                        "endCol": 6
+                      }
+                    },
+                    "value": {
+                      "expr": "binop",
+                      "op": "+",
+                      "left": {
+                        "expr": "name",
+                        "name": "计数",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 46,
+                          "col": 9,
+                          "endLine": 46,
+                          "endCol": 11
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 46,
+                          "col": 14,
+                          "endLine": 46,
+                          "endCol": 15
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 46,
+                        "col": 9,
+                        "endLine": 46,
+                        "endCol": 15
+                      }
+                    },
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 46,
+                      "col": 4,
+                      "endLine": 46,
+                      "endCol": 15
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 45,
+                  "col": 2,
+                  "endLine": 47,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "计数",
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 48,
+                        "col": 5,
+                        "endLine": 48,
+                        "endCol": 7
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 48,
+                    "col": 2,
+                    "endLine": 48,
+                    "endCol": 8
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 48,
+                  "col": 2,
+                  "endLine": 48,
+                  "endCol": 8
+                }
+              },
+              {
+                "stmt": "try",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "binop",
+                          "op": "/",
+                          "left": {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "grammar_zh.agl",
+                              "line": 51,
+                              "col": 7,
+                              "endLine": 51,
+                              "endCol": 8
+                            }
+                          },
+                          "right": {
+                            "expr": "int",
+                            "value": 0,
+                            "span": {
+                              "file": "grammar_zh.agl",
+                              "line": 51,
+                              "col": 11,
+                              "endLine": 51,
+                              "endCol": 12
+                            }
+                          },
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 51,
+                            "col": 7,
+                            "endLine": 51,
+                            "endCol": 12
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 51,
+                        "col": 4,
+                        "endLine": 51,
+                        "endCol": 13
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 51,
+                      "col": 4,
+                      "endLine": 51,
+                      "endCol": 13
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 50,
+                  "col": 2,
+                  "endLine": 52,
+                  "endCol": 3
+                },
+                "catch_name": "错",
+                "catch": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "除零被捕获",
+                          "span": {
+                            "file": "grammar_zh.agl",
+                            "line": 53,
+                            "col": 7,
+                            "endLine": 53,
+                            "endCol": 14
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 53,
+                        "col": 4,
+                        "endLine": 53,
+                        "endCol": 15
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "grammar_zh.agl",
+                      "line": 53,
+                      "col": 4,
+                      "endLine": 53,
+                      "endCol": 15
+                    }
+                  }
+                ]
+              },
+              {
+                "stmt": "let",
+                "name": "配置",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "主机",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 56,
+                          "col": 11,
+                          "endLine": 56,
+                          "endCol": 15
+                        }
+                      },
+                      "value": {
+                        "expr": "string",
+                        "value": "本地",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 56,
+                          "col": 17,
+                          "endLine": 56,
+                          "endCol": 21
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "端口",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 56,
+                          "col": 23,
+                          "endLine": 56,
+                          "endCol": 27
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 8080,
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 56,
+                          "col": 29,
+                          "endLine": 56,
+                          "endCol": 33
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 56,
+                    "col": 10,
+                    "endLine": 56,
+                    "endCol": 34
+                  }
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 56,
+                  "col": 2,
+                  "endLine": 56,
+                  "endCol": 34
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "index",
+                      "target": {
+                        "expr": "name",
+                        "name": "配置",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 57,
+                          "col": 5,
+                          "endLine": 57,
+                          "endCol": 7
+                        }
+                      },
+                      "index": {
+                        "expr": "string",
+                        "value": "主机",
+                        "span": {
+                          "file": "grammar_zh.agl",
+                          "line": 57,
+                          "col": 8,
+                          "endLine": 57,
+                          "endCol": 12
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 57,
+                        "col": 5,
+                        "endLine": 57,
+                        "endCol": 13
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 57,
+                    "col": 2,
+                    "endLine": 57,
+                    "endCol": 14
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 57,
+                  "col": 2,
+                  "endLine": 57,
+                  "endCol": 14
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "分号收尾",
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 59,
+                        "col": 5,
+                        "endLine": 59,
+                        "endCol": 11
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 59,
+                    "col": 2,
+                    "endLine": 59,
+                    "endCol": 12
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 59,
+                  "col": 2,
+                  "endLine": 59,
+                  "endCol": 12
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "块注释后",
+                      "span": {
+                        "file": "grammar_zh.agl",
+                        "line": 62,
+                        "col": 5,
+                        "endLine": 62,
+                        "endCol": 11
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_zh.agl",
+                    "line": 62,
+                    "col": 2,
+                    "endLine": 62,
+                    "endCol": 12
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_zh.agl",
+                  "line": 62,
+                  "col": 2,
+                  "endLine": 62,
+                  "endCol": 12
+                }
+              }
+            ],
+            "span": {
+              "file": "grammar_zh.agl",
+              "line": 37,
+              "col": 0,
+              "endLine": 63,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "grammar_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 64,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

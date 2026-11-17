@@ -26,14 +26,16 @@ from compiler.ir import dumps, summarize
 from compiler.lexer import KeywordTable
 
 SERVER_NAME = "agl-mcp"
-# 服务器版本跟随 spec/keywords.toml 中的语言版本。
+# 服务器版本跟随语言版本（spec/keywords.toml meta.version），
+# 发布、更新、MCP 握手全看这一个数字，不许再出现「MCP 0.3.0 vs 语言 0.25.0」的脱节。
 def _server_version() -> str:
     return KeywordTable.load().version
 
 
 SERVER_VERSION = _server_version()
 PROTOCOL_VERSION = "2024-11-05"
-# 可选的 GitHub Releases API 地址；留空则跳过在线更新检查。
+# GitHub 发布源：代码上传 GitHub 后把 releases 主页填在这里，agl_version 的
+# 更新检查就指向它；留空则检查功能自动跳过（返回「未配置」）。
 GITHUB_RELEASES_URL = ""
 
 # 客户端连上后第一眼看到的话：告诉它先读速查卡，别靠猜
@@ -167,8 +169,9 @@ TOOLS: list[dict] = [
     },
     {
         "name": "agl_doctor",
-        "description": "编译器自检（5 项运行时验收：规格文件、关键字表、内置运行时、"
-                       "示例和 MCP 元数据）。改完 AGL 工具链后跑它。",
+        "description": "编译器自检（28 项验收：规格文件、关键字表、黄金用例、双分支等价、"
+                       "错误码、行号对齐、模块、速查卡、MCP、安全默认、标准库、优化对拍、编辑器高亮、LSP、"
+                       "异步、FFI、VM 效应/配额白名单与 AGB 产物）。改完 AGL 工具链后跑它。",
         "inputSchema": {"type": "object", "properties": {}},
     },
 ]
@@ -221,7 +224,7 @@ def tool_build(args: dict) -> dict:
     payload = _result(res)
     if not res.ok:
         return payload
-    outdir = Path(args["out_dir"]).resolve() if args.get("out_dir") else res.path.parent
+    outdir = _inside_workspace(Path(args["out_dir"])) if args.get("out_dir") else res.path.parent
     outdir.mkdir(parents=True, exist_ok=True)
     try:
         agb = bytecode.compile_program(res.ir)
@@ -331,7 +334,7 @@ def tool_run(args: dict) -> dict:
     if path.suffix.lower() == ".agb":
         payload = {"ok": True, "stdout": ""}
         try:
-            agb = bytecode.decode(path.read_text(encoding="utf-8"))
+            agb = bytecode.decode(path.read_text(encoding="utf-8-sig"))
         except (OSError, ValueError, json.JSONDecodeError) as e:
             payload.update(ok=False, first_error="AGB_BAD_FILE",
                            message=f"读不了 AGB 文件：{e}")
@@ -341,7 +344,7 @@ def tool_run(args: dict) -> dict:
             if p.resolve() == path.resolve():
                 continue
             try:
-                m = bytecode.decode(p.read_text(encoding="utf-8"))
+                m = bytecode.decode(p.read_text(encoding="utf-8-sig"))
             except (OSError, ValueError, json.JSONDecodeError):
                 continue
             if m.get("module") != agb.get("module"):
@@ -372,7 +375,7 @@ def tool_convert(args: dict) -> dict:
     to = args.get("to")
     if to not in ("zh", "en"):
         raise ValueError("to 只能是 zh / en")
-    src = path.read_text(encoding="utf-8")
+    src = path.read_text(encoding="utf-8-sig")
     try:
         out = convert_mod.convert(src, path.name, to)
     except Exception as e:  # AglError 带诊断
@@ -466,14 +469,40 @@ _HANDLERS = {
 }
 
 
+def _workspace_root() -> Path:
+    """MCP 工具可访问的工作区根目录。
+
+    默认是启动服务器时的当前目录；需要显式扩大范围时设置
+    `AGL_MCP_WORKSPACE`，而不是让任意绝对路径直接穿透到宿主文件系统。
+    """
+    import os
+
+    raw = os.environ.get("AGL_MCP_WORKSPACE")
+    root = Path(raw).expanduser() if raw else Path.cwd()
+    return root.resolve()
+
+
+def _inside_workspace(path: Path) -> Path:
+    root = _workspace_root()
+    resolved = path.expanduser()
+    if not resolved.is_absolute():
+        resolved = root / resolved
+    resolved = resolved.resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError:
+        raise ValueError(
+            f"路径不在 MCP 工作区 {root} 内：{resolved}；"
+            "需要更大范围时设置 AGL_MCP_WORKSPACE"
+        )
+    return resolved
+
+
 def _file(args: dict) -> Path:
     raw = args.get("file")
     if not raw:
         raise ValueError("缺少参数 file（AGL 源文件路径）")
-    p = Path(raw).expanduser()
-    if not p.is_absolute():
-        p = Path.cwd() / p
-    return p.resolve()
+    return _inside_workspace(Path(raw))
 
 
 # ── JSON-RPC 分发 ─────────────────────────────────────────────────────

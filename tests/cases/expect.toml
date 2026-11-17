@@ -1,0 +1,770 @@
+# AGL 用例期望表
+# ══════════════════════════════════════════════════════════════════════
+# 这份表是 **验收标准的机器可读形式**：`aglc doctor` 会逐条跑，
+# 报出的错误码必须与这里一致，否则体检失败。
+#
+# stage = "compile"  期望在编译期报错（check 阶段）
+# stage = "run"      期望编译通过，但运行期报错
+# stage = "ok"       期望完全正常（编译通过 + 运行成功）
+# ══════════════════════════════════════════════════════════════════════
+
+[[case]]
+file = "err_no_lang.agl"
+stage = "compile"
+code = "AGL-E-0101"
+why = "首行缺语言声明"
+
+[[case]]
+file = "err_mixed.agl"
+stage = "compile"
+code = "AGL-E-0102"
+why = "中文分支里出现英文关键字"
+
+[[case]]
+file = "err_syntax_unclosed.agl"
+stage = "compile"
+code = "AGL-E-0202"
+why = "缺右花括号"
+
+[[case]]
+file = "err_undefined.agl"
+stage = "compile"
+code = "AGL-E-0302"
+why = "使用了未声明的名字"
+
+[[case]]
+file = "err_effect.agl"
+stage = "compile"
+code = "AGL-E-0401"
+why = "纯函数调用了带效应的函数"
+
+[[case]]
+file = "rt_divzero.agl"
+stage = "run"
+code = "AGL-RT-0010"
+why = "除零，且必须回译到 AGL 行号"
+
+[[case]]
+file = "rt_null_member.agl"
+stage = "run"
+code = "AGL-RT-0007"
+why = "空值读成员，且必须回译到 AGL 行号"
+
+# ── 模块错误：导入相关的四条硬规则 ────────────────────────────────────
+[[case]]
+file = "mod_err/err_missing_module.agl"
+stage = "compile"
+code = "AGL-E-0601"
+why = "导入的模块文件不存在"
+
+[[case]]
+file = "mod_err/循环甲.agl"
+stage = "compile"
+code = "AGL-E-0602"
+why = "循环导入必须在编译期拒绝"
+
+[[case]]
+file = "mod_err/err_private.agl"
+stage = "compile"
+code = "AGL-E-0603"
+why = "没有导出标记的函数，外部不能调用"
+
+[[case]]
+file = "mod_err/err_no_member.agl"
+stage = "compile"
+code = "AGL-E-0604"
+why = "目标模块里没有这个名字"
+
+[[case]]
+file = "mod_err/rt_cross/rt_cross.agl"
+stage = "run"
+code = "AGL-RT-0010"
+why = "错误发生在被导入的模块里，必须指回该文件的行号而不是入口文件"
+
+[[case]]
+file = "rt_no_member.agl"
+stage = "run"
+code = "AGL-RT-0008"
+why = "文本上读不存在的成员：是「没有这个成员」，不是「值是空」"
+
+# ── 语言层修复新增（v0.14）：转义 / 入口签名 / 类型名 / 任务参数 ────────
+[[case]]
+file = "err_escape.agl"
+stage = "compile"
+code = "AGL-E-0107"
+why = "字符串里的未知转义必须报错，不能静默吞反斜杠"
+
+[[case]]
+file = "err_entry_params.agl"
+stage = "compile"
+code = "AGL-E-0313"
+why = "入口函数没有调用方，不能带参数"
+
+[[case]]
+file = "err_bad_type.agl"
+stage = "compile"
+code = "AGL-E-0314"
+why = "类型注解里出现表外类型名必须报错，不能静默当自定义类型"
+
+[[case]]
+file = "err_task_arg.agl"
+stage = "compile"
+code = "AGL-E-0315"
+why = "任务() 只能提交异步调用，传普通值报错"
+
+# ── 语言层收尾（v0.14 晚）：保留字 / 行中分号 / 跨类别等于 ─────────────
+[[case]]
+file = "err_underscore.agl"
+stage = "compile"
+code = "AGL-E-0108"
+why = "`_` 是保留字（匹配通配符 / 丢弃绑定），不能当标识符"
+
+[[case]]
+file = "err_semi_inline.agl"
+stage = "compile"
+code = "AGL-E-0109"
+why = "行尾分号可省略可写；行中 `;` 打乱行号契约，报错"
+
+[[case]]
+file = "err_eq_mixed.agl"
+stage = "compile"
+code = "AGL-E-0316"
+why = "文本和数字不可能相等，`等于` 也要查类型类别"
+
+[[case]]
+file = "err_chain_cmp.agl"
+stage = "compile"
+code = "AGL-E-0316"
+why = "链式比较左结合成 真假<数字（Bool×数字比大小），编译期拒绝防错值（v0.17-主审）"
+
+[[case]]
+file = "err_dep_bad_version.agl"
+stage = "compile"
+code = "AGL-E-0605"
+why = "依赖块版本号不是 major.minor.patch"
+
+[[case]]
+file = "err_dep_dup.agl"
+stage = "compile"
+code = "AGL-E-0307"
+why = "同一个依赖包声明了两次"
+
+[[case]]
+file = "dep_cfg/missing.agl"
+stage = "compile"
+code = "AGL-E-0605"
+why = "源码 依赖 块声明了包，agl.toml [dependencies] 里没有"
+
+[[case]]
+file = "dep_cfg/mismatch.agl"
+stage = "compile"
+code = "AGL-E-0605"
+why = "源码与 agl.toml 的版本锁定不一致"
+
+# ── 黄金用例：必须全部编译 + 运行成功 ──────────────────────────────────
+[[case]]
+file = "../golden/hello_zh.agl"
+stage = "ok"
+expect_stdout = "你好 AGL"
+
+[[case]]
+file = "../golden/hello_en.agl"
+stage = "ok"
+expect_stdout = "Hello AGL"
+
+[[case]]
+file = "../golden/snapshot_zh.agl"
+stage = "ok"
+expect_stdout = '''
+已存快照
+恢复变量 1
+[0, '原值']
+'''
+
+[[case]]
+file = "../golden/snapshot_en.agl"
+stage = "ok"
+expect_stdout = '''
+saved
+restored 1
+[0, 'original']
+'''
+
+[[case]]
+file = "../golden/full_zh.agl"
+stage = "ok"
+expect_stdout = "够大"
+
+[[case]]
+file = "../golden/full_en.agl"
+stage = "ok"
+expect_stdout = "big"
+
+[[case]]
+file = "../golden/v023_match_zh.agl"
+stage = "ok"
+expect_stdout = '''
+低
+中
+其他
+其他文本
+越界被接住： 列表取值越界
+缺键被接住
+'''
+
+[[case]]
+file = "../golden/v023_match_en.agl"
+stage = "ok"
+expect_stdout = '''
+low
+mid
+other
+other text
+out-of-range caught:  列表取值越界
+missing-key caught
+'''
+
+
+[[case]]
+file = "../golden/grammar_zh.agl"
+stage = "ok"
+expect_stdout = '''
+6
+优
+良
+差
+3
+除零被捕获
+本地
+分号收尾
+块注释后
+'''
+
+[[case]]
+file = "../golden/stdlib_zh.agl"
+stage = "ok"
+expect_stdout = '''
+2
+3
+2
+长
+'''
+
+[[case]]
+file = "../golden/stdlib_en.agl"
+stage = "ok"
+expect_stdout = '''
+5
+3
+2
+long
+'''
+
+[[case]]
+file = "../golden/grammar_en.agl"
+stage = "ok"
+expect_stdout = '''
+6
+A
+B
+F
+3
+caught
+local
+semicolon
+after block comment
+'''
+
+[[case]]
+file = "stdlib_undeclared/main.agl"
+stage = "compile"
+code = "AGL-E-0601"
+why = "标准库模块没在 agl.toml [dependencies] 声明就导入"
+
+[[case]]
+file = "bad_config/main.agl"
+stage = "compile"
+code = "AGL-E-0605"
+why = "agl.toml 解析失败（中文键未加引号），不许静默忽略"
+
+[[case]]
+file = "../golden/early_zh.agl"
+stage = "ok"
+expect_stdout = '''
+空值，提前返回
+有内容 甲
+'''
+
+[[case]]
+file = "../golden/early_en.agl"
+stage = "ok"
+expect_stdout = '''
+empty, early return
+has content A
+'''
+
+# ── 内建函数（S2-A）─────────────────────────────────────────────────
+[[case]]
+file = "builtin_err/参数个数.agl"
+stage = "compile"
+code = "AGL-E-0309"
+why = "`切片` 少给了一个参数"
+
+[[case]]
+file = "builtin_err/参数类型.agl"
+stage = "compile"
+code = "AGL-E-0310"
+why = "`切分` 的第一个参数要文本，给了整数"
+
+[[case]]
+file = "builtin_err/切片步长为零.agl"
+stage = "run"
+code = "AGL-RT-0001"
+why = "切片步长 0 必须运行期报错（v0.28 起切片越界按 Python 语义裁剪，步长 0 仍抛错）"
+
+[[case]]
+file = "../golden/builtin_zh.agl"
+stage = "ok"
+expect_stdout = '''
+段数 3
+首段 甲
+切片 好世
+空切片长度 0
+按字切分 ['甲', '乙']
+拼接 甲乙丙
+替换 丁乙丁
+转义HTML &lt;a&gt; &amp; b
+编码URL %E4%BD%A0%E5%A5%BD%20A%2FB
+解码URL 你好
+去空白 中间
+大写 ABC
+小写 abc
+包含 真
+不包含 假
+转文本 42
+格式化数字 3.14
+宽格式       3.14
+求和 6
+取整 1
+负取整 -1
+上取整 4
+下取整 3
+最大默认 0
+最小默认 -1
+自造成功 成功(7)
+自造失败 失败(故意的)
+原列表 [1, 2]
+新列表 [1, 2, 3]
+子列表 [2, 3]
+空子列表 []
+整数 42
+不是整数 这不是一个整数：四十二
+调用 8
+浮数 成功(1.5)
+绝对值 3.14
+最小值 3
+最大值 5
+最小值列表 1
+最大值列表 3
+多值最大 9
+填充 小明 在 杭州，买 3 本
+正则匹配 真
+正则不匹配 假
+正则替换 aXbX
+是数字 真 假
+是字母 真 假
+查找 1 -1
+以开头 真
+以结尾 真
+取值 1 0
+格式化时间 2026
+合并映射 {'甲': 1, '乙': 2}
+拼接列表 甲-乙-丙
+排序 [1, 2, 3]
+按键排序 ['a', 'bb', 'ccc']
+反转 [3, 2, 1]
+等同 真 假
+不等同 真 真
+完成 ok
+结果 ok
+读缺省 文件不存在
+写探针 成功(空)
+'''
+
+[[case]]
+file = "../golden/builtin_en.agl"
+stage = "ok"
+expect_stdout = '''
+count 3
+first a
+slice el
+empty slice length 0
+split chars ['a', 'b']
+join abc
+replace dbd
+html_escape &lt;a&gt; &amp; b
+url_encode %E4%BD%A0%E5%A5%BD%20A%2FB
+url_decode 你好
+strip mid
+upper ABC
+lower abc
+contains true
+not contains false
+to text 42
+format number 3.14
+wide format       3.14
+sum 6
+trunc 1
+trunc negative -1
+ceil 4
+floor 3
+max default 0
+min default -1
+made ok Ok(7)
+made err Err(deliberate)
+original [1, 2]
+grown [1, 2, 3]
+sublist [2, 3]
+empty sublist []
+integer 42
+not integer not an integer: forty-two
+call_fn 8
+float Ok(1.5)
+abs 3.14
+min 3
+max 5
+min list 1
+max list 3
+max many 9
+fill Xiao in Hangzhou, buy 3
+regex match true
+regex no false
+regex sub aXbX
+isdigit true false
+isalpha true false
+find 1 -1
+startswith true
+endswith true
+get 1 0
+strftime 2026
+merge_map {'a': 1, 'b': 2}
+join_list a-b-c
+sorted [1, 2, 3]
+sort_by ['a', 'bb', 'ccc']
+reverse [3, 2, 1]
+is_same true false
+is_not_same true true
+done ok
+result ok
+read missing 文件不存在
+write probe Ok(Null)
+'''
+
+# ── 异步运行时（S2-D）────────────────────────────────────────────────────
+[[case]]
+file = "../golden/async_zh.agl"
+stage = "ok"
+expect_stdout = '''
+完成 ok
+结果 ok
+'''
+
+[[case]]
+file = "../golden/async_en.agl"
+stage = "ok"
+expect_stdout = '''
+done ok
+result ok
+'''
+
+# ── FFI 黑盒调用（S2-C）────────────────────────────────────────────────────
+[[case]]
+file = "../golden/ffi_zh.agl"
+stage = "ok"
+expect_stdout = '''
+2.0
+'''
+
+[[case]]
+file = "../golden/ffi_en.agl"
+stage = "ok"
+expect_stdout = '''
+2.0
+'''
+
+[[case]]
+file = "ffi_missing_effect.agl"
+stage = "compile"
+code = "AGL-E-0401"
+why = "调外部库却没声明效应（FFI 一律按最坏效应算），必须在编译期拒绝"
+
+[[case]]
+file = "ffi_error.agl"
+stage = "run"
+code = "AGL-RT-0072"
+why = "外部库抛异常：报 AGL 行号 + 中文原因，不甩宿主 traceback"
+
+[[case]]
+file = "../golden/convert_zh.agl"
+stage = "ok"
+expect_stdout = '''
+比较正常 {'甲乙': 真}
+'''
+
+[[case]]
+file = "../golden/convert_en.agl"
+stage = "ok"
+expect_stdout = '''
+compare ok {'ab': true}
+'''
+
+[[case]]
+file = "../golden/tryfin_zh.agl"
+stage = "ok"
+expect_stdout = '''
+try
+else 1
+finally
+try2
+finally2
+'''
+
+[[case]]
+file = "../golden/tryfin_en.agl"
+stage = "ok"
+expect_stdout = '''
+try
+else 1
+finally
+try2
+finally2
+'''
+
+[[case]]
+file = "../golden/onfail_zh.agl"
+stage = "ok"
+expect_stdout = '''
+失败
+'''
+
+[[case]]
+file = "../golden/onfail_en.agl"
+stage = "ok"
+expect_stdout = '''
+failed
+'''
+
+[[case]]
+file = "../golden/tryreason_zh.agl"
+stage = "ok"
+expect_stdout = '''
+f-return
+值 7
+caught 原因文本
+f-catch
+done
+'''
+
+[[case]]
+file = "../golden/tryreason_en.agl"
+stage = "ok"
+expect_stdout = '''
+f-return
+value 7
+caught reason text
+f-catch
+done
+'''
+[[case]]
+file = "../golden/setops_zh.agl"
+stage = "ok"
+expect_stdout = '''
+并 {1, 2, 3, 4}
+交 {3}
+差 {1, 2}
+对 {1, 2, 4}
+子 真 假
+超 真 假
+'''
+
+[[case]]
+file = "../golden/setops_en.agl"
+stage = "ok"
+expect_stdout = '''
+union {1, 2, 3, 4}
+inter {3}
+diff {1, 2}
+sym {1, 2, 4}
+sub true false
+sup true false
+'''
+[[case]]
+file = "../golden/matchguard_zh.agl"
+stage = "ok"
+expect_stdout = '''
+g1
+fallback
+elseif
+end
+'''
+
+[[case]]
+file = "../golden/matchguard_en.agl"
+stage = "ok"
+expect_stdout = '''
+g1
+fallback
+elseif
+end
+'''
+
+[[case]]
+file = "../golden/matchbind_zh.agl"
+stage = "ok"
+expect_stdout = '''
+bound 2
+zero 0
+'''
+
+[[case]]
+file = "../golden/matchbind_en.agl"
+stage = "ok"
+expect_stdout = '''
+bound 2
+zero 0
+'''
+
+[[case]]
+file = "../golden/listpat_zh.agl"
+stage = "ok"
+expect_stdout = '''
+尾零 2
+守卫 3 9
+嵌套 9
+短内层
+单 7
+非列表
+'''
+
+[[case]]
+file = "../golden/listpat_en.agl"
+stage = "ok"
+expect_stdout = '''
+tail zero 2
+guard 3 9
+nested 9
+short inner
+single 7
+not list
+'''
+
+[[case]]
+file = "../golden/mappat_zh.agl"
+stage = "ok"
+expect_stdout = '''
+9
+1
+2
+fallback
+'''
+
+[[case]]
+file = "../golden/mappat_en.agl"
+stage = "ok"
+expect_stdout = '''
+9
+1
+2
+fallback
+'''
+
+[[case]]
+file = "../golden/matchexpr_zh.agl"
+stage = "ok"
+expect_stdout = '''
+6
+9
+2
+大
+'''
+
+[[case]]
+file = "../golden/matchexpr_en.agl"
+stage = "ok"
+expect_stdout = '''
+6
+9
+2
+big
+'''
+
+[[case]]
+file = "../golden/decls_zh.agl"
+stage = "ok"
+expect_stdout = '''
+decls ok
+'''
+
+[[case]]
+file = "../golden/decls_en.agl"
+stage = "ok"
+expect_stdout = '''
+decls ok
+'''
+
+[[case]]
+file = "../golden/nullable_zh.agl"
+stage = "ok"
+expect_stdout = '''
+真 假
+有值 真
+假 真
+'''
+
+[[case]]
+file = "../golden/nullable_en.agl"
+stage = "ok"
+expect_stdout = '''
+true false
+value true
+false true
+'''
+
+[[case]]
+file = "err_decl_bad.agl"
+stage = "compile"
+code = "AGL-E-0605"
+why = "阶段 2 工具协议非法必须编译期拒绝"
+
+[[case]]
+file = "err_nullable_assign.agl"
+stage = "compile"
+code = "AGL-E-0301"
+why = "可空值不能赋给非可空变量"
+
+[[case]]
+file = "err_nullable_return.agl"
+stage = "compile"
+code = "AGL-E-0301"
+why = "非可空返回类型不能返回空"
+
+[[case]]
+file = "err_assign_type.agl"
+stage = "compile"
+code = "AGL-E-0301"
+why = "变量重新赋值必须保持声明类型"
+
+[[case]]
+file = "err_arg_type.agl"
+stage = "compile"
+code = "AGL-E-0301"
+why = "函数实参类型必须和参数声明一致"
+[[case]]
+file = '../golden/tool_decl_zh.agl'
+stage = 'ok'
+expect_stdout = '声明块解析通过'
+
+[[case]]
+file = '../golden/tool_decl_en.agl'
+stage = 'ok'
+expect_stdout = 'declaration blocks parsed'

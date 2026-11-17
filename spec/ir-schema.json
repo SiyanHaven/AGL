@@ -118,7 +118,7 @@
         "dependencies": {
           "type": "array",
           "items": { "$ref": "#/$defs/Dependency" },
-          "description": "顶层依赖块：包名 + 语义化版本锁定（可选；没有依赖时连字段都不出现）"
+          "description": "顶层依赖块：包名 + 语义化版本锁定（阶段 2；没有依赖时连字段都不出现）"
         },
         "declarations": {
           "type": "array",
@@ -246,7 +246,7 @@
         "is_async": {
           "type": "boolean",
           "default": false,
-          "description": "异步函数（真正的异步运行时：任务 / 等待 / 取消 / 回调全链路）"
+          "description": "异步函数（阶段 2 起是真异步运行时：任务 / 等待 / 取消 / 回调全链路）"
         },
         "checks": {
           "type": "array",

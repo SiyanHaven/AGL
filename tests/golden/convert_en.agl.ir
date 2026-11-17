@@ -1,0 +1,205 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "convert_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "table",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "ab",
+                        "span": {
+                          "file": "convert_en.agl",
+                          "line": 5,
+                          "col": 15,
+                          "endLine": 5,
+                          "endCol": 19
+                        }
+                      },
+                      "value": {
+                        "expr": "binop",
+                        "op": "<",
+                        "left": {
+                          "expr": "int",
+                          "value": 1,
+                          "span": {
+                            "file": "convert_en.agl",
+                            "line": 5,
+                            "col": 21,
+                            "endLine": 5,
+                            "endCol": 22
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 2,
+                          "span": {
+                            "file": "convert_en.agl",
+                            "line": 5,
+                            "col": 25,
+                            "endLine": 5,
+                            "endCol": 26
+                          }
+                        },
+                        "span": {
+                          "file": "convert_en.agl",
+                          "line": 5,
+                          "col": 21,
+                          "endLine": 5,
+                          "endCol": 26
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "convert_en.agl",
+                    "line": 5,
+                    "col": 14,
+                    "endLine": 5,
+                    "endCol": 27
+                  }
+                },
+                "span": {
+                  "file": "convert_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 27
+                }
+              },
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": ">",
+                  "left": {
+                    "expr": "int",
+                    "value": 3,
+                    "span": {
+                      "file": "convert_en.agl",
+                      "line": 6,
+                      "col": 5,
+                      "endLine": 6,
+                      "endCol": 6
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 2,
+                    "span": {
+                      "file": "convert_en.agl",
+                      "line": 6,
+                      "col": 9,
+                      "endLine": 6,
+                      "endCol": 10
+                    }
+                  },
+                  "span": {
+                    "file": "convert_en.agl",
+                    "line": 6,
+                    "col": 5,
+                    "endLine": 6,
+                    "endCol": 10
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "compare ok",
+                          "span": {
+                            "file": "convert_en.agl",
+                            "line": 7,
+                            "col": 10,
+                            "endLine": 7,
+                            "endCol": 22
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "table",
+                          "span": {
+                            "file": "convert_en.agl",
+                            "line": 7,
+                            "col": 24,
+                            "endLine": 7,
+                            "endCol": 29
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "convert_en.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 30
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "convert_en.agl",
+                      "line": 7,
+                      "col": 4,
+                      "endLine": 7,
+                      "endCol": 30
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "convert_en.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 3
+                }
+              }
+            ],
+            "span": {
+              "file": "convert_en.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 9,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "convert_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 10,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

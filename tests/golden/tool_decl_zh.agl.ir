@@ -1,0 +1,240 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "tool_decl_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "声明块解析通过",
+                      "span": {
+                        "file": "tool_decl_zh.agl",
+                        "line": 30,
+                        "col": 5,
+                        "endLine": 30,
+                        "endCol": 14
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "tool_decl_zh.agl",
+                    "line": 30,
+                    "col": 2,
+                    "endLine": 30,
+                    "endCol": 15
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 30,
+                  "col": 2,
+                  "endLine": 30,
+                  "endCol": 15
+                }
+              }
+            ],
+            "span": {
+              "file": "tool_decl_zh.agl",
+              "line": 29,
+              "col": 0,
+              "endLine": 31,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "tool_decl_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 32,
+          "endCol": 0
+        },
+        "declarations": [
+          {
+            "kind": "tool",
+            "name": "加载文本",
+            "span": {
+              "file": "tool_decl_zh.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 4,
+              "endCol": 7
+            },
+            "params": [
+              {
+                "name": "文件路径",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "config": {
+              "protocol": {
+                "expr": "string",
+                "value": "mcp",
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 8,
+                  "col": 9,
+                  "endLine": 8,
+                  "endCol": 14
+                }
+              },
+              "endpoint": {
+                "expr": "string",
+                "value": "http://127.0.0.1:8080/mcp",
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 9,
+                  "col": 9,
+                  "endLine": 9,
+                  "endCol": 36
+                }
+              },
+              "max_retry": {
+                "expr": "int",
+                "value": 2,
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 10,
+                  "col": 13,
+                  "endLine": 10,
+                  "endCol": 14
+                }
+              },
+              "timeout_sec": {
+                "expr": "int",
+                "value": 10,
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 11,
+                  "col": 11,
+                  "endLine": 11,
+                  "endCol": 13
+                }
+              },
+              "subscribe": {
+                "expr": "bool",
+                "value": false,
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 12,
+                  "col": 9,
+                  "endLine": 12,
+                  "endCol": 10
+                }
+              }
+            }
+          },
+          {
+            "kind": "agent",
+            "name": "调研员",
+            "span": {
+              "file": "tool_decl_zh.agl",
+              "line": 16,
+              "col": 0,
+              "endLine": 16,
+              "endCol": 7
+            },
+            "params": [
+              {
+                "name": "主题",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "target": {
+              "expr": "string",
+              "value": "围绕主题产出一份调研摘要",
+              "span": {
+                "file": "tool_decl_zh.agl",
+                "line": 19,
+                "col": 7,
+                "endLine": 19,
+                "endCol": 21
+              }
+            }
+          },
+          {
+            "kind": "rule",
+            "name": "禁止删库",
+            "span": {
+              "file": "tool_decl_zh.agl",
+              "line": 22,
+              "col": 0,
+              "endLine": 22,
+              "endCol": 7
+            },
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "fields": {
+              "version": {
+                "expr": "int",
+                "value": 1,
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 23,
+                  "col": 7,
+                  "endLine": 23,
+                  "endCol": 8
+                }
+              },
+              "scope": {
+                "expr": "string",
+                "value": "全项目"
+              },
+              "content": {
+                "expr": "string",
+                "value": "任何情况下不得删除数据库",
+                "span": {
+                  "file": "tool_decl_zh.agl",
+                  "line": 25,
+                  "col": 7,
+                  "endLine": 25,
+                  "endCol": 21
+                }
+              },
+              "priority": {
+                "expr": "name",
+                "name": "high"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

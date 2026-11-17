@@ -7,7 +7,7 @@ For each example this script:
   3. runs the `.agb` on the default VM;
   4. compares stdout with the expected output.
 
-Run from the extracted release root:
+Run from the repository root:
 
     python examples/run_examples.py
 """
@@ -161,7 +161,7 @@ def main() -> int:
                 failures.append(f"{relative}: build did not produce {agb.name}")
                 continue
 
-            result = run(["run", str(agb)])
+            result = run(["run", str(agb), "--allow-effects", "all"])
             if result.returncode != 0:
                 failures.append(f"{relative}: vm run failed\n{result.stdout}{result.stderr}")
                 continue

@@ -1,0 +1,737 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "setops_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "a",
+                "mutable": true,
+                "value": {
+                  "expr": "set",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 4,
+                        "col": 10,
+                        "endLine": 4,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 4,
+                        "col": 13,
+                        "endLine": 4,
+                        "endCol": 14
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 4,
+                        "col": 16,
+                        "endLine": 4,
+                        "endCol": 17
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 4,
+                    "col": 9,
+                    "endLine": 4,
+                    "endCol": 18
+                  }
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 18
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "b",
+                "mutable": true,
+                "value": {
+                  "expr": "set",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 5,
+                        "col": 10,
+                        "endLine": 5,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 4,
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 5,
+                        "col": 13,
+                        "endLine": 5,
+                        "endCol": 14
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 5,
+                    "col": 9,
+                    "endLine": 5,
+                    "endCol": 15
+                  }
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 15
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "并",
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 6,
+                        "col": 5,
+                        "endLine": 6,
+                        "endCol": 8
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "并集",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 6,
+                            "col": 13,
+                            "endLine": 6,
+                            "endCol": 14
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 6,
+                            "col": 16,
+                            "endLine": 6,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 6,
+                        "col": 10,
+                        "endLine": 6,
+                        "endCol": 18
+                      },
+                      "builtin": "union"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 6,
+                    "col": 2,
+                    "endLine": 6,
+                    "endCol": 19
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 19
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "交",
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 7,
+                        "col": 5,
+                        "endLine": 7,
+                        "endCol": 8
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "交集",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 7,
+                            "col": 13,
+                            "endLine": 7,
+                            "endCol": 14
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 7,
+                            "col": 16,
+                            "endLine": 7,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 7,
+                        "col": 10,
+                        "endLine": 7,
+                        "endCol": 18
+                      },
+                      "builtin": "intersection"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 7,
+                    "col": 2,
+                    "endLine": 7,
+                    "endCol": 19
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 19
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "差",
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 8,
+                        "col": 5,
+                        "endLine": 8,
+                        "endCol": 8
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "差集",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 8,
+                            "col": 13,
+                            "endLine": 8,
+                            "endCol": 14
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 8,
+                            "col": 16,
+                            "endLine": 8,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 8,
+                        "col": 10,
+                        "endLine": 8,
+                        "endCol": 18
+                      },
+                      "builtin": "difference"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 19
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 19
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "对",
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 9,
+                        "col": 5,
+                        "endLine": 9,
+                        "endCol": 8
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "对称差",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 9,
+                            "col": 14,
+                            "endLine": 9,
+                            "endCol": 15
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 9,
+                            "col": 17,
+                            "endLine": 9,
+                            "endCol": 18
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 9,
+                        "col": 10,
+                        "endLine": 9,
+                        "endCol": 19
+                      },
+                      "builtin": "symmetric_difference"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 9,
+                    "col": 2,
+                    "endLine": 9,
+                    "endCol": 20
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "子",
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 10,
+                        "col": 5,
+                        "endLine": 10,
+                        "endCol": 8
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "是子集",
+                      "args": [
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 10,
+                                "col": 15,
+                                "endLine": 10,
+                                "endCol": 16
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 10,
+                                "col": 18,
+                                "endLine": 10,
+                                "endCol": 19
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 10,
+                            "col": 14,
+                            "endLine": 10,
+                            "endCol": 20
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 10,
+                            "col": 22,
+                            "endLine": 10,
+                            "endCol": 23
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 10,
+                        "col": 10,
+                        "endLine": 10,
+                        "endCol": 24
+                      },
+                      "builtin": "is_subset"
+                    },
+                    {
+                      "expr": "call",
+                      "name": "是子集",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 10,
+                            "col": 30,
+                            "endLine": 10,
+                            "endCol": 31
+                          }
+                        },
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 10,
+                                "col": 34,
+                                "endLine": 10,
+                                "endCol": 35
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 10,
+                                "col": 37,
+                                "endLine": 10,
+                                "endCol": 38
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 10,
+                            "col": 33,
+                            "endLine": 10,
+                            "endCol": 39
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 10,
+                        "col": 26,
+                        "endLine": 10,
+                        "endCol": 40
+                      },
+                      "builtin": "is_subset"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 10,
+                    "col": 2,
+                    "endLine": 10,
+                    "endCol": 41
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 41
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "超",
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 11,
+                        "col": 5,
+                        "endLine": 11,
+                        "endCol": 8
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "是超集",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 11,
+                            "col": 14,
+                            "endLine": 11,
+                            "endCol": 15
+                          }
+                        },
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 11,
+                                "col": 18,
+                                "endLine": 11,
+                                "endCol": 19
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 11,
+                                "col": 21,
+                                "endLine": 11,
+                                "endCol": 22
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 11,
+                            "col": 17,
+                            "endLine": 11,
+                            "endCol": 23
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 11,
+                        "col": 10,
+                        "endLine": 11,
+                        "endCol": 24
+                      },
+                      "builtin": "is_superset"
+                    },
+                    {
+                      "expr": "call",
+                      "name": "是超集",
+                      "args": [
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 11,
+                                "col": 31,
+                                "endLine": 11,
+                                "endCol": 32
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_zh.agl",
+                                "line": 11,
+                                "col": 34,
+                                "endLine": 11,
+                                "endCol": 35
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 11,
+                            "col": 30,
+                            "endLine": 11,
+                            "endCol": 36
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_zh.agl",
+                            "line": 11,
+                            "col": 38,
+                            "endLine": 11,
+                            "endCol": 39
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_zh.agl",
+                        "line": 11,
+                        "col": 26,
+                        "endLine": 11,
+                        "endCol": 40
+                      },
+                      "builtin": "is_superset"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_zh.agl",
+                    "line": 11,
+                    "col": 2,
+                    "endLine": 11,
+                    "endCol": 41
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_zh.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 41
+                }
+              }
+            ],
+            "span": {
+              "file": "setops_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 12,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "setops_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 12,
+          "endCol": 1
+        }
+      }
+    ]
+  }
+}

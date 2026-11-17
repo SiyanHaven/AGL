@@ -1,0 +1,16 @@
+#lang=English
+// case: a stdlib module becomes importable only after it is declared in agl.toml
+
+import math
+import list_util
+
+fn main() {
+  let nums = [3, 1, 4]
+  print("abs", math.abs(0 - 5))
+  print("bigger", math.max_of(3, 9))
+  print("sum", list_util.sum_of(nums))
+  print("avg", list_util.avg_of(nums))
+  if list_util.contains(nums, 4) {
+    print("has 4")
+  }
+}

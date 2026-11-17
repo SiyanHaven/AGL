@@ -1,0 +1,67 @@
+#lang=English
+// list pattern: exact length, literal element, multiple binds, guard reads binding, non-list falls through
+
+fn main() {
+  let pair = [2, 0]
+  match (pair) {
+    [let first, 0] {
+      print("tail zero", first)
+    }
+    [let first, let second] if first > 1 {
+      print("both", first, second)
+    }
+    [1, let second] {
+      print("first one", second)
+    }
+    else {
+      print("none")
+    }
+  }
+
+  let other = [3, 9]
+  match (other) {
+    [1, let second] {
+      print("first one", second)
+    }
+    [let first, let second] if second > 4 {
+      print("guard", first, second)
+    }
+    else {
+      print("none two")
+    }
+  }
+
+  let matrix = [2, [7, 9]]
+  match (matrix) {
+    [0, [let first, let second]] { print("wrong nest", first, second) }
+    [2, [7, let tail]] { print("nested", tail) }
+    [let outer, [let first, let second]] { print("all bound", outer, first, second) }
+    else { print("no nested") }
+  }
+
+  let flat = [2, [7]]
+  match (flat) {
+    [2, [7, let tail]] { print("should not match", tail) }
+    else { print("short inner") }
+  }
+
+  let single = [7]
+  match (single) {
+    [let only] {
+      print("single", only)
+    }
+    else {
+      print("fallback")
+    }
+  }
+
+  let num = 5
+  match (num) {
+    [let item] {
+      print("list", item)
+    }
+    else {
+      print("not list")
+    }
+  }
+}

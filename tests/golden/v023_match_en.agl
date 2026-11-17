@@ -1,0 +1,32 @@
+#lang=English
+// v0.23 capability lock-in: match arms (incl. _ wildcard) + typed catch (host exceptions)
+fn level(n: Int) -> String {
+  let level_name = "other"
+  match (n) {
+    1 { level_name = "low" }
+    2 { level_name = "mid" }
+  }
+  return level_name
+}
+
+fn main() {
+  print(level(1))
+  print(level(2))
+  print(level(9))
+  match ("hello") {
+    "hi" { print("hi!") }
+    _ { print("other text") }
+  }
+  try {
+    let a = [1, 2, 3]
+    print(a[9])
+  } catch (err: IndexError) {
+    print("out-of-range caught: ", err)
+  }
+  try {
+    let b = {"a": 1}
+    print(b["b"])
+  } catch (err: KeyError) {
+    print("missing-key caught")
+  }
+}

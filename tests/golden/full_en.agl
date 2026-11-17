@@ -1,0 +1,20 @@
+#lang=English
+// Intent: cover the stage-1 backbone grammar (fn / let / return / binop / if-else / call / string)
+//         as the common target for modules M1-M5. Both branches must be logically equivalent.
+
+fn add(a: Int, b: Int) -> Int {
+  return a + b
+}
+
+fn judge(n: Int) -> String {
+  if n > 100 {
+    return "big"
+  } else {
+    return "small"
+  }
+}
+
+fn main() {
+  let total = add(60, 50)
+  print(judge(total))
+}

@@ -1,12 +1,12 @@
 # AGL Examples
 
-These are the published examples for AGL **v0.53.0**: six complete examples plus a minimal
-program. They are not throwaway snippets: each example is checked, compiled to `.agb`, and
-executed on the default VM by [`run_examples.py`](run_examples.py).
+These are the published examples for AGL **v0.53.0**. They are not throwaway snippets: each
+example is checked, compiled to `.agb`, and executed on the default VM by
+[`run_examples.py`](run_examples.py).
 
 ## Run everything
 
-From the extracted release root:
+From the repository root:
 
 ```powershell
 python examples/run_examples.py
@@ -18,8 +18,8 @@ Expected result:
 EXAMPLES OK: 6/6 (check + build .agb + VM run)
 ```
 
-If this is a fresh release archive, the bundled precompiled compiler is used directly; it does not
-rebuild the self-hosted compiler.
+If this is a fresh release archive without `build/自举编译器/`, the script installs the
+self-hosted compiler once (about 40 seconds) before running the examples.
 
 ## Chinese branch
 
@@ -28,7 +28,12 @@ rebuild the self-hosted compiler.
 | [`zh/00_最小程序.agl`](zh/00_最小程序.agl) | smallest runnable entry, `如果` condition | `python -m compiler.cli run examples/zh/00_最小程序.agl` |
 | [`zh/01_销售日报.agl`](zh/01_销售日报.agl) | struct, list, loop, function, money/rate formatting | `python -m compiler.cli run examples/zh/01_销售日报.agl` |
 | [`zh/02_待办清单.agl`](zh/02_待办清单.agl) | struct list, functional update, completion count | `python -m compiler.cli run examples/zh/02_待办清单.agl` |
-| [`zh/03_日志分析.agl`](zh/03_日志分析.agl) | UTF-8 file IO, `结果`, line splitting, level counts | `python -m compiler.cli run examples/zh/03_日志分析.agl` |
+| [`zh/03_日志分析.agl`](zh/03_日志分析.agl) | UTF-8 file IO, `结果`, line splitting, level counts | `python -m compiler.cli run examples/zh/03_日志分析.agl --allow-effects IO` |
+| [`zh/04_经营分析.agl`](zh/04_经营分析.agl) | order validation, regional budgets, ranking, Markdown report | `python -m compiler.cli run examples/zh/04_经营分析.agl` |
+| [`zh/05_留言板网页.agl`](zh/05_留言板网页.agl) | programmable HTTP server, routes, SQLite, HTML + JSON API | `python -m compiler.cli run examples/zh/05_留言板网页.agl --allow-effects IO,Time,Net`（打开 `http://localhost:8080`，需手动停止） |
+
+`04` 与 `05` 是完整案例，不放进 `run_examples.py` 的短进程批跑：`05` 是常驻网页服务，
+启动后会在当前目录创建 `留言.db`；停止服务即可保留数据，方便下次继续看。
 
 ## English branch
 
@@ -36,7 +41,7 @@ rebuild the self-hosted compiler.
 |---|---|---|
 | [`en/01_sales_report.agl`](en/01_sales_report.agl) | `type`, `List`, loops, `format_number` | `python -m compiler.cli run examples/en/01_sales_report.agl` |
 | [`en/02_todo_list.agl`](en/02_todo_list.agl) | struct lists, immutable-style updates, `fill` | `python -m compiler.cli run examples/en/02_todo_list.agl` |
-| [`en/03_log_analyzer.agl`](en/03_log_analyzer.agl) | `read_file`, `Result`, `splitlines`, effect `IO` | `python -m compiler.cli run examples/en/03_log_analyzer.agl` |
+| [`en/03_log_analyzer.agl`](en/03_log_analyzer.agl) | `read_file`, `Result`, `splitlines`, effect `IO` | `python -m compiler.cli run examples/en/03_log_analyzer.agl --allow-effects IO` |
 
 The Chinese and English pairs implement the same logic with different keyword branches. AGL never
 translates identifiers, strings or comments; only the keyword branch changes.

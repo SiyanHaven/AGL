@@ -1,0 +1,163 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "with_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "with",
+                "expr": {
+                  "expr": "call",
+                  "name": "Ok",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "resource",
+                      "span": {
+                        "file": "with_en.agl",
+                        "line": 4,
+                        "col": 10,
+                        "endLine": 4,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "with_en.agl",
+                    "line": 4,
+                    "col": 7,
+                    "endLine": 4,
+                    "endCol": 21
+                  },
+                  "builtin": "Ok"
+                },
+                "name": "res",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "got",
+                          "span": {
+                            "file": "with_en.agl",
+                            "line": 5,
+                            "col": 10,
+                            "endLine": 5,
+                            "endCol": 15
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "res",
+                          "span": {
+                            "file": "with_en.agl",
+                            "line": 5,
+                            "col": 17,
+                            "endLine": 5,
+                            "endCol": 20
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "with_en.agl",
+                        "line": 5,
+                        "col": 4,
+                        "endLine": 5,
+                        "endCol": 21
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "with_en.agl",
+                      "line": 5,
+                      "col": 4,
+                      "endLine": 5,
+                      "endCol": 21
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "with_en.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "done",
+                      "span": {
+                        "file": "with_en.agl",
+                        "line": 7,
+                        "col": 8,
+                        "endLine": 7,
+                        "endCol": 14
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "with_en.agl",
+                    "line": 7,
+                    "col": 2,
+                    "endLine": 7,
+                    "endCol": 15
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "with_en.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 15
+                }
+              }
+            ],
+            "span": {
+              "file": "with_en.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 8,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "with_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 9,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

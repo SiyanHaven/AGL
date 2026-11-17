@@ -1,0 +1,175 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "main_mod",
+        "imports": [
+          {
+            "module": "helper",
+            "names": [],
+            "span": {
+              "file": "main_mod.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 4,
+              "endCol": 13
+            },
+            "kind": "module"
+          }
+        ],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "greet",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "world",
+                          "span": {
+                            "file": "main_mod.agl",
+                            "line": 7,
+                            "col": 21,
+                            "endLine": 7,
+                            "endCol": 28
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "main_mod.agl",
+                        "line": 7,
+                        "col": 8,
+                        "endLine": 7,
+                        "endCol": 29
+                      },
+                      "target": {
+                        "expr": "name",
+                        "name": "helper",
+                        "span": {
+                          "file": "main_mod.agl",
+                          "line": 7,
+                          "col": 8,
+                          "endLine": 7,
+                          "endCol": 14
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "main_mod.agl",
+                    "line": 7,
+                    "col": 2,
+                    "endLine": 7,
+                    "endCol": 30
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "main_mod.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 30
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "greet",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "AGL",
+                          "span": {
+                            "file": "main_mod.agl",
+                            "line": 8,
+                            "col": 21,
+                            "endLine": 8,
+                            "endCol": 26
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "main_mod.agl",
+                        "line": 8,
+                        "col": 8,
+                        "endLine": 8,
+                        "endCol": 27
+                      },
+                      "target": {
+                        "expr": "name",
+                        "name": "helper",
+                        "span": {
+                          "file": "main_mod.agl",
+                          "line": 8,
+                          "col": 8,
+                          "endLine": 8,
+                          "endCol": 14
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "main_mod.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 28
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "main_mod.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 28
+                }
+              }
+            ],
+            "span": {
+              "file": "main_mod.agl",
+              "line": 6,
+              "col": 0,
+              "endLine": 9,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "main_mod.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 10,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

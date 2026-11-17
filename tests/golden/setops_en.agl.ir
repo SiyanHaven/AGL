@@ -1,0 +1,737 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "setops_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "a",
+                "mutable": true,
+                "value": {
+                  "expr": "set",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 4,
+                        "col": 11,
+                        "endLine": 4,
+                        "endCol": 12
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 4,
+                        "col": 14,
+                        "endLine": 4,
+                        "endCol": 15
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 4,
+                        "col": 17,
+                        "endLine": 4,
+                        "endCol": 18
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 4,
+                    "col": 10,
+                    "endLine": 4,
+                    "endCol": 19
+                  }
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 19
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "b",
+                "mutable": true,
+                "value": {
+                  "expr": "set",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 5,
+                        "col": 11,
+                        "endLine": 5,
+                        "endCol": 12
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 4,
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 5,
+                        "col": 14,
+                        "endLine": 5,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 5,
+                    "col": 10,
+                    "endLine": 5,
+                    "endCol": 16
+                  }
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 16
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "union",
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 6,
+                        "col": 8,
+                        "endLine": 6,
+                        "endCol": 15
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "set_union",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 6,
+                            "col": 27,
+                            "endLine": 6,
+                            "endCol": 28
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 6,
+                            "col": 30,
+                            "endLine": 6,
+                            "endCol": 31
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 6,
+                        "col": 17,
+                        "endLine": 6,
+                        "endCol": 32
+                      },
+                      "builtin": "union"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 6,
+                    "col": 2,
+                    "endLine": 6,
+                    "endCol": 33
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 33
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "inter",
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 7,
+                        "col": 8,
+                        "endLine": 7,
+                        "endCol": 15
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "set_intersection",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 7,
+                            "col": 34,
+                            "endLine": 7,
+                            "endCol": 35
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 7,
+                            "col": 37,
+                            "endLine": 7,
+                            "endCol": 38
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 7,
+                        "col": 17,
+                        "endLine": 7,
+                        "endCol": 39
+                      },
+                      "builtin": "intersection"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 7,
+                    "col": 2,
+                    "endLine": 7,
+                    "endCol": 40
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 40
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "diff",
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 8,
+                        "col": 8,
+                        "endLine": 8,
+                        "endCol": 14
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "set_difference",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 8,
+                            "col": 31,
+                            "endLine": 8,
+                            "endCol": 32
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 8,
+                            "col": 34,
+                            "endLine": 8,
+                            "endCol": 35
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 8,
+                        "col": 16,
+                        "endLine": 8,
+                        "endCol": 36
+                      },
+                      "builtin": "difference"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 37
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 37
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "sym",
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 9,
+                        "col": 8,
+                        "endLine": 9,
+                        "endCol": 13
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "set_symmetric_difference",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 9,
+                            "col": 40,
+                            "endLine": 9,
+                            "endCol": 41
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "b",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 9,
+                            "col": 43,
+                            "endLine": 9,
+                            "endCol": 44
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 9,
+                        "col": 15,
+                        "endLine": 9,
+                        "endCol": 45
+                      },
+                      "builtin": "symmetric_difference"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 9,
+                    "col": 2,
+                    "endLine": 9,
+                    "endCol": 46
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 46
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "sub",
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 10,
+                        "col": 8,
+                        "endLine": 10,
+                        "endCol": 13
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "is_subset",
+                      "args": [
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 10,
+                                "col": 26,
+                                "endLine": 10,
+                                "endCol": 27
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 10,
+                                "col": 29,
+                                "endLine": 10,
+                                "endCol": 30
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 10,
+                            "col": 25,
+                            "endLine": 10,
+                            "endCol": 31
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 10,
+                            "col": 33,
+                            "endLine": 10,
+                            "endCol": 34
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 10,
+                        "col": 15,
+                        "endLine": 10,
+                        "endCol": 35
+                      },
+                      "builtin": "is_subset"
+                    },
+                    {
+                      "expr": "call",
+                      "name": "is_subset",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 10,
+                            "col": 47,
+                            "endLine": 10,
+                            "endCol": 48
+                          }
+                        },
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 10,
+                                "col": 51,
+                                "endLine": 10,
+                                "endCol": 52
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 10,
+                                "col": 54,
+                                "endLine": 10,
+                                "endCol": 55
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 10,
+                            "col": 50,
+                            "endLine": 10,
+                            "endCol": 56
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 10,
+                        "col": 37,
+                        "endLine": 10,
+                        "endCol": 57
+                      },
+                      "builtin": "is_subset"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 10,
+                    "col": 2,
+                    "endLine": 10,
+                    "endCol": 58
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 58
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "sup",
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 11,
+                        "col": 8,
+                        "endLine": 11,
+                        "endCol": 13
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "is_superset",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 11,
+                            "col": 27,
+                            "endLine": 11,
+                            "endCol": 28
+                          }
+                        },
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 11,
+                                "col": 31,
+                                "endLine": 11,
+                                "endCol": 32
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 11,
+                                "col": 34,
+                                "endLine": 11,
+                                "endCol": 35
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 11,
+                            "col": 30,
+                            "endLine": 11,
+                            "endCol": 36
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 11,
+                        "col": 15,
+                        "endLine": 11,
+                        "endCol": 37
+                      },
+                      "builtin": "is_superset"
+                    },
+                    {
+                      "expr": "call",
+                      "name": "is_superset",
+                      "args": [
+                        {
+                          "expr": "set",
+                          "items": [
+                            {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 11,
+                                "col": 52,
+                                "endLine": 11,
+                                "endCol": 53
+                              }
+                            },
+                            {
+                              "expr": "int",
+                              "value": 2,
+                              "span": {
+                                "file": "setops_en.agl",
+                                "line": 11,
+                                "col": 55,
+                                "endLine": 11,
+                                "endCol": 56
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 11,
+                            "col": 51,
+                            "endLine": 11,
+                            "endCol": 57
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "a",
+                          "span": {
+                            "file": "setops_en.agl",
+                            "line": 11,
+                            "col": 59,
+                            "endLine": 11,
+                            "endCol": 60
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "setops_en.agl",
+                        "line": 11,
+                        "col": 39,
+                        "endLine": 11,
+                        "endCol": 61
+                      },
+                      "builtin": "is_superset"
+                    }
+                  ],
+                  "span": {
+                    "file": "setops_en.agl",
+                    "line": 11,
+                    "col": 2,
+                    "endLine": 11,
+                    "endCol": 62
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "setops_en.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 62
+                }
+              }
+            ],
+            "span": {
+              "file": "setops_en.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 12,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "setops_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 12,
+          "endCol": 1
+        }
+      }
+    ]
+  }
+}

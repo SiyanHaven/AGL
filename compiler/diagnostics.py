@@ -37,6 +37,7 @@ class Code:
     NO_RETURN = "AGL-E-0203"
     DUP_PARAM = "AGL-E-0204"
     NEED_BLOCK = "AGL-E-0205"
+    RECURSION_LIMIT = "AGL-E-0206"
     # 语义 03xx
     TYPE_MISMATCH = "AGL-E-0301"
     UNDEFINED = "AGL-E-0302"

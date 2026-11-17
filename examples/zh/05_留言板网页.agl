@@ -1,0 +1,153 @@
+#语言=中文
+// 一个不靠框架的 AGL 网页应用：
+//   GET  /                → HTML 页面
+//   GET  /api/messages    → 留言列表（JSON）
+//   POST /api/messages    → 新增留言（表单）
+//   POST /api/delete      → 删除留言（表单）
+//   GET  /health          → 健康检查（JSON）
+// 数据落在同目录的 `留言.db`，重启服务不会丢。
+
+函数 响应(状态: 整数, 内容类型: 文本, 内容: 任意) -> 映射表 {
+  返回 {"状态": 状态, "类型": 内容类型, "内容": 内容}
+}
+
+函数 连接数据库() -> 结果 效应 读写 {
+  变量 打开结果 = 打开数据库("留言.db")
+  如果 打开结果 {
+    变量 连接 = 取到(打开结果)
+    执行SQL(连接, "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT, 作者 TEXT NOT NULL, 内容 TEXT NOT NULL, 时间 TEXT NOT NULL)")
+    返回 打开结果
+  }
+  返回 打开结果
+}
+
+函数 首页() -> 文本 {
+  返回 拼接列表(码字符(10), [
+    "<!DOCTYPE html>",
+    "<html lang='zh-CN'>",
+    "<head>",
+    "<meta charset='utf-8'>",
+    "<meta name='viewport' content='width=device-width, initial-scale=1'>",
+    "<title>AGL 留言板</title>",
+    "<style>",
+    ":root { --ink:#1c1b18; --muted:#77726a; --paper:#f7f4ed; --line:#ded7c8; --accent:#c2412d; }",
+    "* { box-sizing:border-box; }",
+    "body { margin:0; background:var(--paper); color:var(--ink); font-family:'Noto Serif SC','Songti SC',Georgia,serif; }",
+    "main { width:min(760px, 92vw); margin:0 auto; padding:48px 0 72px; }",
+    "h1 { margin:0 0 8px; font-size:clamp(30px,6vw,54px); letter-spacing:-.03em; }",
+    "p.lead { color:var(--muted); margin:0 0 28px; }",
+    "form { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:20px; border:1px solid var(--line); background:#fffdf8; }",
+    "input,textarea { width:100%; border:1px solid var(--line); background:#fff; padding:12px; font:inherit; }",
+    "textarea { grid-column:1/-1; min-height:104px; resize:vertical; }",
+    "button { border:0; background:var(--accent); color:#fff; padding:12px 18px; font:inherit; cursor:pointer; }",
+    "button.ghost { background:transparent; color:var(--muted); border:1px solid var(--line); padding:6px 10px; }",
+    "ul { list-style:none; margin:28px 0 0; padding:0; }",
+    "li { border-top:1px solid var(--line); padding:16px 0; display:grid; grid-template-columns:1fr auto; gap:12px; }",
+    "li strong { display:block; margin-bottom:4px; }",
+    "li small { color:var(--muted); }",
+    "@media (max-width:560px) { form { grid-template-columns:1fr; } }",
+    "</style>",
+    "</head>",
+    "<body><main>",
+    "<h1>留言板</h1>",
+    "<p class='lead'>用 AGL 写成的可编程网页服务。提交后写入 SQLite，刷新页面仍在。</p>",
+    "<form id='new'>",
+    "<input name='作者' maxlength='24' placeholder='你的名字' required>",
+    "<input name='内容' maxlength='120' placeholder='一句话留言' required>",
+    "<button type='submit'>写下留言</button>",
+    "</form>",
+    "<ul id='list'></ul>",
+    "<script>",
+    "const list = document.getElementById('list');",
+    "async function load() {",
+    "  const res = await fetch('/api/messages');",
+    "  const data = await res.json();",
+    "  list.innerHTML = '';",
+    "  if (!data.length) { list.innerHTML = '<li><small>还没有留言。</small></li>'; return; }",
+    "  data.forEach(function (m) {",
+    "    const li = document.createElement('li');",
+    "    li.innerHTML = '<div><strong></strong><span></span><br><small></small></div><button class=ghost>删除</button>';",
+    "    li.querySelector('strong').textContent = m.作者;",
+    "    li.querySelector('span').textContent = m.内容;",
+    "    li.querySelector('small').textContent = m.时间;",
+    "    li.querySelector('button').onclick = function () { remove(m.id); };",
+    "    list.appendChild(li);",
+    "  });",
+    "}",
+    "async function remove(id) {",
+    "  const body = new URLSearchParams(); body.set('id', id);",
+    "  await fetch('/api/delete', { method:'POST', body:body });",
+    "  load();",
+    "}",
+    "document.getElementById('new').onsubmit = async function (event) {",
+    "  event.preventDefault();",
+    "  const body = new URLSearchParams(new FormData(event.target));",
+    "  await fetch('/api/messages', { method:'POST', body:body });",
+    "  event.target.reset();",
+    "  load();",
+    "};",
+    "load();",
+    "</script>",
+    "</main></body></html>"
+  ])
+}
+
+函数 处理请求(请求: 映射表) -> 映射表 效应 读写 计时 {
+  变量 方法 = 请求["方法"]
+  变量 路径 = 请求["路径"]
+
+  如果 路径 等于 "/" {
+    返回 响应(200, "text/html; charset=utf-8", 首页())
+  }
+
+  如果 路径 等于 "/health" {
+    返回 响应(200, "application/json; charset=utf-8", {"状态": "ok", "服务": "AGL 留言板"})
+  }
+
+  变量 连接结果 = 连接数据库()
+  如果 连接结果 {
+    变量 连接 = 取到(连接结果)
+
+    如果 路径 等于 "/api/messages" {
+      如果 方法 等于 "GET" {
+        变量 行们 = 查询SQL(连接, "SELECT id, 作者, 内容, 时间 FROM messages ORDER BY id DESC")
+        变量 留言们 = []
+        循环 行 在 行们 {
+          留言们 = 追加(留言们, {"id": 行[0], "作者": 行[1], "内容": 行[2], "时间": 行[3]})
+        }
+        关闭数据库(连接)
+        返回 响应(200, "application/json; charset=utf-8", 留言们)
+      }
+      如果 方法 等于 "POST" {
+        变量 作者 = 取值(请求["表单"], "作者", "匿名")
+        变量 内容 = 取值(请求["表单"], "内容", "")
+        如果 内容 等于 "" {
+          关闭数据库(连接)
+          返回 响应(400, "application/json; charset=utf-8", {"错误": "内容不能为空"})
+        }
+        执行SQL带参(连接, "INSERT INTO messages (作者, 内容, 时间) VALUES (?, ?, ?)", [作者, 内容, 格式化时间("%Y-%m-%d %H:%M:%S")])
+        关闭数据库(连接)
+        返回 响应(201, "application/json; charset=utf-8", {"状态": "created"})
+      }
+    }
+
+    如果 路径 等于 "/api/delete" {
+      如果 方法 等于 "POST" {
+        变量 编号 = 取值(请求["表单"], "id", "0")
+        执行SQL带参(连接, "DELETE FROM messages WHERE id = ?", [编号])
+        关闭数据库(连接)
+        返回 响应(200, "application/json; charset=utf-8", {"状态": "deleted"})
+      }
+    }
+
+    关闭数据库(连接)
+    返回 响应(404, "application/json; charset=utf-8", {"错误": "没有这个接口"})
+  }
+
+  返回 响应(500, "application/json; charset=utf-8", {"错误": 失败原因(连接结果)})
+}
+
+函数 主入口() 效应 网络 {
+  打印("AGL 留言板：http://localhost:8080")
+  启动网页应用(8080, "处理请求")
+}

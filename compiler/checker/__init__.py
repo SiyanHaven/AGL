@@ -6,7 +6,7 @@
   · 类型检查是**轻量**的（够抓住 `"a" > 1` 这类明显错误），不做完整推导；
   · 效应检查是硬规则：**调用带效应的函数，自己必须声明该效应**。
 
-当前版本 的类型推断能力（明确写清，避免误期待）：
+阶段 1 的类型推断能力（明确写清，避免误期待）：
     支持  字面量 / 变量 / 算术 / 比较 / 逻辑 / 调用返回 / 列表 / 映射表 / 成员 / 下标
     不支持 泛型推演、结构体字段推断、函数作为值
 """
@@ -354,7 +354,7 @@ class Checker:
                                  f"去改实现函数 `{m['name']}` 的签名")],
                     )
 
-    # ── 声明式块（工具 / 智能体 / 规则） ────────────────────
+    # ── 声明式块（阶段 2：工具 / 智能体 / 规则） ────────────────────
     @staticmethod
     def _decl_lit(e: dict | None):
         """声明块里的配置值必须是字面量；不是字面量返回 `_NOT_LITERAL`。"""
@@ -915,7 +915,7 @@ class Checker:
         """`模块.函数(...)` 的检查与类型推断。
 
         只处理"目标是导入进来的模块"这一种；其余（如 `列表.追加()`）
-        属于对象方法，当前版本 不做成员推断，交给运行时。
+        属于对象方法，阶段 1 不做成员推断，交给运行时。
         """
         name = e["name"]
         target = e["target"]
@@ -940,7 +940,7 @@ class Checker:
             return {"type": "Custom", "declared": "未知"}
 
         if mod_name not in self.imported:
-            # 不是导入的模块：可能是普通对象的方法调用，当前版本 不深究
+            # 不是导入的模块：可能是普通对象的方法调用，阶段 1 不深究
             self.type_of(target)
             return {"type": "Custom", "declared": "未知"}
 
@@ -1162,16 +1162,22 @@ class Checker:
             if e["args"]:
                 a0 = e["args"][0]
                 async_ok = False
+                async_effects: list[str] = []
+                async_name = ""
                 if a0.get("expr") == "call" and not a0.get("target"):
                     nm = a0.get("name")
                     if nm:
                         fn = self.funcs.get(nm)
                         if fn is not None and fn.get("is_async"):
                             async_ok = True
+                            async_effects = fn.get("effects") or []
+                            async_name = nm
                         else:
                             bb = KeywordTable.load().builtin_entry(nm)
                             if bb is not None and bb.needs_await:
                                 async_ok = True
+                                async_effects = [bb.effect] if bb.effect else []
+                                async_name = nm
                 if not async_ok:
                     self.err(Code.TASK_ARG_NOT_ASYNC,
                              "`任务()` 的参数要是一个异步调用，"
@@ -1181,6 +1187,23 @@ class Checker:
                              [FixHint("pass_async",
                                       f"{e['span']['file']}:{e['span']['line']}",
                                       "把要跑的异步操作写进 `任务(…)`，别传普通值")])
+                else:
+                    # 任务体有自己的协程，但“启动一个会联网/读文件的任务”仍然是
+                    # 当前函数做出的选择。这里不再静默放行：当前函数没有声明对应
+                    # 效应时给一条告警，避免零效应函数悄悄把有副作用的任务放出去。
+                    have = set((self.cur_fn or {}).get("effects") or [])
+                    missing = [x for x in async_effects if x not in have]
+                    if missing:
+                        shown = "、".join(self._effect_text(x) for x in missing)
+                        self.warn(
+                            "AGL-W-0401",
+                            f"`任务({async_name}(…))` 会启动带效应 `{shown}` 的异步任务，"
+                            f"但当前函数没有声明这些效应；请确认这是有意为之，"
+                            f"或在当前函数头部补上 `{self._kw('effect')} {shown}`",
+                            e["span"],
+                            [FixHint("add_effect", f"{e['span']['file']}:{e['span']['line']}",
+                                     f"补 `{self._kw('effect')} {shown}`，或改用不带效应的任务")],
+                        )
             self.in_await += 1
             self.suppress_effects += 1
             arg_types = [self.type_of(a) for a in e["args"]]

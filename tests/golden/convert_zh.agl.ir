@@ -1,0 +1,205 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "convert_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "表",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "甲乙",
+                        "span": {
+                          "file": "convert_zh.agl",
+                          "line": 8,
+                          "col": 10,
+                          "endLine": 8,
+                          "endCol": 14
+                        }
+                      },
+                      "value": {
+                        "expr": "binop",
+                        "op": "<",
+                        "left": {
+                          "expr": "int",
+                          "value": 1,
+                          "span": {
+                            "file": "convert_zh.agl",
+                            "line": 8,
+                            "col": 16,
+                            "endLine": 8,
+                            "endCol": 17
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 2,
+                          "span": {
+                            "file": "convert_zh.agl",
+                            "line": 8,
+                            "col": 21,
+                            "endLine": 8,
+                            "endCol": 22
+                          }
+                        },
+                        "span": {
+                          "file": "convert_zh.agl",
+                          "line": 8,
+                          "col": 16,
+                          "endLine": 8,
+                          "endCol": 22
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "convert_zh.agl",
+                    "line": 8,
+                    "col": 9,
+                    "endLine": 8,
+                    "endCol": 23
+                  }
+                },
+                "span": {
+                  "file": "convert_zh.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 23
+                }
+              },
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": ">",
+                  "left": {
+                    "expr": "int",
+                    "value": 3,
+                    "span": {
+                      "file": "convert_zh.agl",
+                      "line": 9,
+                      "col": 5,
+                      "endLine": 9,
+                      "endCol": 6
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 2,
+                    "span": {
+                      "file": "convert_zh.agl",
+                      "line": 9,
+                      "col": 10,
+                      "endLine": 9,
+                      "endCol": 11
+                    }
+                  },
+                  "span": {
+                    "file": "convert_zh.agl",
+                    "line": 9,
+                    "col": 5,
+                    "endLine": 9,
+                    "endCol": 11
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "比较正常",
+                          "span": {
+                            "file": "convert_zh.agl",
+                            "line": 10,
+                            "col": 7,
+                            "endLine": 10,
+                            "endCol": 13
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "表",
+                          "span": {
+                            "file": "convert_zh.agl",
+                            "line": 10,
+                            "col": 15,
+                            "endLine": 10,
+                            "endCol": 16
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "convert_zh.agl",
+                        "line": 10,
+                        "col": 4,
+                        "endLine": 10,
+                        "endCol": 17
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "convert_zh.agl",
+                      "line": 10,
+                      "col": 4,
+                      "endLine": 10,
+                      "endCol": 17
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "convert_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 3
+                }
+              }
+            ],
+            "span": {
+              "file": "convert_zh.agl",
+              "line": 7,
+              "col": 0,
+              "endLine": 12,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "convert_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 13,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

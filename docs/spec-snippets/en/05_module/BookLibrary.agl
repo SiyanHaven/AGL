@@ -1,0 +1,6 @@
+#lang=English
+module BookLibrary
+
+export fn discounted(price: Float, discount: Int) -> Float {
+  return price * (1.0 - discount / 100.0)
+}

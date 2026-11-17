@@ -1,0 +1,79 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "hello_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "Hello AGL",
+                      "span": {
+                        "file": "hello_en.agl",
+                        "line": 5,
+                        "col": 8,
+                        "endLine": 5,
+                        "endCol": 19
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "hello_en.agl",
+                    "line": 5,
+                    "col": 2,
+                    "endLine": 5,
+                    "endCol": 20
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "hello_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 20
+                }
+              }
+            ],
+            "span": {
+              "file": "hello_en.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 6,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "hello_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 7,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

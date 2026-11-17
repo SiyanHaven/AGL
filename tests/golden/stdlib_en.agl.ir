@@ -1,0 +1,462 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "stdlib_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "name",
+                "mutable": true,
+                "value": {
+                  "expr": "string",
+                  "value": "siyan",
+                  "span": {
+                    "file": "stdlib_en.agl",
+                    "line": 5,
+                    "col": 13,
+                    "endLine": 5,
+                    "endCol": 20
+                  }
+                },
+                "span": {
+                  "file": "stdlib_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "name",
+                        "span": {
+                          "file": "stdlib_en.agl",
+                          "line": 6,
+                          "col": 8,
+                          "endLine": 6,
+                          "endCol": 12
+                        }
+                      },
+                      "field": "length",
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 6,
+                        "col": 8,
+                        "endLine": 6,
+                        "endCol": 19
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_en.agl",
+                    "line": 6,
+                    "col": 2,
+                    "endLine": 6,
+                    "endCol": 20
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "stdlib_en.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "nums",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 8,
+                        "col": 14,
+                        "endLine": 8,
+                        "endCol": 15
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 8,
+                        "col": 17,
+                        "endLine": 8,
+                        "endCol": 18
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 8,
+                        "col": 20,
+                        "endLine": 8,
+                        "endCol": 21
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_en.agl",
+                    "line": 8,
+                    "col": 13,
+                    "endLine": 8,
+                    "endCol": 22
+                  }
+                },
+                "span": {
+                  "file": "stdlib_en.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 22
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "nums",
+                        "span": {
+                          "file": "stdlib_en.agl",
+                          "line": 9,
+                          "col": 8,
+                          "endLine": 9,
+                          "endCol": 12
+                        }
+                      },
+                      "field": "length",
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 9,
+                        "col": 8,
+                        "endLine": 9,
+                        "endCol": 19
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_en.agl",
+                    "line": 9,
+                    "col": 2,
+                    "endLine": 9,
+                    "endCol": 20
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "stdlib_en.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "table",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "a",
+                        "span": {
+                          "file": "stdlib_en.agl",
+                          "line": 11,
+                          "col": 15,
+                          "endLine": 11,
+                          "endCol": 18
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "stdlib_en.agl",
+                          "line": 11,
+                          "col": 20,
+                          "endLine": 11,
+                          "endCol": 21
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "b",
+                        "span": {
+                          "file": "stdlib_en.agl",
+                          "line": 11,
+                          "col": 23,
+                          "endLine": 11,
+                          "endCol": 26
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 2,
+                        "span": {
+                          "file": "stdlib_en.agl",
+                          "line": 11,
+                          "col": 28,
+                          "endLine": 11,
+                          "endCol": 29
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_en.agl",
+                    "line": 11,
+                    "col": 14,
+                    "endLine": 11,
+                    "endCol": 30
+                  }
+                },
+                "span": {
+                  "file": "stdlib_en.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 30
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "table",
+                        "span": {
+                          "file": "stdlib_en.agl",
+                          "line": 12,
+                          "col": 8,
+                          "endLine": 12,
+                          "endCol": 13
+                        }
+                      },
+                      "field": "length",
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 12,
+                        "col": 8,
+                        "endLine": 12,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_en.agl",
+                    "line": 12,
+                    "col": 2,
+                    "endLine": 12,
+                    "endCol": 21
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "stdlib_en.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 21
+                }
+              },
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": ">",
+                  "left": {
+                    "expr": "member",
+                    "target": {
+                      "expr": "name",
+                      "name": "name",
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 14,
+                        "col": 5,
+                        "endLine": 14,
+                        "endCol": 9
+                      }
+                    },
+                    "field": "length",
+                    "span": {
+                      "file": "stdlib_en.agl",
+                      "line": 14,
+                      "col": 5,
+                      "endLine": 14,
+                      "endCol": 16
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 1,
+                    "span": {
+                      "file": "stdlib_en.agl",
+                      "line": 14,
+                      "col": 19,
+                      "endLine": 14,
+                      "endCol": 20
+                    }
+                  },
+                  "span": {
+                    "file": "stdlib_en.agl",
+                    "line": 14,
+                    "col": 5,
+                    "endLine": 14,
+                    "endCol": 20
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "long",
+                          "span": {
+                            "file": "stdlib_en.agl",
+                            "line": 15,
+                            "col": 10,
+                            "endLine": 15,
+                            "endCol": 16
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 15,
+                        "col": 4,
+                        "endLine": 15,
+                        "endCol": 17
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "stdlib_en.agl",
+                      "line": 15,
+                      "col": 4,
+                      "endLine": 15,
+                      "endCol": 17
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "stdlib_en.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 0
+                },
+                "else": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "short",
+                          "span": {
+                            "file": "stdlib_en.agl",
+                            "line": 17,
+                            "col": 10,
+                            "endLine": 17,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "stdlib_en.agl",
+                        "line": 17,
+                        "col": 4,
+                        "endLine": 17,
+                        "endCol": 18
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "stdlib_en.agl",
+                      "line": 17,
+                      "col": 4,
+                      "endLine": 17,
+                      "endCol": 18
+                    }
+                  }
+                ]
+              }
+            ],
+            "span": {
+              "file": "stdlib_en.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 19,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "stdlib_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 20,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

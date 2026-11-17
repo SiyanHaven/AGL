@@ -1,0 +1,32 @@
+#lang=English
+// Intent: stage-2 declaration blocks (tool/agent/rule) now parse in the self-host chain:
+// parsed and recorded, zero runtime code.
+
+tool load_text {
+  input(file_path: String)
+  return String
+  config {
+    protocol = "mcp"
+    endpoint = "http://127.0.0.1:8080/mcp"
+    max_retry = 2
+    timeout_sec = 10
+    subscribe = false
+  }
+}
+
+agent researcher {
+  input(topic: String)
+  return String
+  target = "produce a research summary for the topic"
+}
+
+rule no_drop_database {
+  version = 1
+  scope = all_project
+  content = "never drop the database under any circumstance"
+  priority = high
+}
+
+fn main() {
+  print("declaration blocks parsed")
+}

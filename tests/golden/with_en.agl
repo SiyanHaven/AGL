@@ -1,0 +1,8 @@
+#lang=English
+// Context manager: `with` unwraps a successful Result and binds it
+fn main() {
+  with Ok("resource") as res {
+    print("got", res)
+  }
+  print("done")
+}

@@ -1,0 +1,755 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "matchguard_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "x",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 2,
+                  "span": {
+                    "file": "matchguard_en.agl",
+                    "line": 4,
+                    "col": 10,
+                    "endLine": 4,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "matchguard_en.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 11
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "allowed",
+                "mutable": true,
+                "value": {
+                  "expr": "bool",
+                  "value": true,
+                  "span": {
+                    "file": "matchguard_en.agl",
+                    "line": 5,
+                    "col": 16,
+                    "endLine": 5,
+                    "endCol": 20
+                  }
+                },
+                "span": {
+                  "file": "matchguard_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "x",
+                  "span": {
+                    "file": "matchguard_en.agl",
+                    "line": 6,
+                    "col": 9,
+                    "endLine": 6,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "g1",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 7,
+                                "col": 25,
+                                "endLine": 7,
+                                "endCol": 29
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 7,
+                            "col": 19,
+                            "endLine": 7,
+                            "endCol": 30
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 7,
+                          "col": 19,
+                          "endLine": 7,
+                          "endCol": 30
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "name",
+                      "name": "allowed",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 7,
+                        "col": 9,
+                        "endLine": 7,
+                        "endCol": 16
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 8,
+                        "col": 4,
+                        "endLine": 8,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "g2",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 8,
+                                "col": 23,
+                                "endLine": 8,
+                                "endCol": 27
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 8,
+                            "col": 17,
+                            "endLine": 8,
+                            "endCol": 28
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 8,
+                          "col": 17,
+                          "endLine": 8,
+                          "endCol": 28
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "bool",
+                      "value": false,
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 8,
+                        "col": 9,
+                        "endLine": 8,
+                        "endCol": 14
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 9,
+                        "col": 4,
+                        "endLine": 9,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "other",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 9,
+                                "col": 14,
+                                "endLine": 9,
+                                "endCol": 21
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 9,
+                            "col": 8,
+                            "endLine": 9,
+                            "endCol": 22
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 9,
+                          "col": 8,
+                          "endLine": 9,
+                          "endCol": 22
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "matchguard_en.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "x",
+                  "span": {
+                    "file": "matchguard_en.agl",
+                    "line": 11,
+                    "col": 9,
+                    "endLine": 11,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 12,
+                        "col": 4,
+                        "endLine": 12,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 12,
+                                "col": 25,
+                                "endLine": 12,
+                                "endCol": 29
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 12,
+                            "col": 19,
+                            "endLine": 12,
+                            "endCol": 30
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 12,
+                          "col": 19,
+                          "endLine": 12,
+                          "endCol": 30
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "name",
+                      "name": "allowed",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 12,
+                        "col": 9,
+                        "endLine": 12,
+                        "endCol": 16
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "fallback",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 13,
+                                "col": 25,
+                                "endLine": 13,
+                                "endCol": 35
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 13,
+                            "col": 19,
+                            "endLine": 13,
+                            "endCol": 36
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 13,
+                          "col": 19,
+                          "endLine": 13,
+                          "endCol": 36
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "name",
+                      "name": "allowed",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 13,
+                        "col": 9,
+                        "endLine": 13,
+                        "endCol": 16
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "matchguard_en.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "x",
+                  "span": {
+                    "file": "matchguard_en.agl",
+                    "line": 15,
+                    "col": 9,
+                    "endLine": 15,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 16,
+                        "col": 4,
+                        "endLine": 16,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "never",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 16,
+                                "col": 23,
+                                "endLine": 16,
+                                "endCol": 30
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 16,
+                            "col": 17,
+                            "endLine": 16,
+                            "endCol": 31
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 16,
+                          "col": 17,
+                          "endLine": 16,
+                          "endCol": 31
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "bool",
+                      "value": false,
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 16,
+                        "col": 9,
+                        "endLine": 16,
+                        "endCol": 14
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "matchguard_en.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "x",
+                  "span": {
+                    "file": "matchguard_en.agl",
+                    "line": 18,
+                    "col": 9,
+                    "endLine": 18,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 19,
+                        "col": 4,
+                        "endLine": 19,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "one",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 19,
+                                "col": 14,
+                                "endLine": 19,
+                                "endCol": 19
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 19,
+                            "col": 8,
+                            "endLine": 19,
+                            "endCol": 20
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 19,
+                          "col": 8,
+                          "endLine": 19,
+                          "endCol": 20
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 20,
+                        "col": 4,
+                        "endLine": 20,
+                        "endCol": 8
+                      }
+                    },
+                    "guard": {
+                      "expr": "binop",
+                      "op": ">",
+                      "left": {
+                        "expr": "name",
+                        "name": "x",
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 20,
+                          "col": 12,
+                          "endLine": 20,
+                          "endCol": 13
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 20,
+                          "col": 16,
+                          "endLine": 20,
+                          "endCol": 17
+                        }
+                      },
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 20,
+                        "col": 12,
+                        "endLine": 20,
+                        "endCol": 17
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "elseif",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 20,
+                                "col": 26,
+                                "endLine": 20,
+                                "endCol": 34
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 20,
+                            "col": 20,
+                            "endLine": 20,
+                            "endCol": 35
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 20,
+                          "col": 20,
+                          "endLine": 20,
+                          "endCol": 35
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 21,
+                        "col": 4,
+                        "endLine": 21,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "else",
+                              "span": {
+                                "file": "matchguard_en.agl",
+                                "line": 21,
+                                "col": 17,
+                                "endLine": 21,
+                                "endCol": 23
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchguard_en.agl",
+                            "line": 21,
+                            "col": 11,
+                            "endLine": 21,
+                            "endCol": 24
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchguard_en.agl",
+                          "line": 21,
+                          "col": 11,
+                          "endLine": 21,
+                          "endCol": 24
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "matchguard_en.agl",
+                  "line": 18,
+                  "col": 2,
+                  "endLine": 22,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "end",
+                      "span": {
+                        "file": "matchguard_en.agl",
+                        "line": 23,
+                        "col": 8,
+                        "endLine": 23,
+                        "endCol": 13
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchguard_en.agl",
+                    "line": 23,
+                    "col": 2,
+                    "endLine": 23,
+                    "endCol": 14
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchguard_en.agl",
+                  "line": 23,
+                  "col": 2,
+                  "endLine": 23,
+                  "endCol": 14
+                }
+              }
+            ],
+            "span": {
+              "file": "matchguard_en.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 24,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "matchguard_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 24,
+          "endCol": 1
+        }
+      }
+    ]
+  }
+}

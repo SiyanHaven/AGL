@@ -1,0 +1,193 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "ffi_zh",
+        "imports": [
+          {
+            "module": "math",
+            "names": [],
+            "span": {
+              "file": "ffi_zh.agl",
+              "line": 5,
+              "col": 0,
+              "endLine": 5,
+              "endCol": 10
+            },
+            "kind": "ffi",
+            "effect": "External"
+          }
+        ],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "求绝对值",
+            "params": [
+              {
+                "name": "数",
+                "type": {
+                  "type": "Float"
+                }
+              }
+            ],
+            "return": {
+              "type": "Float"
+            },
+            "effects": [
+              "External"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "call",
+                  "name": "fabs",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "数",
+                      "span": {
+                        "file": "ffi_zh.agl",
+                        "line": 8,
+                        "col": 15,
+                        "endLine": 8,
+                        "endCol": 16
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "ffi_zh.agl",
+                    "line": 8,
+                    "col": 5,
+                    "endLine": 8,
+                    "endCol": 17
+                  },
+                  "target": {
+                    "expr": "name",
+                    "name": "math",
+                    "span": {
+                      "file": "ffi_zh.agl",
+                      "line": 8,
+                      "col": 5,
+                      "endLine": 8,
+                      "endCol": 9
+                    }
+                  },
+                  "ffi": "math"
+                },
+                "span": {
+                  "file": "ffi_zh.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 17
+                }
+              }
+            ],
+            "span": {
+              "file": "ffi_zh.agl",
+              "line": 7,
+              "col": 0,
+              "endLine": 9,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [
+              "External"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "求绝对值",
+                      "args": [
+                        {
+                          "expr": "unop",
+                          "op": "-",
+                          "operand": {
+                            "expr": "float",
+                            "value": 2.0,
+                            "span": {
+                              "file": "ffi_zh.agl",
+                              "line": 12,
+                              "col": 11,
+                              "endLine": 12,
+                              "endCol": 14
+                            }
+                          },
+                          "span": {
+                            "file": "ffi_zh.agl",
+                            "line": 12,
+                            "col": 10,
+                            "endLine": 12,
+                            "endCol": 14
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "ffi_zh.agl",
+                        "line": 12,
+                        "col": 5,
+                        "endLine": 12,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "ffi_zh.agl",
+                    "line": 12,
+                    "col": 2,
+                    "endLine": 12,
+                    "endCol": 16
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "ffi_zh.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 16
+                }
+              }
+            ],
+            "span": {
+              "file": "ffi_zh.agl",
+              "line": 11,
+              "col": 0,
+              "endLine": 13,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "ffi_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 14,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

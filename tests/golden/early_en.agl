@@ -1,0 +1,16 @@
+#lang=English
+// Intent: a bare `return` (early exit) must not swallow the next line as its value;
+//         a value must sit on the same line as `return`.
+
+fn check_text(value: String) {
+  if value.length == 0 {
+    print("empty, early return")
+    return
+  }
+  print("has content", value)
+}
+
+fn main() {
+  check_text("")
+  check_text("A")
+}

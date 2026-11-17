@@ -10,7 +10,7 @@
 
 为什么要 `[dependencies]` 这一道：标准库模块和用户文件同名时不至于互相顶替，
 而且"这个项目用了什么"是可读的 —— 不写就看不见依赖。
-版本号当前版本 只记录不校验（标准库还没版本化），这条写进了能力边界表。
+版本号阶段 1 只记录不校验（标准库还没版本化），这条写进了能力边界表。
 
 本文件只做"谁依赖谁"的拓扑排序，不编译、不校验。
 """
@@ -88,7 +88,7 @@ def stdlib_modules() -> dict[str, Path]:
 
 def _imports_of(path: Path) -> tuple[list[dict], str]:
     """读出这个文件里所有的导入语句。解析失败会抛 AglError，带着真实文件名。"""
-    src = path.read_text(encoding="utf-8")
+    src = path.read_text(encoding="utf-8-sig")
     lang = detect_lang(src)
     ast = parse(tokenize(src, path.name), path.name, lang)
     return ast["modules"][0].get("imports") or [], lang

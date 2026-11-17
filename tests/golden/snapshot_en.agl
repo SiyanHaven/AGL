@@ -1,0 +1,18 @@
+#lang=English
+// Intent: P8-2 snapshot layer one - save state, change a global, restore it,
+//         and print the original value again.
+
+module snapshot_case
+
+const state = [0, "original"]
+
+fn main() effect IO {
+  with save_state("build/snapshot_en.state") as ignored {
+    print("saved")
+  }
+  state[0] = 7
+  with load_state("build/snapshot_en.state") as restored {
+    print("restored", restored)
+  }
+  print(state)
+}

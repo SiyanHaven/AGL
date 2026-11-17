@@ -1,0 +1,163 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "with_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "with",
+                "expr": {
+                  "expr": "call",
+                  "name": "Ok",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "资源",
+                      "span": {
+                        "file": "with_zh.agl",
+                        "line": 4,
+                        "col": 8,
+                        "endLine": 4,
+                        "endCol": 12
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "with_zh.agl",
+                    "line": 4,
+                    "col": 5,
+                    "endLine": 4,
+                    "endCol": 13
+                  },
+                  "builtin": "Ok"
+                },
+                "name": "资源",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "拿到",
+                          "span": {
+                            "file": "with_zh.agl",
+                            "line": 5,
+                            "col": 7,
+                            "endLine": 5,
+                            "endCol": 11
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "资源",
+                          "span": {
+                            "file": "with_zh.agl",
+                            "line": 5,
+                            "col": 13,
+                            "endLine": 5,
+                            "endCol": 15
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "with_zh.agl",
+                        "line": 5,
+                        "col": 4,
+                        "endLine": 5,
+                        "endCol": 16
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "with_zh.agl",
+                      "line": 5,
+                      "col": 4,
+                      "endLine": 5,
+                      "endCol": 16
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "with_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "结束",
+                      "span": {
+                        "file": "with_zh.agl",
+                        "line": 7,
+                        "col": 5,
+                        "endLine": 7,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "with_zh.agl",
+                    "line": 7,
+                    "col": 2,
+                    "endLine": 7,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "with_zh.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 10
+                }
+              }
+            ],
+            "span": {
+              "file": "with_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 8,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "with_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 9,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

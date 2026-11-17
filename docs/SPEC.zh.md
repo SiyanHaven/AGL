@@ -1,6 +1,6 @@
 # AGL 语言规范（中文）
 
-> 版本：**0.53.0**　　发布日期：2026-11-15　　状态：当前版本规范
+> 版本：**0.53.0**　　冻结日期：2026-11-15　　状态：发布候选规范
 >
 > 本文件描述 `v0.53.0` 已经实现并经过 `aglc doctor` 验收的语言表面。机器可读的权威来源是
 > [`spec/keywords.toml`](../spec/keywords.toml)；当本文与关键字表冲突时，以关键字表和编译器实测为准。
@@ -12,7 +12,7 @@ AGL（Agent Grounded Language）是一门面向 AI 生成、同时要求人类�
 编译器可以检查的结构。
 
 本规范覆盖：词法、类型、声明、语句、表达式、效应、校验块、模块、运行产物、诊断、MCP 入口。
-不覆盖：编译器实现细节、编辑器插件 UI、当前版本尚未实现的工具调用运行时。
+不覆盖：编译器内部实现细节、编辑器插件 UI、阶段 2 尚未落地的工具调用运行时。
 
 ## 2. 源文件与词法
 
@@ -49,7 +49,7 @@ AGL（Agent Grounded Language）是一门面向 AI 生成、同时要求人类�
 - 标识符可使用 Unicode 字母、数字和下划线，不能以数字开头。
 - 关键字保留，不能当作变量名、函数名、参数名或字段名。
 - 内建函数名不是关键字；但重名时编译器优先使用用户自己的定义，因此不建议用内建名做变量名。
-- 完整关键字表见本文件的关键字表；完整内建表用 `aglc card --lang zh` 或 `aglc list-builtins` 查看。
+- 完整关键字表见第 5 节；完整内建表用 `aglc card --lang zh` 或 `aglc list-builtins` 查看。
 
 ### 2.4 字面量
 
@@ -279,7 +279,7 @@ AGL（Agent Grounded Language）是一门面向 AI 生成、同时要求人类�
 | 真假 | `真` `假` | `true` `false` |
 | 入口 | `主入口` `成功` `失败` `打印` | `main` `Ok` `Err` `print` |
 
-`工具` / `tool`、`入参` / `input`、`配置` / `config`、`智能体` / `agent`、`规则` / `rule` 是扩展关键字，
+`工具` / `tool`、`入参` / `input`、`配置` / `config`、`智能体` / `agent`、`规则` / `rule` 属于阶段 2 设计词，
 当前版本按普通名字处理，不构成可调用的工具运行时。
 
 ## 8. 内建函数
@@ -299,7 +299,7 @@ AGL（Agent Grounded Language）是一门面向 AI 生成、同时要求人类�
 | 异步 | `任务` `睡眠` `上报进度` `取消` |
 
 完整清单和每个函数的参数、效应、示例，以 `aglc card` / `aglc list-builtins` 的输出为准。
-内建函数的效应同样受本文件的效应规则约束。
+内建函数的效应同样受第 4.3 节约束。
 
 ## 9. 模块与工程
 
@@ -369,7 +369,8 @@ language = "zh"
 ```jsonc
 {
   "command": "python",
-  "args": ["-m", "compiler.cli", "mcp"]
+  "args": ["-m", "compiler.cli", "mcp"],
+  "cwd": "D:\\AGL"
 }
 ```
 
@@ -391,20 +392,23 @@ language = "zh"
 - 元组、类、继承、泛型函数、闭包、lambda、一等函数值；
 - 跨分支的流敏感空值收窄；
 - 真实 MCP / local-skill / ACP 工具调用运行时（`工具` 块仍只是设计词）；
-- 运行时 OS 级沙箱；当前版本的安全边界是**编译期效应声明检查**，不是系统权限隔离；
-- 重复调用熔断（仅有设计，尚未实现）；
+- 运行时 OS 级沙箱；阶段 1 的安全边界是**编译期效应声明检查**，不是系统权限隔离；
+- 重复调用熔断 T19（只有设计，没有运行期代码）；
 - 标准库版本锁定与包管理器。
 
 ## 15. 验证
 
-在解压后的 AGL 目录中执行：
+在解压/克隆后的 AGL 目录中执行：
 
 ```powershell
-.\aglc.cmd doctor
+python -m compiler.cli doctor
 python examples/run_examples.py
+python scripts/verify_spec_snippets.py
 ```
 
-运行时包与源码树 `doctor` 均为 **5/5**。示例验证脚本会逐一 `check`、`run` 六个示例并比对预期输出。
+`doctor` 当前为 **28/28**；示例验证脚本会逐一 `check`、`run` 六个示例并比对预期输出。
 每个示例的实测输出见 [`examples/README.md`](../examples/README.md)。
 
-规范中的最小可运行代码块已作为 `examples/zh/00_最小程序.agl` 编译并运行。完整应用示例见 `examples/zh/` 与 `examples/en/`。
+规范中的最小可运行代码块（第 2.2 节）已作为 `examples/zh/00_最小程序.agl` 编译并运行；
+本规范其余 AGL 代码块在 `docs/spec-snippets/zh/` 下都有同名验证文件，由
+`scripts/verify_spec_snippets.py` 统一执行。完整应用示例见 `examples/zh/` 与 `examples/en/`。

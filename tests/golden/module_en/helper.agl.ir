@@ -1,0 +1,165 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "helper",
+        "imports": [],
+        "exports": [
+          "greet"
+        ],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "greet",
+            "params": [
+              {
+                "name": "name",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "binop",
+                  "op": "+",
+                  "left": {
+                    "expr": "string",
+                    "value": "Hello, ",
+                    "span": {
+                      "file": "helper.agl",
+                      "line": 7,
+                      "col": 9,
+                      "endLine": 7,
+                      "endCol": 18
+                    }
+                  },
+                  "right": {
+                    "expr": "name",
+                    "name": "name",
+                    "span": {
+                      "file": "helper.agl",
+                      "line": 7,
+                      "col": 21,
+                      "endLine": 7,
+                      "endCol": 25
+                    }
+                  },
+                  "span": {
+                    "file": "helper.agl",
+                    "line": 7,
+                    "col": 9,
+                    "endLine": 7,
+                    "endCol": 25
+                  }
+                },
+                "span": {
+                  "file": "helper.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 25
+                }
+              }
+            ],
+            "span": {
+              "file": "helper.agl",
+              "line": 6,
+              "col": 7,
+              "endLine": 8,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "internal_count",
+            "params": [
+              {
+                "name": "n",
+                "type": {
+                  "type": "Int"
+                }
+              }
+            ],
+            "return": {
+              "type": "Int"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "binop",
+                  "op": "+",
+                  "left": {
+                    "expr": "name",
+                    "name": "n",
+                    "span": {
+                      "file": "helper.agl",
+                      "line": 11,
+                      "col": 9,
+                      "endLine": 11,
+                      "endCol": 10
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 1,
+                    "span": {
+                      "file": "helper.agl",
+                      "line": 11,
+                      "col": 13,
+                      "endLine": 11,
+                      "endCol": 14
+                    }
+                  },
+                  "span": {
+                    "file": "helper.agl",
+                    "line": 11,
+                    "col": 9,
+                    "endLine": 11,
+                    "endCol": 14
+                  }
+                },
+                "span": {
+                  "file": "helper.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 14
+                }
+              }
+            ],
+            "span": {
+              "file": "helper.agl",
+              "line": 10,
+              "col": 0,
+              "endLine": 12,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "helper.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 13,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

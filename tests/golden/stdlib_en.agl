@@ -1,0 +1,19 @@
+#lang=English
+// Intent: the read-only `.length` works on text, list and map
+
+fn main() {
+  let name = "siyan"
+  print(name.length)
+
+  let nums = [3, 1, 2]
+  print(nums.length)
+
+  let table = {"a": 1, "b": 2}
+  print(table.length)
+
+  if name.length > 1 {
+    print("long")
+  } else {
+    print("short")
+  }
+}

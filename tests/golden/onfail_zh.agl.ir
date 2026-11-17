@@ -1,0 +1,339 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "onfail_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "坏",
+            "params": [],
+            "return": {
+              "type": "Int"
+            },
+            "effects": [],
+            "is_async": true,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "取到",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "Err",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "糟糕",
+                          "span": {
+                            "file": "onfail_zh.agl",
+                            "line": 4,
+                            "col": 8,
+                            "endLine": 4,
+                            "endCol": 12
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "onfail_zh.agl",
+                        "line": 4,
+                        "col": 5,
+                        "endLine": 4,
+                        "endCol": 13
+                      },
+                      "builtin": "Err"
+                    }
+                  ],
+                  "span": {
+                    "file": "onfail_zh.agl",
+                    "line": 4,
+                    "col": 2,
+                    "endLine": 4,
+                    "endCol": 14
+                  },
+                  "builtin": "unwrap"
+                },
+                "span": {
+                  "file": "onfail_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 14
+                }
+              },
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "onfail_zh.agl",
+                    "line": 5,
+                    "col": 5,
+                    "endLine": 5,
+                    "endCol": 6
+                  }
+                },
+                "span": {
+                  "file": "onfail_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 6
+                }
+              }
+            ],
+            "span": {
+              "file": "onfail_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 6,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": true,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "任务甲",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "任务",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "坏",
+                      "args": [],
+                      "span": {
+                        "file": "onfail_zh.agl",
+                        "line": 8,
+                        "col": 14,
+                        "endLine": 8,
+                        "endCol": 17
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "onfail_zh.agl",
+                    "line": 8,
+                    "col": 11,
+                    "endLine": 8,
+                    "endCol": 18
+                  },
+                  "builtin": "task"
+                },
+                "span": {
+                  "file": "onfail_zh.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 18
+                }
+              },
+              {
+                "stmt": "on_event",
+                "event": "fail",
+                "task": {
+                  "expr": "name",
+                  "name": "任务甲",
+                  "span": {
+                    "file": "onfail_zh.agl",
+                    "line": 9,
+                    "col": 8,
+                    "endLine": 9,
+                    "endCol": 11
+                  }
+                },
+                "param": "错",
+                "param_type": {
+                  "type": "String"
+                },
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "失败",
+                          "span": {
+                            "file": "onfail_zh.agl",
+                            "line": 10,
+                            "col": 7,
+                            "endLine": 10,
+                            "endCol": 11
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "onfail_zh.agl",
+                        "line": 10,
+                        "col": 4,
+                        "endLine": 10,
+                        "endCol": 12
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "onfail_zh.agl",
+                      "line": 10,
+                      "col": 4,
+                      "endLine": 10,
+                      "endCol": 12
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "onfail_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "on_event",
+                "event": "finish",
+                "task": {
+                  "expr": "name",
+                  "name": "任务甲",
+                  "span": {
+                    "file": "onfail_zh.agl",
+                    "line": 12,
+                    "col": 8,
+                    "endLine": 12,
+                    "endCol": 11
+                  }
+                },
+                "param": "值",
+                "param_type": {
+                  "type": "Int"
+                },
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "完成",
+                          "span": {
+                            "file": "onfail_zh.agl",
+                            "line": 13,
+                            "col": 7,
+                            "endLine": 13,
+                            "endCol": 11
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "值",
+                          "span": {
+                            "file": "onfail_zh.agl",
+                            "line": 13,
+                            "col": 13,
+                            "endLine": 13,
+                            "endCol": 14
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "onfail_zh.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 15
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "onfail_zh.agl",
+                      "line": 13,
+                      "col": 4,
+                      "endLine": 13,
+                      "endCol": 15
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "onfail_zh.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "await",
+                  "value": {
+                    "expr": "name",
+                    "name": "任务甲",
+                    "span": {
+                      "file": "onfail_zh.agl",
+                      "line": 15,
+                      "col": 5,
+                      "endLine": 15,
+                      "endCol": 8
+                    }
+                  },
+                  "span": {
+                    "file": "onfail_zh.agl",
+                    "line": 15,
+                    "col": 2,
+                    "endLine": 15,
+                    "endCol": 9
+                  }
+                },
+                "span": {
+                  "file": "onfail_zh.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 9
+                }
+              }
+            ],
+            "span": {
+              "file": "onfail_zh.agl",
+              "line": 7,
+              "col": 0,
+              "endLine": 16,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "onfail_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 16,
+          "endCol": 1
+        }
+      }
+    ]
+  }
+}

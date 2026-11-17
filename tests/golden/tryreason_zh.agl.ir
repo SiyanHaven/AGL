@@ -1,0 +1,376 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "tryreason_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "取数",
+            "params": [],
+            "return": {
+              "type": "Int"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "try",
+                "body": [
+                  {
+                    "stmt": "return",
+                    "value": {
+                      "expr": "int",
+                      "value": 7,
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 5,
+                        "col": 7,
+                        "endLine": 5,
+                        "endCol": 8
+                      }
+                    },
+                    "span": {
+                      "file": "tryreason_zh.agl",
+                      "line": 5,
+                      "col": 4,
+                      "endLine": 5,
+                      "endCol": 8
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "tryreason_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 3
+                },
+                "finally": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "f-return",
+                          "span": {
+                            "file": "tryreason_zh.agl",
+                            "line": 7,
+                            "col": 7,
+                            "endLine": 7,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 18
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryreason_zh.agl",
+                      "line": 7,
+                      "col": 4,
+                      "endLine": 7,
+                      "endCol": 18
+                    }
+                  }
+                ]
+              }
+            ],
+            "span": {
+              "file": "tryreason_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 9,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "值",
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 11,
+                        "col": 5,
+                        "endLine": 11,
+                        "endCol": 8
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "取数",
+                      "args": [],
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 11,
+                        "col": 10,
+                        "endLine": 11,
+                        "endCol": 14
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "tryreason_zh.agl",
+                    "line": 11,
+                    "col": 2,
+                    "endLine": 11,
+                    "endCol": 15
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "tryreason_zh.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 15
+                }
+              },
+              {
+                "stmt": "try",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "取到",
+                      "args": [
+                        {
+                          "expr": "call",
+                          "name": "Err",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "原因文本",
+                              "span": {
+                                "file": "tryreason_zh.agl",
+                                "line": 13,
+                                "col": 10,
+                                "endLine": 13,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "tryreason_zh.agl",
+                            "line": 13,
+                            "col": 7,
+                            "endLine": 13,
+                            "endCol": 17
+                          },
+                          "builtin": "Err"
+                        }
+                      ],
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 18
+                      },
+                      "builtin": "unwrap"
+                    },
+                    "span": {
+                      "file": "tryreason_zh.agl",
+                      "line": 13,
+                      "col": 4,
+                      "endLine": 13,
+                      "endCol": 18
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "tryreason_zh.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 18,
+                  "endCol": 3
+                },
+                "catch_name": "错",
+                "catch": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "caught",
+                          "span": {
+                            "file": "tryreason_zh.agl",
+                            "line": 15,
+                            "col": 7,
+                            "endLine": 15,
+                            "endCol": 15
+                          }
+                        },
+                        {
+                          "expr": "call",
+                          "name": "失败原因",
+                          "args": [
+                            {
+                              "expr": "name",
+                              "name": "错",
+                              "span": {
+                                "file": "tryreason_zh.agl",
+                                "line": 15,
+                                "col": 22,
+                                "endLine": 15,
+                                "endCol": 23
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "tryreason_zh.agl",
+                            "line": 15,
+                            "col": 17,
+                            "endLine": 15,
+                            "endCol": 24
+                          },
+                          "builtin": "fail_reason"
+                        }
+                      ],
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 15,
+                        "col": 4,
+                        "endLine": 15,
+                        "endCol": 25
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryreason_zh.agl",
+                      "line": 15,
+                      "col": 4,
+                      "endLine": 15,
+                      "endCol": 25
+                    }
+                  }
+                ],
+                "finally": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "f-catch",
+                          "span": {
+                            "file": "tryreason_zh.agl",
+                            "line": 17,
+                            "col": 7,
+                            "endLine": 17,
+                            "endCol": 16
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 17,
+                        "col": 4,
+                        "endLine": 17,
+                        "endCol": 17
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryreason_zh.agl",
+                      "line": 17,
+                      "col": 4,
+                      "endLine": 17,
+                      "endCol": 17
+                    }
+                  }
+                ]
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "done",
+                      "span": {
+                        "file": "tryreason_zh.agl",
+                        "line": 19,
+                        "col": 5,
+                        "endLine": 19,
+                        "endCol": 11
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "tryreason_zh.agl",
+                    "line": 19,
+                    "col": 2,
+                    "endLine": 19,
+                    "endCol": 12
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "tryreason_zh.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 12
+                }
+              }
+            ],
+            "span": {
+              "file": "tryreason_zh.agl",
+              "line": 10,
+              "col": 0,
+              "endLine": 20,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "tryreason_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 20,
+          "endCol": 1
+        }
+      }
+    ]
+  }
+}

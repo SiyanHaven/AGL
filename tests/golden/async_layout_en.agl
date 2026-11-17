@@ -1,0 +1,27 @@
+#lang=English
+// Intent: the three callback layouts must never shift line numbers -- that is
+// the whole point of this case.
+//   1. Multi-line callback block: head line -> def, tail line -> registration.
+//   2. Single-line block followed by a simple statement: the callback collapses
+//      into one Python line and the registration rides along on the next line
+//      joined with `;`.
+//   3. Single-line block at the end: the registration lands near the closing brace.
+// Only part of case 1 used to line up; cases 2 and 3 pushed every following
+// statement down, so error back-translation no longer pointed at the source.
+// This is not cosmetics -- it is the readability loop itself.
+async fn slow() -> String {
+  return "ok"
+}
+
+async fn main() {
+  let a = task(slow())
+  on_finish(a, value: String) {
+    print("multi", value)
+    print("second", value)
+  }
+  let b = task(slow())
+  on_finish(b, value: String) { print("single", value) }
+  let r = await b
+  print("result", r)
+  on_finish(a, value: String) { print("tail", value) }
+}

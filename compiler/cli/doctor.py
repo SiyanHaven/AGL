@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 """一键体检（`aglc doctor`）。
 
-有开发测试套件时运行完整检查；源码包不含测试套件时，自动执行运行时自检：
-规格与关键字、标准库、自举编译器、真实编译运行、MCP 元数据。
+**这个文件现在只是壳**：检查的实现全在 `tests/suite/` 里（阶段 2 / S2-G）。
+它只负责三件事：调套件、把结果渲染成人能读的报告、刷新期望产物。
+
+为什么要拆开：检查全堆在一个文件里时，加特性时越来越难找到该往哪加，
+改一处还得担心别处。拆成套件之后，每个工作包都能自己带测试进来，
+`doctor` 只负责调用 —— 检查本身不再依赖命令行。
+
+单独跑套件（不经过本文件）：`python -m tests.suite`
 """
 from __future__ import annotations
 
@@ -148,7 +154,6 @@ def _runtime_doctor(verbose: bool, as_json: bool) -> int:
     规格/关键字、标准库、自举器、真实编译运行、MCP 元数据。
     """
     import json
-    import os
     import subprocess
     import sys
     import tempfile
@@ -197,13 +202,11 @@ def _runtime_doctor(verbose: bool, as_json: bool) -> int:
                 encoding="utf-8",
             )
             agb, _ = compile_with_selfhost(src, td, want_ir=False)
-            env = os.environ.copy()
-            env["PYTHONPATH"] = str(REPO) + os.pathsep + env.get("PYTHONPATH", "")
             r = subprocess.run(
                 [sys.executable, "-X", "utf8", "-m", "compiler.cli", "run",
                  str(agb), "--allow-effects", "IO"],
                 cwd=str(td), capture_output=True, text=True, encoding="utf-8",
-                timeout=120, env=env,
+                timeout=120,
             )
             out = (r.stdout or "").strip()
             add("编译运行", r.returncode == 0 and out == "AGL-RUNTIME-OK",
@@ -253,7 +256,7 @@ def _runtime_doctor(verbose: bool, as_json: bool) -> int:
 
 
 def run(verbose: bool = True, as_json: bool = False) -> int:
-    """运行完整检查或运行时自检，并渲染报告。"""
+    """跑一致性测试套件并渲染报告。检查本身在 `tests/suite/` 里。"""
     import sys
 
     # 用户 wheel 不含 tests/；只做运行时自检，避免把开发套件伪装成安装成功。

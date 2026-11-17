@@ -1,0 +1,12 @@
+#lang=English
+// Intent: show module export — only functions marked export are visible outside
+
+module helper
+
+export fn greet(name: String) -> String {
+  return "Hello, " + name
+}
+
+fn internal_count(n: Int) -> Int {
+  return n + 1
+}

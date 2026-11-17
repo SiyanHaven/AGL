@@ -1,0 +1,33 @@
+#lang=English
+// case: the expanded standard library actually works
+
+import text_util
+import list_util
+import math
+
+fn main() {
+  let nums = [3, 1, 2, 1]
+  print("sorted", list_util.sorted(nums))
+  print("original", nums)
+  print("distinct", list_util.distinct(nums))
+  print("reversed", list_util.reversed(nums))
+  print("find 2", list_util.index_of(nums, 2))
+  print("find 9", list_util.index_of(nums, 9))
+  print("take 2", list_util.take(nums, 2))
+  print("take 99", list_util.take(nums, 99))
+  print("join", list_util.join_with(["a", "b", "c"], "-"))
+
+  print("repeat", text_util.repeat("ab", 3))
+  print("starts", text_util.starts_with("hello", "he"))
+  print("ends", text_util.ends_with("hello", "lo"))
+  print("ends wrong", text_util.ends_with("hello", "loh"))
+  print("index", text_util.index_of("abc", "b"))
+  print("absent", text_util.index_of("abc", "z"))
+  print("count", text_util.count_of("aaaa", "aa"))
+  print("lines", text_util.split_lines("one\ntwo"))
+
+  print("remainder", math.remainder(17, 5))
+  print("power", math.power(2, 10))
+  print("clamp", math.clamp(99, 0, 10))
+  print("even", math.is_even(10))
+}

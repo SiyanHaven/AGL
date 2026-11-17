@@ -1,0 +1,24 @@
+#lang=English
+// match guards: same-value arms checked in order; false guard falls through; a guarded _ works too
+fn main() {
+  let x = 2
+  let allowed = true
+  match (x) {
+    2 if allowed { print("g1") }
+    2 if false { print("g2") }
+    _ { print("other") }
+  }
+  match (x) {
+    1 if allowed { print("no") }
+    _ if allowed { print("fallback") }
+  }
+  match (x) {
+    _ if false { print("never") }
+  }
+  match (x) {
+    1 { print("one") }
+    else if x > 1 { print("elseif") }
+    else { print("else") }
+  }
+  print("end")
+}

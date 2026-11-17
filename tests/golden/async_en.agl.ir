@@ -1,0 +1,275 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "async_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "slow",
+            "params": [],
+            "return": {
+              "type": "String"
+            },
+            "effects": [],
+            "is_async": true,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "string",
+                  "value": "ok",
+                  "span": {
+                    "file": "async_en.agl",
+                    "line": 6,
+                    "col": 9,
+                    "endLine": 6,
+                    "endCol": 13
+                  }
+                },
+                "span": {
+                  "file": "async_en.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 13
+                }
+              }
+            ],
+            "span": {
+              "file": "async_en.agl",
+              "line": 5,
+              "col": 0,
+              "endLine": 7,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": true,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "a",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "task",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "slow",
+                      "args": [],
+                      "span": {
+                        "file": "async_en.agl",
+                        "line": 10,
+                        "col": 15,
+                        "endLine": 10,
+                        "endCol": 21
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "async_en.agl",
+                    "line": 10,
+                    "col": 10,
+                    "endLine": 10,
+                    "endCol": 22
+                  },
+                  "builtin": "task"
+                },
+                "span": {
+                  "file": "async_en.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 22
+                }
+              },
+              {
+                "stmt": "on_event",
+                "event": "finish",
+                "task": {
+                  "expr": "name",
+                  "name": "a",
+                  "span": {
+                    "file": "async_en.agl",
+                    "line": 11,
+                    "col": 12,
+                    "endLine": 11,
+                    "endCol": 13
+                  }
+                },
+                "param": "value",
+                "param_type": {
+                  "type": "String"
+                },
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "done",
+                          "span": {
+                            "file": "async_en.agl",
+                            "line": 11,
+                            "col": 38,
+                            "endLine": 11,
+                            "endCol": 44
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "value",
+                          "span": {
+                            "file": "async_en.agl",
+                            "line": 11,
+                            "col": 46,
+                            "endLine": 11,
+                            "endCol": 51
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "async_en.agl",
+                        "line": 11,
+                        "col": 32,
+                        "endLine": 11,
+                        "endCol": 52
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "async_en.agl",
+                      "line": 11,
+                      "col": 32,
+                      "endLine": 11,
+                      "endCol": 52
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "async_en.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 54
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "r",
+                "mutable": true,
+                "value": {
+                  "expr": "await",
+                  "value": {
+                    "expr": "name",
+                    "name": "a",
+                    "span": {
+                      "file": "async_en.agl",
+                      "line": 12,
+                      "col": 16,
+                      "endLine": 12,
+                      "endCol": 17
+                    }
+                  },
+                  "span": {
+                    "file": "async_en.agl",
+                    "line": 12,
+                    "col": 10,
+                    "endLine": 12,
+                    "endCol": 17
+                  }
+                },
+                "span": {
+                  "file": "async_en.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 17
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "result",
+                      "span": {
+                        "file": "async_en.agl",
+                        "line": 13,
+                        "col": 8,
+                        "endLine": 13,
+                        "endCol": 16
+                      }
+                    },
+                    {
+                      "expr": "name",
+                      "name": "r",
+                      "span": {
+                        "file": "async_en.agl",
+                        "line": 13,
+                        "col": 18,
+                        "endLine": 13,
+                        "endCol": 19
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "async_en.agl",
+                    "line": 13,
+                    "col": 2,
+                    "endLine": 13,
+                    "endCol": 20
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "async_en.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 13,
+                  "endCol": 20
+                }
+              }
+            ],
+            "span": {
+              "file": "async_en.agl",
+              "line": 9,
+              "col": 0,
+              "endLine": 14,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "async_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 15,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+#lang=English
+// Intent: nullable `String?` accepts both `Null` and plain text; non-null positions reject `Null`.
+fn maybe_null(present: Bool) -> String? {
+  if present {
+    return "value"
+  }
+  return Null
+}
+
+fn has_value(value: String?) -> Bool {
+  return value != Null
+}
+
+fn main() {
+  let first: String? = Null
+  let second: String? = "AGL"
+  print(first == Null, second == Null)
+  print(maybe_null(true), maybe_null(false) == Null)
+  print(has_value(first), has_value(second))
+}

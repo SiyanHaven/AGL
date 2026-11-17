@@ -1,0 +1,382 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "matchbind_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "甲",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 2,
+                  "span": {
+                    "file": "matchbind_zh.agl",
+                    "line": 4,
+                    "col": 9,
+                    "endLine": 4,
+                    "endCol": 10
+                  }
+                },
+                "span": {
+                  "file": "matchbind_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "甲",
+                  "span": {
+                    "file": "matchbind_zh.agl",
+                    "line": 5,
+                    "col": 6,
+                    "endLine": 5,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "matchbind_zh.agl",
+                        "line": 6,
+                        "col": 4,
+                        "endLine": 6,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "one",
+                              "span": {
+                                "file": "matchbind_zh.agl",
+                                "line": 6,
+                                "col": 11,
+                                "endLine": 6,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchbind_zh.agl",
+                            "line": 6,
+                            "col": 8,
+                            "endLine": 6,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchbind_zh.agl",
+                          "line": 6,
+                          "col": 8,
+                          "endLine": 6,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchbind_zh.agl",
+                        "line": 7,
+                        "col": 7,
+                        "endLine": 7,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "bound",
+                              "span": {
+                                "file": "matchbind_zh.agl",
+                                "line": 7,
+                                "col": 24,
+                                "endLine": 7,
+                                "endCol": 31
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "数",
+                              "span": {
+                                "file": "matchbind_zh.agl",
+                                "line": 7,
+                                "col": 33,
+                                "endLine": 7,
+                                "endCol": 34
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchbind_zh.agl",
+                            "line": 7,
+                            "col": 21,
+                            "endLine": 7,
+                            "endCol": 35
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchbind_zh.agl",
+                          "line": 7,
+                          "col": 21,
+                          "endLine": 7,
+                          "endCol": 35
+                        }
+                      }
+                    ],
+                    "bind": "数",
+                    "guard": {
+                      "expr": "binop",
+                      "op": ">",
+                      "left": {
+                        "expr": "name",
+                        "name": "数",
+                        "span": {
+                          "file": "matchbind_zh.agl",
+                          "line": 7,
+                          "col": 12,
+                          "endLine": 7,
+                          "endCol": 13
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "matchbind_zh.agl",
+                          "line": 7,
+                          "col": 17,
+                          "endLine": 7,
+                          "endCol": 18
+                        }
+                      },
+                      "span": {
+                        "file": "matchbind_zh.agl",
+                        "line": 7,
+                        "col": 12,
+                        "endLine": 7,
+                        "endCol": 18
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchbind_zh.agl",
+                        "line": 8,
+                        "col": 7,
+                        "endLine": 8,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "any",
+                              "span": {
+                                "file": "matchbind_zh.agl",
+                                "line": 8,
+                                "col": 14,
+                                "endLine": 8,
+                                "endCol": 19
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "它",
+                              "span": {
+                                "file": "matchbind_zh.agl",
+                                "line": 8,
+                                "col": 21,
+                                "endLine": 8,
+                                "endCol": 22
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchbind_zh.agl",
+                            "line": 8,
+                            "col": 11,
+                            "endLine": 8,
+                            "endCol": 23
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchbind_zh.agl",
+                          "line": 8,
+                          "col": 11,
+                          "endLine": 8,
+                          "endCol": 23
+                        }
+                      }
+                    ],
+                    "bind": "它"
+                  }
+                ],
+                "span": {
+                  "file": "matchbind_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "matchbind_zh.agl",
+                    "line": 10,
+                    "col": 6,
+                    "endLine": 10,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "matchbind_zh.agl",
+                        "line": 11,
+                        "col": 7,
+                        "endLine": 11,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "zero",
+                              "span": {
+                                "file": "matchbind_zh.agl",
+                                "line": 11,
+                                "col": 14,
+                                "endLine": 11,
+                                "endCol": 20
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "值",
+                              "span": {
+                                "file": "matchbind_zh.agl",
+                                "line": 11,
+                                "col": 22,
+                                "endLine": 11,
+                                "endCol": 23
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "matchbind_zh.agl",
+                            "line": 11,
+                            "col": 11,
+                            "endLine": 11,
+                            "endCol": 24
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "matchbind_zh.agl",
+                          "line": 11,
+                          "col": 11,
+                          "endLine": 11,
+                          "endCol": 24
+                        }
+                      }
+                    ],
+                    "bind": "值"
+                  }
+                ],
+                "span": {
+                  "file": "matchbind_zh.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 3
+                }
+              }
+            ],
+            "span": {
+              "file": "matchbind_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 13,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "matchbind_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 14,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

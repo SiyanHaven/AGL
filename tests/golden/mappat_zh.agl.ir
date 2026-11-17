@@ -1,0 +1,926 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "mappat_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "m",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "类型",
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 10,
+                          "endLine": 4,
+                          "endCol": 14
+                        }
+                      },
+                      "value": {
+                        "expr": "string",
+                        "value": "ok",
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 16,
+                          "endLine": 4,
+                          "endCol": 20
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "值",
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 22,
+                          "endLine": 4,
+                          "endCol": 25
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 9,
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 27,
+                          "endLine": 4,
+                          "endCol": 28
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "嵌套",
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 30,
+                          "endLine": 4,
+                          "endCol": 34
+                        }
+                      },
+                      "value": {
+                        "expr": "map",
+                        "entries": [
+                          {
+                            "key": {
+                              "expr": "string",
+                              "value": "x",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 4,
+                                "col": 37,
+                                "endLine": 4,
+                                "endCol": 40
+                              }
+                            },
+                            "value": {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 4,
+                                "col": 42,
+                                "endLine": 4,
+                                "endCol": 43
+                              }
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 36,
+                          "endLine": 4,
+                          "endCol": 44
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "列",
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 46,
+                          "endLine": 4,
+                          "endCol": 49
+                        }
+                      },
+                      "value": {
+                        "expr": "list",
+                        "items": [
+                          {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 4,
+                              "col": 52,
+                              "endLine": 4,
+                              "endCol": 53
+                            }
+                          },
+                          {
+                            "expr": "int",
+                            "value": 2,
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 4,
+                              "col": 55,
+                              "endLine": 4,
+                              "endCol": 56
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 4,
+                          "col": 51,
+                          "endLine": 4,
+                          "endCol": 57
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "mappat_zh.agl",
+                    "line": 4,
+                    "col": 9,
+                    "endLine": 4,
+                    "endCol": 58
+                  }
+                },
+                "span": {
+                  "file": "mappat_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 58
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_zh.agl",
+                    "line": 5,
+                    "col": 6,
+                    "endLine": 5,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "类型",
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 6,
+                              "col": 5,
+                              "endLine": 6,
+                              "endCol": 9
+                            }
+                          },
+                          "value": {
+                            "kind": "literal",
+                            "value": {
+                              "expr": "string",
+                              "value": "ok",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 6,
+                                "col": 11,
+                                "endLine": 6,
+                                "endCol": 15
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 6,
+                              "col": 11,
+                              "endLine": 6,
+                              "endCol": 15
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "值",
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 6,
+                              "col": 17,
+                              "endLine": 6,
+                              "endCol": 20
+                            }
+                          },
+                          "value": {
+                            "kind": "bind",
+                            "name": "v",
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 6,
+                              "col": 25,
+                              "endLine": 6,
+                              "endCol": 26
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 6,
+                        "col": 4,
+                        "endLine": 6,
+                        "endCol": 27
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "name",
+                              "name": "v",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 6,
+                                "col": 33,
+                                "endLine": 6,
+                                "endCol": 34
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 6,
+                            "col": 30,
+                            "endLine": 6,
+                            "endCol": 35
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 6,
+                          "col": 30,
+                          "endLine": 6,
+                          "endCol": 35
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no1",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 7,
+                                "col": 11,
+                                "endLine": 7,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 7,
+                            "col": 8,
+                            "endLine": 7,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 7,
+                          "col": 8,
+                          "endLine": 7,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_zh.agl",
+                    "line": 9,
+                    "col": 6,
+                    "endLine": 9,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "嵌套",
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 10,
+                              "col": 5,
+                              "endLine": 10,
+                              "endCol": 9
+                            }
+                          },
+                          "value": {
+                            "kind": "map",
+                            "pattern": {
+                              "expr": "map_pattern",
+                              "entries": [
+                                {
+                                  "key": {
+                                    "expr": "string",
+                                    "value": "x",
+                                    "span": {
+                                      "file": "mappat_zh.agl",
+                                      "line": 10,
+                                      "col": 12,
+                                      "endLine": 10,
+                                      "endCol": 15
+                                    }
+                                  },
+                                  "value": {
+                                    "kind": "bind",
+                                    "name": "x",
+                                    "span": {
+                                      "file": "mappat_zh.agl",
+                                      "line": 10,
+                                      "col": 20,
+                                      "endLine": 10,
+                                      "endCol": 21
+                                    }
+                                  }
+                                }
+                              ],
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 10,
+                                "col": 11,
+                                "endLine": 10,
+                                "endCol": 22
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 10,
+                              "col": 11,
+                              "endLine": 10,
+                              "endCol": 22
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 10,
+                        "col": 4,
+                        "endLine": 10,
+                        "endCol": 23
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "name",
+                              "name": "x",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 10,
+                                "col": 29,
+                                "endLine": 10,
+                                "endCol": 30
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 10,
+                            "col": 26,
+                            "endLine": 10,
+                            "endCol": 31
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 10,
+                          "col": 26,
+                          "endLine": 10,
+                          "endCol": 31
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 11,
+                        "col": 4,
+                        "endLine": 11,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no2",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 11,
+                                "col": 11,
+                                "endLine": 11,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 11,
+                            "col": 8,
+                            "endLine": 11,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 11,
+                          "col": 8,
+                          "endLine": 11,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_zh.agl",
+                    "line": 13,
+                    "col": 6,
+                    "endLine": 13,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "列",
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 14,
+                              "col": 5,
+                              "endLine": 14,
+                              "endCol": 8
+                            }
+                          },
+                          "value": {
+                            "kind": "list",
+                            "pattern": {
+                              "expr": "list_pattern",
+                              "items": [
+                                {
+                                  "kind": "literal",
+                                  "value": {
+                                    "expr": "int",
+                                    "value": 1,
+                                    "span": {
+                                      "file": "mappat_zh.agl",
+                                      "line": 14,
+                                      "col": 11,
+                                      "endLine": 14,
+                                      "endCol": 12
+                                    }
+                                  },
+                                  "span": {
+                                    "file": "mappat_zh.agl",
+                                    "line": 14,
+                                    "col": 11,
+                                    "endLine": 14,
+                                    "endCol": 12
+                                  }
+                                },
+                                {
+                                  "kind": "bind",
+                                  "name": "尾",
+                                  "span": {
+                                    "file": "mappat_zh.agl",
+                                    "line": 14,
+                                    "col": 17,
+                                    "endLine": 14,
+                                    "endCol": 18
+                                  }
+                                }
+                              ],
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 14,
+                                "col": 10,
+                                "endLine": 14,
+                                "endCol": 19
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 14,
+                              "col": 10,
+                              "endLine": 14,
+                              "endCol": 19
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 14,
+                        "col": 4,
+                        "endLine": 14,
+                        "endCol": 20
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "name",
+                              "name": "尾",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 14,
+                                "col": 26,
+                                "endLine": 14,
+                                "endCol": 27
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 14,
+                            "col": 23,
+                            "endLine": 14,
+                            "endCol": 28
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 14,
+                          "col": 23,
+                          "endLine": 14,
+                          "endCol": 28
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 15,
+                        "col": 4,
+                        "endLine": 15,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no3",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 15,
+                                "col": 11,
+                                "endLine": 15,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 15,
+                            "col": 8,
+                            "endLine": 15,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 15,
+                          "col": 8,
+                          "endLine": 15,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_zh.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 16,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_zh.agl",
+                    "line": 17,
+                    "col": 6,
+                    "endLine": 17,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "缺失",
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 18,
+                              "col": 5,
+                              "endLine": 18,
+                              "endCol": 9
+                            }
+                          },
+                          "value": {
+                            "kind": "literal",
+                            "value": {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 18,
+                                "col": 11,
+                                "endLine": 18,
+                                "endCol": 12
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_zh.agl",
+                              "line": 18,
+                              "col": 11,
+                              "endLine": 18,
+                              "endCol": 12
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 18,
+                        "col": 4,
+                        "endLine": 18,
+                        "endCol": 13
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "bad",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 18,
+                                "col": 19,
+                                "endLine": 18,
+                                "endCol": 24
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 18,
+                            "col": 16,
+                            "endLine": 18,
+                            "endCol": 25
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 18,
+                          "col": 16,
+                          "endLine": 18,
+                          "endCol": 25
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_zh.agl",
+                        "line": 19,
+                        "col": 4,
+                        "endLine": 19,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "fallback",
+                              "span": {
+                                "file": "mappat_zh.agl",
+                                "line": 19,
+                                "col": 11,
+                                "endLine": 19,
+                                "endCol": 21
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_zh.agl",
+                            "line": 19,
+                            "col": 8,
+                            "endLine": 19,
+                            "endCol": 22
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_zh.agl",
+                          "line": 19,
+                          "col": 8,
+                          "endLine": 19,
+                          "endCol": 22
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_zh.agl",
+                  "line": 17,
+                  "col": 2,
+                  "endLine": 20,
+                  "endCol": 3
+                }
+              }
+            ],
+            "span": {
+              "file": "mappat_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 21,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "mappat_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 22,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

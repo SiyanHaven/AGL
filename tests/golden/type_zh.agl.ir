@@ -1,0 +1,220 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "type_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [
+          {
+            "name": "用户",
+            "fields": [
+              {
+                "name": "编号",
+                "type": {
+                  "type": "Int"
+                },
+                "span": {
+                  "file": "type_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 8
+                }
+              },
+              {
+                "name": "名字",
+                "type": {
+                  "type": "String"
+                },
+                "span": {
+                  "file": "type_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 8
+                }
+              }
+            ],
+            "span": {
+              "file": "type_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 6,
+              "endCol": 1
+            }
+          }
+        ],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "甲",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "用户",
+                  "args": [
+                    {
+                      "expr": "named",
+                      "name": "编号",
+                      "value": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "type_zh.agl",
+                          "line": 9,
+                          "col": 16,
+                          "endLine": 9,
+                          "endCol": 17
+                        }
+                      },
+                      "span": {
+                        "file": "type_zh.agl",
+                        "line": 9,
+                        "col": 12,
+                        "endLine": 9,
+                        "endCol": 17
+                      }
+                    },
+                    {
+                      "expr": "named",
+                      "name": "名字",
+                      "value": {
+                        "expr": "string",
+                        "value": "阿明",
+                        "span": {
+                          "file": "type_zh.agl",
+                          "line": 9,
+                          "col": 23,
+                          "endLine": 9,
+                          "endCol": 27
+                        }
+                      },
+                      "span": {
+                        "file": "type_zh.agl",
+                        "line": 9,
+                        "col": 19,
+                        "endLine": 9,
+                        "endCol": 27
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "type_zh.agl",
+                    "line": 9,
+                    "col": 9,
+                    "endLine": 9,
+                    "endCol": 28
+                  }
+                },
+                "span": {
+                  "file": "type_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 28
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "甲",
+                        "span": {
+                          "file": "type_zh.agl",
+                          "line": 10,
+                          "col": 5,
+                          "endLine": 10,
+                          "endCol": 6
+                        }
+                      },
+                      "field": "编号",
+                      "span": {
+                        "file": "type_zh.agl",
+                        "line": 10,
+                        "col": 5,
+                        "endLine": 10,
+                        "endCol": 9
+                      }
+                    },
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "甲",
+                        "span": {
+                          "file": "type_zh.agl",
+                          "line": 10,
+                          "col": 11,
+                          "endLine": 10,
+                          "endCol": 12
+                        }
+                      },
+                      "field": "名字",
+                      "span": {
+                        "file": "type_zh.agl",
+                        "line": 10,
+                        "col": 11,
+                        "endLine": 10,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "type_zh.agl",
+                    "line": 10,
+                    "col": 2,
+                    "endLine": 10,
+                    "endCol": 16
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "type_zh.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 16
+                }
+              }
+            ],
+            "span": {
+              "file": "type_zh.agl",
+              "line": 8,
+              "col": 0,
+              "endLine": 11,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "type_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 12,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

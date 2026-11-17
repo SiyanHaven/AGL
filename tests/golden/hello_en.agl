@@ -1,0 +1,6 @@
+#lang=English
+// Intent: minimal runnable case - the first touchstone for the whole M0-M6 chain
+
+fn main() {
+  print("Hello AGL")
+}

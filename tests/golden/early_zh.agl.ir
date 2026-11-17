@@ -1,0 +1,285 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "early_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "检查",
+            "params": [
+              {
+                "name": "文本值",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": "==",
+                  "left": {
+                    "expr": "member",
+                    "target": {
+                      "expr": "name",
+                      "name": "文本值",
+                      "span": {
+                        "file": "early_zh.agl",
+                        "line": 6,
+                        "col": 5,
+                        "endLine": 6,
+                        "endCol": 8
+                      }
+                    },
+                    "field": "长度",
+                    "span": {
+                      "file": "early_zh.agl",
+                      "line": 6,
+                      "col": 5,
+                      "endLine": 6,
+                      "endCol": 11
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 0,
+                    "span": {
+                      "file": "early_zh.agl",
+                      "line": 6,
+                      "col": 15,
+                      "endLine": 6,
+                      "endCol": 16
+                    }
+                  },
+                  "span": {
+                    "file": "early_zh.agl",
+                    "line": 6,
+                    "col": 5,
+                    "endLine": 6,
+                    "endCol": 16
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "空值，提前返回",
+                          "span": {
+                            "file": "early_zh.agl",
+                            "line": 7,
+                            "col": 7,
+                            "endLine": 7,
+                            "endCol": 16
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "early_zh.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 17
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "early_zh.agl",
+                      "line": 7,
+                      "col": 4,
+                      "endLine": 7,
+                      "endCol": 17
+                    }
+                  },
+                  {
+                    "stmt": "return",
+                    "span": {
+                      "file": "early_zh.agl",
+                      "line": 8,
+                      "col": 4,
+                      "endLine": 8,
+                      "endCol": 6
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "early_zh.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "有内容",
+                      "span": {
+                        "file": "early_zh.agl",
+                        "line": 10,
+                        "col": 5,
+                        "endLine": 10,
+                        "endCol": 10
+                      }
+                    },
+                    {
+                      "expr": "name",
+                      "name": "文本值",
+                      "span": {
+                        "file": "early_zh.agl",
+                        "line": 10,
+                        "col": 12,
+                        "endLine": 10,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "early_zh.agl",
+                    "line": 10,
+                    "col": 2,
+                    "endLine": 10,
+                    "endCol": 16
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "early_zh.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 16
+                }
+              }
+            ],
+            "span": {
+              "file": "early_zh.agl",
+              "line": 5,
+              "col": 0,
+              "endLine": 11,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "检查",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "",
+                      "span": {
+                        "file": "early_zh.agl",
+                        "line": 14,
+                        "col": 5,
+                        "endLine": 14,
+                        "endCol": 7
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "early_zh.agl",
+                    "line": 14,
+                    "col": 2,
+                    "endLine": 14,
+                    "endCol": 8
+                  }
+                },
+                "span": {
+                  "file": "early_zh.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 8
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "检查",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "甲",
+                      "span": {
+                        "file": "early_zh.agl",
+                        "line": 15,
+                        "col": 5,
+                        "endLine": 15,
+                        "endCol": 8
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "early_zh.agl",
+                    "line": 15,
+                    "col": 2,
+                    "endLine": 15,
+                    "endCol": 9
+                  }
+                },
+                "span": {
+                  "file": "early_zh.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 9
+                }
+              }
+            ],
+            "span": {
+              "file": "early_zh.agl",
+              "line": 13,
+              "col": 0,
+              "endLine": 16,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "early_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 17,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

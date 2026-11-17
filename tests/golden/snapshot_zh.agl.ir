@@ -1,0 +1,338 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "snapshot_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [
+          {
+            "stmt": "let",
+            "name": "状态",
+            "mutable": false,
+            "value": {
+              "expr": "list",
+              "items": [
+                {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "snapshot_zh.agl",
+                    "line": 6,
+                    "col": 9,
+                    "endLine": 6,
+                    "endCol": 10
+                  }
+                },
+                {
+                  "expr": "string",
+                  "value": "原值",
+                  "span": {
+                    "file": "snapshot_zh.agl",
+                    "line": 6,
+                    "col": 12,
+                    "endLine": 6,
+                    "endCol": 16
+                  }
+                }
+              ],
+              "span": {
+                "file": "snapshot_zh.agl",
+                "line": 6,
+                "col": 8,
+                "endLine": 6,
+                "endCol": 17
+              }
+            },
+            "span": {
+              "file": "snapshot_zh.agl",
+              "line": 6,
+              "col": 0,
+              "endLine": 6,
+              "endCol": 17
+            }
+          }
+        ],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [
+              "IO"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "with",
+                "expr": {
+                  "expr": "call",
+                  "name": "存快照",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "build/snapshot_zh.state",
+                      "span": {
+                        "file": "snapshot_zh.agl",
+                        "line": 9,
+                        "col": 9,
+                        "endLine": 9,
+                        "endCol": 34
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "snapshot_zh.agl",
+                    "line": 9,
+                    "col": 5,
+                    "endLine": 9,
+                    "endCol": 35
+                  },
+                  "builtin": "save_state"
+                },
+                "name": "忽略",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "已存快照",
+                          "span": {
+                            "file": "snapshot_zh.agl",
+                            "line": 10,
+                            "col": 7,
+                            "endLine": 10,
+                            "endCol": 13
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "snapshot_zh.agl",
+                        "line": 10,
+                        "col": 4,
+                        "endLine": 10,
+                        "endCol": 14
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "snapshot_zh.agl",
+                      "line": 10,
+                      "col": 4,
+                      "endLine": 10,
+                      "endCol": 14
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "snapshot_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "assign",
+                "target": {
+                  "expr": "index",
+                  "target": {
+                    "expr": "name",
+                    "name": "状态",
+                    "span": {
+                      "file": "snapshot_zh.agl",
+                      "line": 12,
+                      "col": 2,
+                      "endLine": 12,
+                      "endCol": 4
+                    }
+                  },
+                  "index": {
+                    "expr": "int",
+                    "value": 0,
+                    "span": {
+                      "file": "snapshot_zh.agl",
+                      "line": 12,
+                      "col": 5,
+                      "endLine": 12,
+                      "endCol": 6
+                    }
+                  },
+                  "span": {
+                    "file": "snapshot_zh.agl",
+                    "line": 12,
+                    "col": 2,
+                    "endLine": 12,
+                    "endCol": 7
+                  }
+                },
+                "value": {
+                  "expr": "int",
+                  "value": 7,
+                  "span": {
+                    "file": "snapshot_zh.agl",
+                    "line": 12,
+                    "col": 10,
+                    "endLine": 12,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "snapshot_zh.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 11
+                }
+              },
+              {
+                "stmt": "with",
+                "expr": {
+                  "expr": "call",
+                  "name": "取快照",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "build/snapshot_zh.state",
+                      "span": {
+                        "file": "snapshot_zh.agl",
+                        "line": 13,
+                        "col": 9,
+                        "endLine": 13,
+                        "endCol": 34
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "snapshot_zh.agl",
+                    "line": 13,
+                    "col": 5,
+                    "endLine": 13,
+                    "endCol": 35
+                  },
+                  "builtin": "load_state"
+                },
+                "name": "恢复数",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "恢复变量",
+                          "span": {
+                            "file": "snapshot_zh.agl",
+                            "line": 14,
+                            "col": 7,
+                            "endLine": 14,
+                            "endCol": 13
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "恢复数",
+                          "span": {
+                            "file": "snapshot_zh.agl",
+                            "line": 14,
+                            "col": 15,
+                            "endLine": 14,
+                            "endCol": 18
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "snapshot_zh.agl",
+                        "line": 14,
+                        "col": 4,
+                        "endLine": 14,
+                        "endCol": 19
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "snapshot_zh.agl",
+                      "line": 14,
+                      "col": 4,
+                      "endLine": 14,
+                      "endCol": 19
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "snapshot_zh.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "状态",
+                      "span": {
+                        "file": "snapshot_zh.agl",
+                        "line": 16,
+                        "col": 5,
+                        "endLine": 16,
+                        "endCol": 7
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "snapshot_zh.agl",
+                    "line": 16,
+                    "col": 2,
+                    "endLine": 16,
+                    "endCol": 8
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "snapshot_zh.agl",
+                  "line": 16,
+                  "col": 2,
+                  "endLine": 16,
+                  "endCol": 8
+                }
+              }
+            ],
+            "span": {
+              "file": "snapshot_zh.agl",
+              "line": 8,
+              "col": 0,
+              "endLine": 17,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "snapshot_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 18,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

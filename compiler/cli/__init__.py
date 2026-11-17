@@ -144,7 +144,7 @@ def _compile_agb(res, what: str = "程序"):
 
 
 def cmd_build(args) -> int:
-    # 默认用安装好的自举编译器产出 .agb（种子只负责启动 VM与静态检查）；
+    # B7：默认用安装好的自举编译器产出 .agb（种子只负责启动 VM与静态检查）；
     # 需要回退时显式 `--compiler seed`。
     if getattr(args, "compiler", "agl") == "agl":
         from compiler.cli.bootstrap import BootstrapError, compile_with_selfhost
@@ -241,19 +241,30 @@ def cmd_build(args) -> int:
 
 
 def _allowed_effects(args) -> set[str] | None:
+    """宿主侧效应白名单。
+
+    默认是空集（全禁），不再把“没写参数”解释成“什么都能用”。
+    需要时显式传 `--allow-effects IO,Time`；写 `all` 才是显式全量放行。
+    """
     raw = getattr(args, "allow_effects", None)
     if raw is None:
+        return set()
+    text = raw.strip()
+    if text.lower() == "all":
         return None
-    return {x.strip() for x in raw.split(",")
+    return {x.strip() for x in text.split(",")
             if x.strip() and x.strip().lower() != "none"}
 
 
 def _allowed_tools(args) -> set[str] | None:
-    """外部库白名单：None = 不限；none = 全禁；逗号分隔列放行的库名。"""
+    """外部库白名单：默认空集（全禁）；`all` 才是显式全量放行。"""
     raw = getattr(args, "allow_tools", None)
     if raw is None:
+        return set()
+    text = raw.strip()
+    if text.lower() == "all":
         return None
-    return {x.strip() for x in raw.split(",")
+    return {x.strip() for x in text.split(",")
             if x.strip() and x.strip().lower() != "none"}
 
 
@@ -281,7 +292,7 @@ def _run_vm_agb(agb: dict, modules: dict, lang: str, file: str, args) -> int:
 
 def _load_agb(path: Path) -> dict:
     try:
-        text = path.read_text(encoding="utf-8")
+        text = path.read_text(encoding="utf-8-sig")
         return bytecode.decode(text)
     except (OSError, ValueError, json.JSONDecodeError) as e:
         raise bytecode.AgbUnsupported(f"读不了 AGB 文件 `{path}`：{e}") from e
@@ -307,7 +318,7 @@ def cmd_run(args) -> int:
     path = Path(args.file)
     backend = getattr(args, "backend", "vm")
 
-    # --compiler agl（默认）—— 先用自举编译器把源码编成 .agb，再用 VM 执行。
+    # B6/B7：--compiler agl（默认）—— 先用自举编译器把源码编成 .agb，再用 VM 执行。
     # 显式 `--backend py` 是 Python 兜底通道，不能被自举分支截走。
     # 产物落在临时目录，不污染工程目录；执行语义与 `run .agb` 完全一致。
     if (backend != "py"
@@ -414,7 +425,7 @@ def _ffi_calls(node, out: list) -> list:
 
 
 def _tool_schema(decl: dict, src_lines: list[str]) -> dict:
-    """把一个 `工具` 声明导出成函数调用三件套（name/description/inputSchema）。
+    """把一个 `工具` 声明导出成「函数调用三件套」（P7 定稿：name/description/inputSchema）。
 
     类型映射：文本→string、整数→integer、浮数→number、布尔→boolean、空→null；
     可空类型（`文本?`）导出为 ["string", "null"] 数组形态。
@@ -564,7 +575,7 @@ def cmd_import(args) -> int:
 
     path = Path(args.file)
     try:
-        src = path.read_text(encoding="utf-8")
+        src = path.read_text(encoding="utf-8-sig")
     except OSError as e:
         print(f"读不了这个文件：{e}")
         return 1
@@ -710,7 +721,7 @@ def cmd_convert(args) -> int:
     if not path.exists():
         print(f"✗ 找不到文件：{path}", file=sys.stderr)
         return 1
-    src = path.read_text(encoding="utf-8")
+    src = path.read_text(encoding="utf-8-sig")
     try:
         out = convert_mod.convert(src, path.name, args.to)
     except diagnostics.AglError as e:
@@ -799,7 +810,7 @@ def cmd_roundtrip(args) -> int:
     from compiler.lexer import detect_lang
 
     path = Path(args.file)
-    src = path.read_text(encoding="utf-8")
+    src = path.read_text(encoding="utf-8-sig")
     src_lang = detect_lang(src)
     if src_lang is None:
         print(f"✗ {path.name}：第一行缺少语言声明，无法往返校验", file=sys.stderr)
@@ -915,7 +926,7 @@ def cmd_init(args) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="aglc",
-        description="AGL（Agent Grounded Language）编译器",
+        description="AGL（Agent Grounded Language）编译器 · 阶段 1",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="例：python -m compiler.cli run tests/golden/hello_zh.agl",
     )
@@ -961,13 +972,13 @@ def build_parser() -> argparse.ArgumentParser:
                             help="VM 墙钟超时（毫秒，正整数；超时报 AGL-RT-0095）")
             sp.add_argument("--allow-effects", default=None,
                             help="VM 权限白名单，逗号分隔（如 IO,Time,Net,External）；"
-                                 "默认不限，写 none 表示一个都不授权")
+                                 "默认全禁，写 all 表示显式全量放行")
             sp.add_argument("--max-calls", type=int, default=None,
                             help="外部调用次数上限（带效应的内建 + FFI 调用总数），"
                                  "超限报 AGL-RT-0093")
             sp.add_argument("--allow-tools", default=None,
                             help="外部库白名单，逗号分隔（如 math,json）；"
-                                 "默认不限，写 none 表示全禁，越库报 AGL-RT-0094")
+                                 "默认全禁，写 all 表示显式全量放行，越库报 AGL-RT-0094")
         if name == "doctor":
             sp.add_argument("--update-golden", action="store_true",
                             help="刷新 tests/golden 下的期望产物（确认改动有意后再用）")
@@ -1088,8 +1099,8 @@ def build_parser() -> argparse.ArgumentParser:
     add_json(sp)
     sp.set_defaults(func=cmd_examples)
 
-    # 运行开发测试套件
-    sp = sub.add_parser("test", help="运行开发测试套件（若存在）")
+    # v0.50：运行测试
+    sp = sub.add_parser("test", help="运行所有测试用例（doctor 检查）")
     add_json(sp)
     sp.set_defaults(func=cmd_test)
 
@@ -1122,7 +1133,7 @@ def cmd_format(args) -> int:
     """
     path = Path(args.file)
     try:
-        src = path.read_text(encoding="utf-8")
+        src = path.read_text(encoding="utf-8-sig")
     except OSError as e:
         print(f"读不了这个文件：{e}")
         return 1
@@ -1186,7 +1197,7 @@ def cmd_lint(args) -> int:
 
     path = Path(args.file)
     try:
-        src = path.read_text(encoding="utf-8")
+        src = path.read_text(encoding="utf-8-sig")
     except OSError as e:
         print(f"读不了这个文件：{e}")
         return 1
@@ -1279,6 +1290,15 @@ def cmd_list_builtins(args) -> int:
     return 0
 
 
+def _fallback_version() -> str:
+    """版本号兜底：读安装元数据，不再把某个发布号写死在源码里。"""
+    try:
+        from importlib import metadata
+        return metadata.version("agl-lang")
+    except Exception:
+        return "0.0.0+unknown"
+
+
 def cmd_info(args) -> int:
     """显示 AGL 的基本信息。"""
     import tomllib
@@ -1290,11 +1310,11 @@ def cmd_info(args) -> int:
     try:
         with open(keywords_path, "rb") as f:
             data = tomllib.load(f)
-        info["version"] = "v" + str(data.get("version", "0.53.0"))
+        info["version"] = "v" + str(data.get("version") or _fallback_version())
         builtins = data.get("builtin", [])
         info["builtin_count"] = len(builtins)
     except Exception:
-        info["version"] = "v0.53.0"
+        info["version"] = "v" + _fallback_version()
         info["builtin_count"] = -1
 
     # 标准库模块数量

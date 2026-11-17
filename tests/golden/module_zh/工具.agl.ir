@@ -1,0 +1,165 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "工具",
+        "imports": [],
+        "exports": [
+          "打招呼"
+        ],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "打招呼",
+            "params": [
+              {
+                "name": "名字",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "binop",
+                  "op": "+",
+                  "left": {
+                    "expr": "string",
+                    "value": "你好，",
+                    "span": {
+                      "file": "工具.agl",
+                      "line": 7,
+                      "col": 5,
+                      "endLine": 7,
+                      "endCol": 10
+                    }
+                  },
+                  "right": {
+                    "expr": "name",
+                    "name": "名字",
+                    "span": {
+                      "file": "工具.agl",
+                      "line": 7,
+                      "col": 13,
+                      "endLine": 7,
+                      "endCol": 15
+                    }
+                  },
+                  "span": {
+                    "file": "工具.agl",
+                    "line": 7,
+                    "col": 5,
+                    "endLine": 7,
+                    "endCol": 15
+                  }
+                },
+                "span": {
+                  "file": "工具.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 15
+                }
+              }
+            ],
+            "span": {
+              "file": "工具.agl",
+              "line": 6,
+              "col": 3,
+              "endLine": 8,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "内部计数",
+            "params": [
+              {
+                "name": "数",
+                "type": {
+                  "type": "Int"
+                }
+              }
+            ],
+            "return": {
+              "type": "Int"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "binop",
+                  "op": "+",
+                  "left": {
+                    "expr": "name",
+                    "name": "数",
+                    "span": {
+                      "file": "工具.agl",
+                      "line": 11,
+                      "col": 5,
+                      "endLine": 11,
+                      "endCol": 6
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 1,
+                    "span": {
+                      "file": "工具.agl",
+                      "line": 11,
+                      "col": 9,
+                      "endLine": 11,
+                      "endCol": 10
+                    }
+                  },
+                  "span": {
+                    "file": "工具.agl",
+                    "line": 11,
+                    "col": 5,
+                    "endLine": 11,
+                    "endCol": 10
+                  }
+                },
+                "span": {
+                  "file": "工具.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 10
+                }
+              }
+            ],
+            "span": {
+              "file": "工具.agl",
+              "line": 10,
+              "col": 0,
+              "endLine": 12,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "工具.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 13,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

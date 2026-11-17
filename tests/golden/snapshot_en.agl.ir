@@ -1,0 +1,338 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "snapshot_en",
+        "imports": [],
+        "exports": [],
+        "consts": [
+          {
+            "stmt": "let",
+            "name": "state",
+            "mutable": false,
+            "value": {
+              "expr": "list",
+              "items": [
+                {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "snapshot_en.agl",
+                    "line": 7,
+                    "col": 15,
+                    "endLine": 7,
+                    "endCol": 16
+                  }
+                },
+                {
+                  "expr": "string",
+                  "value": "original",
+                  "span": {
+                    "file": "snapshot_en.agl",
+                    "line": 7,
+                    "col": 18,
+                    "endLine": 7,
+                    "endCol": 28
+                  }
+                }
+              ],
+              "span": {
+                "file": "snapshot_en.agl",
+                "line": 7,
+                "col": 14,
+                "endLine": 7,
+                "endCol": 29
+              }
+            },
+            "span": {
+              "file": "snapshot_en.agl",
+              "line": 7,
+              "col": 0,
+              "endLine": 7,
+              "endCol": 29
+            }
+          }
+        ],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [
+              "IO"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "with",
+                "expr": {
+                  "expr": "call",
+                  "name": "save_state",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "build/snapshot_en.state",
+                      "span": {
+                        "file": "snapshot_en.agl",
+                        "line": 10,
+                        "col": 18,
+                        "endLine": 10,
+                        "endCol": 43
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "snapshot_en.agl",
+                    "line": 10,
+                    "col": 7,
+                    "endLine": 10,
+                    "endCol": 44
+                  },
+                  "builtin": "save_state"
+                },
+                "name": "ignored",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "saved",
+                          "span": {
+                            "file": "snapshot_en.agl",
+                            "line": 11,
+                            "col": 10,
+                            "endLine": 11,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "snapshot_en.agl",
+                        "line": 11,
+                        "col": 4,
+                        "endLine": 11,
+                        "endCol": 18
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "snapshot_en.agl",
+                      "line": 11,
+                      "col": 4,
+                      "endLine": 11,
+                      "endCol": 18
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "snapshot_en.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "assign",
+                "target": {
+                  "expr": "index",
+                  "target": {
+                    "expr": "name",
+                    "name": "state",
+                    "span": {
+                      "file": "snapshot_en.agl",
+                      "line": 13,
+                      "col": 2,
+                      "endLine": 13,
+                      "endCol": 7
+                    }
+                  },
+                  "index": {
+                    "expr": "int",
+                    "value": 0,
+                    "span": {
+                      "file": "snapshot_en.agl",
+                      "line": 13,
+                      "col": 8,
+                      "endLine": 13,
+                      "endCol": 9
+                    }
+                  },
+                  "span": {
+                    "file": "snapshot_en.agl",
+                    "line": 13,
+                    "col": 2,
+                    "endLine": 13,
+                    "endCol": 10
+                  }
+                },
+                "value": {
+                  "expr": "int",
+                  "value": 7,
+                  "span": {
+                    "file": "snapshot_en.agl",
+                    "line": 13,
+                    "col": 13,
+                    "endLine": 13,
+                    "endCol": 14
+                  }
+                },
+                "span": {
+                  "file": "snapshot_en.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 13,
+                  "endCol": 14
+                }
+              },
+              {
+                "stmt": "with",
+                "expr": {
+                  "expr": "call",
+                  "name": "load_state",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "build/snapshot_en.state",
+                      "span": {
+                        "file": "snapshot_en.agl",
+                        "line": 14,
+                        "col": 18,
+                        "endLine": 14,
+                        "endCol": 43
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "snapshot_en.agl",
+                    "line": 14,
+                    "col": 7,
+                    "endLine": 14,
+                    "endCol": 44
+                  },
+                  "builtin": "load_state"
+                },
+                "name": "restored",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "restored",
+                          "span": {
+                            "file": "snapshot_en.agl",
+                            "line": 15,
+                            "col": 10,
+                            "endLine": 15,
+                            "endCol": 20
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "restored",
+                          "span": {
+                            "file": "snapshot_en.agl",
+                            "line": 15,
+                            "col": 22,
+                            "endLine": 15,
+                            "endCol": 30
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "snapshot_en.agl",
+                        "line": 15,
+                        "col": 4,
+                        "endLine": 15,
+                        "endCol": 31
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "snapshot_en.agl",
+                      "line": 15,
+                      "col": 4,
+                      "endLine": 15,
+                      "endCol": 31
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "snapshot_en.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 16,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "state",
+                      "span": {
+                        "file": "snapshot_en.agl",
+                        "line": 17,
+                        "col": 8,
+                        "endLine": 17,
+                        "endCol": 13
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "snapshot_en.agl",
+                    "line": 17,
+                    "col": 2,
+                    "endLine": 17,
+                    "endCol": 14
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "snapshot_en.agl",
+                  "line": 17,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 14
+                }
+              }
+            ],
+            "span": {
+              "file": "snapshot_en.agl",
+              "line": 9,
+              "col": 0,
+              "endLine": 18,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "snapshot_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 19,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

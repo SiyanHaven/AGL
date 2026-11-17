@@ -1,0 +1,15 @@
+3
+1
+9
+4
+True
+False
+True
+6
+ä
+5
+a-b
+-
+
+abc
+3

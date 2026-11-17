@@ -1,0 +1,63 @@
+#lang=English
+// Intent: cover every stage-1 grammar feature (for / while / try-catch / list / map /
+//         else-if chain / check block / effects / assignment / index / member),
+//         and prove that `check` and `effect` may appear in any order.
+
+fn sum_all(nums: List<Int>) -> Int
+check {
+  nums != Null
+}
+{
+  let total = 0
+  for each in nums {
+    total = total + each
+  }
+  return total
+}
+
+fn classify(score: Int) -> String {
+  if score >= 90 {
+    return "A"
+  } else if score >= 60 {
+    return "B"
+  } else {
+    return "F"
+  }
+}
+
+fn read_config(path: String) -> String
+check {
+  path != ""
+}
+effect IO
+{
+  return path
+}
+
+fn main() {
+  let table = [1, 2, 3]
+  print(sum_all(table))
+  print(classify(95))
+  print(classify(70))
+  print(classify(10))
+
+  let count = 0
+  while count < 3 {
+    count = count + 1
+  }
+  print(count)
+
+  try {
+    print(1 / 0)
+  } catch (e) {
+    print("caught")
+  }
+
+  let conf = {"host": "local", "port": 8080}
+  print(conf["host"])
+
+  print("semicolon");   // a trailing semicolon is optional (C-family habit)
+  /* block comment: may span lines
+     second line is still a comment */
+  print("after block comment")
+}

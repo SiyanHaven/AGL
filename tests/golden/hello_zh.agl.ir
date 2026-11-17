@@ -1,0 +1,79 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "hello_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "你好 AGL",
+                      "span": {
+                        "file": "hello_zh.agl",
+                        "line": 5,
+                        "col": 5,
+                        "endLine": 5,
+                        "endCol": 13
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "hello_zh.agl",
+                    "line": 5,
+                    "col": 2,
+                    "endLine": 5,
+                    "endCol": 14
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "hello_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 14
+                }
+              }
+            ],
+            "span": {
+              "file": "hello_zh.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 6,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "hello_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 7,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

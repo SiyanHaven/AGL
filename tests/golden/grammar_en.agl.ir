@@ -1,0 +1,1208 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "grammar_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "sum_all",
+            "params": [
+              {
+                "name": "nums",
+                "type": {
+                  "type": "List",
+                  "args": [
+                    {
+                      "type": "Int"
+                    }
+                  ]
+                }
+              }
+            ],
+            "return": {
+              "type": "Int"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [
+              {
+                "expr": "binop",
+                "op": "!=",
+                "left": {
+                  "expr": "name",
+                  "name": "nums",
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 6
+                  }
+                },
+                "right": {
+                  "expr": "null",
+                  "value": null,
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 8,
+                    "col": 10,
+                    "endLine": 8,
+                    "endCol": 14
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 14
+                }
+              }
+            ],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "total",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 11,
+                    "col": 14,
+                    "endLine": 11,
+                    "endCol": 15
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 15
+                }
+              },
+              {
+                "stmt": "for",
+                "item": "each",
+                "iter": {
+                  "expr": "name",
+                  "name": "nums",
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 12,
+                    "col": 14,
+                    "endLine": 12,
+                    "endCol": 18
+                  }
+                },
+                "body": [
+                  {
+                    "stmt": "assign",
+                    "target": {
+                      "expr": "name",
+                      "name": "total",
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 9
+                      }
+                    },
+                    "value": {
+                      "expr": "binop",
+                      "op": "+",
+                      "left": {
+                        "expr": "name",
+                        "name": "total",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 13,
+                          "col": 12,
+                          "endLine": 13,
+                          "endCol": 17
+                        }
+                      },
+                      "right": {
+                        "expr": "name",
+                        "name": "each",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 13,
+                          "col": 20,
+                          "endLine": 13,
+                          "endCol": 24
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 13,
+                        "col": 12,
+                        "endLine": 13,
+                        "endCol": 24
+                      }
+                    },
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 13,
+                      "col": 4,
+                      "endLine": 13,
+                      "endCol": 24
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "name",
+                  "name": "total",
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 15,
+                    "col": 9,
+                    "endLine": 15,
+                    "endCol": 14
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 14
+                }
+              }
+            ],
+            "span": {
+              "file": "grammar_en.agl",
+              "line": 6,
+              "col": 0,
+              "endLine": 16,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "classify",
+            "params": [
+              {
+                "name": "score",
+                "type": {
+                  "type": "Int"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": ">=",
+                  "left": {
+                    "expr": "name",
+                    "name": "score",
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 19,
+                      "col": 5,
+                      "endLine": 19,
+                      "endCol": 10
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 90,
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 19,
+                      "col": 14,
+                      "endLine": 19,
+                      "endCol": 16
+                    }
+                  },
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 19,
+                    "col": 5,
+                    "endLine": 19,
+                    "endCol": 16
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "return",
+                    "value": {
+                      "expr": "string",
+                      "value": "A",
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 20,
+                        "col": 11,
+                        "endLine": 20,
+                        "endCol": 14
+                      }
+                    },
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 20,
+                      "col": 4,
+                      "endLine": 20,
+                      "endCol": 14
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 26,
+                  "endCol": 0
+                },
+                "else": [
+                  {
+                    "stmt": "if",
+                    "cond": {
+                      "expr": "binop",
+                      "op": ">=",
+                      "left": {
+                        "expr": "name",
+                        "name": "score",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 21,
+                          "col": 12,
+                          "endLine": 21,
+                          "endCol": 17
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 60,
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 21,
+                          "col": 21,
+                          "endLine": 21,
+                          "endCol": 23
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 21,
+                        "col": 12,
+                        "endLine": 21,
+                        "endCol": 23
+                      }
+                    },
+                    "then": [
+                      {
+                        "stmt": "return",
+                        "value": {
+                          "expr": "string",
+                          "value": "B",
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 22,
+                            "col": 11,
+                            "endLine": 22,
+                            "endCol": 14
+                          }
+                        },
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 22,
+                          "col": 4,
+                          "endLine": 22,
+                          "endCol": 14
+                        }
+                      }
+                    ],
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 21,
+                      "col": 9,
+                      "endLine": 26,
+                      "endCol": 0
+                    },
+                    "else": [
+                      {
+                        "stmt": "return",
+                        "value": {
+                          "expr": "string",
+                          "value": "F",
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 24,
+                            "col": 11,
+                            "endLine": 24,
+                            "endCol": 14
+                          }
+                        },
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 24,
+                          "col": 4,
+                          "endLine": 24,
+                          "endCol": 14
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "span": {
+              "file": "grammar_en.agl",
+              "line": 18,
+              "col": 0,
+              "endLine": 26,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "read_config",
+            "params": [
+              {
+                "name": "path",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "effects": [
+              "IO"
+            ],
+            "is_async": false,
+            "checks": [
+              {
+                "expr": "binop",
+                "op": "!=",
+                "left": {
+                  "expr": "name",
+                  "name": "path",
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 30,
+                    "col": 2,
+                    "endLine": 30,
+                    "endCol": 6
+                  }
+                },
+                "right": {
+                  "expr": "string",
+                  "value": "",
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 30,
+                    "col": 10,
+                    "endLine": 30,
+                    "endCol": 12
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 30,
+                  "col": 2,
+                  "endLine": 30,
+                  "endCol": 12
+                }
+              }
+            ],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "name",
+                  "name": "path",
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 34,
+                    "col": 9,
+                    "endLine": 34,
+                    "endCol": 13
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 34,
+                  "col": 2,
+                  "endLine": 34,
+                  "endCol": 13
+                }
+              }
+            ],
+            "span": {
+              "file": "grammar_en.agl",
+              "line": 28,
+              "col": 0,
+              "endLine": 35,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "table",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 38,
+                        "col": 15,
+                        "endLine": 38,
+                        "endCol": 16
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 38,
+                        "col": 18,
+                        "endLine": 38,
+                        "endCol": 19
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 38,
+                        "col": 21,
+                        "endLine": 38,
+                        "endCol": 22
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 38,
+                    "col": 14,
+                    "endLine": 38,
+                    "endCol": 23
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 38,
+                  "col": 2,
+                  "endLine": 38,
+                  "endCol": 23
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "sum_all",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "table",
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 39,
+                            "col": 16,
+                            "endLine": 39,
+                            "endCol": 21
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 39,
+                        "col": 8,
+                        "endLine": 39,
+                        "endCol": 22
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 39,
+                    "col": 2,
+                    "endLine": 39,
+                    "endCol": 23
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 39,
+                  "col": 2,
+                  "endLine": 39,
+                  "endCol": 23
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "classify",
+                      "args": [
+                        {
+                          "expr": "int",
+                          "value": 95,
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 40,
+                            "col": 17,
+                            "endLine": 40,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 40,
+                        "col": 8,
+                        "endLine": 40,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 40,
+                    "col": 2,
+                    "endLine": 40,
+                    "endCol": 21
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 40,
+                  "col": 2,
+                  "endLine": 40,
+                  "endCol": 21
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "classify",
+                      "args": [
+                        {
+                          "expr": "int",
+                          "value": 70,
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 41,
+                            "col": 17,
+                            "endLine": 41,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 41,
+                        "col": 8,
+                        "endLine": 41,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 41,
+                    "col": 2,
+                    "endLine": 41,
+                    "endCol": 21
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 41,
+                  "col": 2,
+                  "endLine": 41,
+                  "endCol": 21
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "classify",
+                      "args": [
+                        {
+                          "expr": "int",
+                          "value": 10,
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 42,
+                            "col": 17,
+                            "endLine": 42,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 42,
+                        "col": 8,
+                        "endLine": 42,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 42,
+                    "col": 2,
+                    "endLine": 42,
+                    "endCol": 21
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 42,
+                  "col": 2,
+                  "endLine": 42,
+                  "endCol": 21
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "count",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 44,
+                    "col": 14,
+                    "endLine": 44,
+                    "endCol": 15
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 44,
+                  "col": 2,
+                  "endLine": 44,
+                  "endCol": 15
+                }
+              },
+              {
+                "stmt": "while",
+                "cond": {
+                  "expr": "binop",
+                  "op": "<",
+                  "left": {
+                    "expr": "name",
+                    "name": "count",
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 45,
+                      "col": 8,
+                      "endLine": 45,
+                      "endCol": 13
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 3,
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 45,
+                      "col": 16,
+                      "endLine": 45,
+                      "endCol": 17
+                    }
+                  },
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 45,
+                    "col": 8,
+                    "endLine": 45,
+                    "endCol": 17
+                  }
+                },
+                "body": [
+                  {
+                    "stmt": "assign",
+                    "target": {
+                      "expr": "name",
+                      "name": "count",
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 46,
+                        "col": 4,
+                        "endLine": 46,
+                        "endCol": 9
+                      }
+                    },
+                    "value": {
+                      "expr": "binop",
+                      "op": "+",
+                      "left": {
+                        "expr": "name",
+                        "name": "count",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 46,
+                          "col": 12,
+                          "endLine": 46,
+                          "endCol": 17
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 46,
+                          "col": 20,
+                          "endLine": 46,
+                          "endCol": 21
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 46,
+                        "col": 12,
+                        "endLine": 46,
+                        "endCol": 21
+                      }
+                    },
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 46,
+                      "col": 4,
+                      "endLine": 46,
+                      "endCol": 21
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 45,
+                  "col": 2,
+                  "endLine": 47,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "count",
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 48,
+                        "col": 8,
+                        "endLine": 48,
+                        "endCol": 13
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 48,
+                    "col": 2,
+                    "endLine": 48,
+                    "endCol": 14
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 48,
+                  "col": 2,
+                  "endLine": 48,
+                  "endCol": 14
+                }
+              },
+              {
+                "stmt": "try",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "binop",
+                          "op": "/",
+                          "left": {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "grammar_en.agl",
+                              "line": 51,
+                              "col": 10,
+                              "endLine": 51,
+                              "endCol": 11
+                            }
+                          },
+                          "right": {
+                            "expr": "int",
+                            "value": 0,
+                            "span": {
+                              "file": "grammar_en.agl",
+                              "line": 51,
+                              "col": 14,
+                              "endLine": 51,
+                              "endCol": 15
+                            }
+                          },
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 51,
+                            "col": 10,
+                            "endLine": 51,
+                            "endCol": 15
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 51,
+                        "col": 4,
+                        "endLine": 51,
+                        "endCol": 16
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 51,
+                      "col": 4,
+                      "endLine": 51,
+                      "endCol": 16
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 50,
+                  "col": 2,
+                  "endLine": 52,
+                  "endCol": 3
+                },
+                "catch_name": "e",
+                "catch": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "caught",
+                          "span": {
+                            "file": "grammar_en.agl",
+                            "line": 53,
+                            "col": 10,
+                            "endLine": 53,
+                            "endCol": 18
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 53,
+                        "col": 4,
+                        "endLine": 53,
+                        "endCol": 19
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "grammar_en.agl",
+                      "line": 53,
+                      "col": 4,
+                      "endLine": 53,
+                      "endCol": 19
+                    }
+                  }
+                ]
+              },
+              {
+                "stmt": "let",
+                "name": "conf",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "host",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 56,
+                          "col": 14,
+                          "endLine": 56,
+                          "endCol": 20
+                        }
+                      },
+                      "value": {
+                        "expr": "string",
+                        "value": "local",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 56,
+                          "col": 22,
+                          "endLine": 56,
+                          "endCol": 29
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "port",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 56,
+                          "col": 31,
+                          "endLine": 56,
+                          "endCol": 37
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 8080,
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 56,
+                          "col": 39,
+                          "endLine": 56,
+                          "endCol": 43
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 56,
+                    "col": 13,
+                    "endLine": 56,
+                    "endCol": 44
+                  }
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 56,
+                  "col": 2,
+                  "endLine": 56,
+                  "endCol": 44
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "index",
+                      "target": {
+                        "expr": "name",
+                        "name": "conf",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 57,
+                          "col": 8,
+                          "endLine": 57,
+                          "endCol": 12
+                        }
+                      },
+                      "index": {
+                        "expr": "string",
+                        "value": "host",
+                        "span": {
+                          "file": "grammar_en.agl",
+                          "line": 57,
+                          "col": 13,
+                          "endLine": 57,
+                          "endCol": 19
+                        }
+                      },
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 57,
+                        "col": 8,
+                        "endLine": 57,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 57,
+                    "col": 2,
+                    "endLine": 57,
+                    "endCol": 21
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 57,
+                  "col": 2,
+                  "endLine": 57,
+                  "endCol": 21
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "semicolon",
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 59,
+                        "col": 8,
+                        "endLine": 59,
+                        "endCol": 19
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 59,
+                    "col": 2,
+                    "endLine": 59,
+                    "endCol": 20
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 59,
+                  "col": 2,
+                  "endLine": 59,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "after block comment",
+                      "span": {
+                        "file": "grammar_en.agl",
+                        "line": 62,
+                        "col": 8,
+                        "endLine": 62,
+                        "endCol": 29
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "grammar_en.agl",
+                    "line": 62,
+                    "col": 2,
+                    "endLine": 62,
+                    "endCol": 30
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "grammar_en.agl",
+                  "line": 62,
+                  "col": 2,
+                  "endLine": 62,
+                  "endCol": 30
+                }
+              }
+            ],
+            "span": {
+              "file": "grammar_en.agl",
+              "line": 37,
+              "col": 0,
+              "endLine": 63,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "grammar_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 64,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

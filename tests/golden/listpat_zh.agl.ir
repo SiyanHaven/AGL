@@ -1,0 +1,1994 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "listpat_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "值",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 5,
+                        "col": 10,
+                        "endLine": 5,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 0,
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 5,
+                        "col": 13,
+                        "endLine": 5,
+                        "endCol": 14
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 5,
+                    "col": 9,
+                    "endLine": 5,
+                    "endCol": 15
+                  }
+                },
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 15
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "值",
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 6,
+                    "col": 6,
+                    "endLine": 6,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "甲",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 7,
+                            "col": 8,
+                            "endLine": 7,
+                            "endCol": 9
+                          }
+                        },
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 0,
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 7,
+                              "col": 11,
+                              "endLine": 7,
+                              "endCol": 12
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 7,
+                            "col": 11,
+                            "endLine": 7,
+                            "endCol": 12
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 13
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "尾零",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 8,
+                                "col": 9,
+                                "endLine": 8,
+                                "endCol": 13
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "甲",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 8,
+                                "col": 15,
+                                "endLine": 8,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 8,
+                            "col": 6,
+                            "endLine": 8,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 8,
+                          "col": 6,
+                          "endLine": 8,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "甲",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 10,
+                            "col": 8,
+                            "endLine": 10,
+                            "endCol": 9
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "乙",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 10,
+                            "col": 14,
+                            "endLine": 10,
+                            "endCol": 15
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 10,
+                        "col": 4,
+                        "endLine": 10,
+                        "endCol": 16
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "两值",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 11,
+                                "col": 9,
+                                "endLine": 11,
+                                "endCol": 13
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "甲",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 11,
+                                "col": 15,
+                                "endLine": 11,
+                                "endCol": 16
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "乙",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 11,
+                                "col": 18,
+                                "endLine": 11,
+                                "endCol": 19
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 11,
+                            "col": 6,
+                            "endLine": 11,
+                            "endCol": 20
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 11,
+                          "col": 6,
+                          "endLine": 11,
+                          "endCol": 20
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "binop",
+                      "op": ">",
+                      "left": {
+                        "expr": "name",
+                        "name": "甲",
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 10,
+                          "col": 20,
+                          "endLine": 10,
+                          "endCol": 21
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 10,
+                          "col": 25,
+                          "endLine": 10,
+                          "endCol": 26
+                        }
+                      },
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 10,
+                        "col": 20,
+                        "endLine": 10,
+                        "endCol": 26
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 13,
+                              "col": 5,
+                              "endLine": 13,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 13,
+                            "col": 5,
+                            "endLine": 13,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "乙",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 13,
+                            "col": 11,
+                            "endLine": 13,
+                            "endCol": 12
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 13
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "首一",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 14,
+                                "col": 9,
+                                "endLine": 14,
+                                "endCol": 13
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "乙",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 14,
+                                "col": 15,
+                                "endLine": 14,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 14,
+                            "col": 6,
+                            "endLine": 14,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 14,
+                          "col": 6,
+                          "endLine": 14,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 16,
+                        "col": 4,
+                        "endLine": 16,
+                        "endCol": 6
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "无",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 17,
+                                "col": 9,
+                                "endLine": 17,
+                                "endCol": 12
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 17,
+                            "col": 6,
+                            "endLine": 17,
+                            "endCol": 13
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 17,
+                          "col": 6,
+                          "endLine": 17,
+                          "endCol": 13
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "另",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 21,
+                        "col": 10,
+                        "endLine": 21,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 9,
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 21,
+                        "col": 13,
+                        "endLine": 21,
+                        "endCol": 14
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 21,
+                    "col": 9,
+                    "endLine": 21,
+                    "endCol": 15
+                  }
+                },
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 21,
+                  "col": 2,
+                  "endLine": 21,
+                  "endCol": 15
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "另",
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 22,
+                    "col": 6,
+                    "endLine": 22,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 23,
+                              "col": 5,
+                              "endLine": 23,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 23,
+                            "col": 5,
+                            "endLine": 23,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "乙",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 23,
+                            "col": 11,
+                            "endLine": 23,
+                            "endCol": 12
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 23,
+                        "col": 4,
+                        "endLine": 23,
+                        "endCol": 13
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "首一",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 24,
+                                "col": 9,
+                                "endLine": 24,
+                                "endCol": 13
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "乙",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 24,
+                                "col": 15,
+                                "endLine": 24,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 24,
+                            "col": 6,
+                            "endLine": 24,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 24,
+                          "col": 6,
+                          "endLine": 24,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "甲",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 26,
+                            "col": 8,
+                            "endLine": 26,
+                            "endCol": 9
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "乙",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 26,
+                            "col": 14,
+                            "endLine": 26,
+                            "endCol": 15
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 26,
+                        "col": 4,
+                        "endLine": 26,
+                        "endCol": 16
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "守卫",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 27,
+                                "col": 9,
+                                "endLine": 27,
+                                "endCol": 13
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "甲",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 27,
+                                "col": 15,
+                                "endLine": 27,
+                                "endCol": 16
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "乙",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 27,
+                                "col": 18,
+                                "endLine": 27,
+                                "endCol": 19
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 27,
+                            "col": 6,
+                            "endLine": 27,
+                            "endCol": 20
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 27,
+                          "col": 6,
+                          "endLine": 27,
+                          "endCol": 20
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "binop",
+                      "op": ">",
+                      "left": {
+                        "expr": "name",
+                        "name": "乙",
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 26,
+                          "col": 20,
+                          "endLine": 26,
+                          "endCol": 21
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 4,
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 26,
+                          "col": 25,
+                          "endLine": 26,
+                          "endCol": 26
+                        }
+                      },
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 26,
+                        "col": 20,
+                        "endLine": 26,
+                        "endCol": 26
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 29,
+                        "col": 4,
+                        "endLine": 29,
+                        "endCol": 6
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "无二",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 30,
+                                "col": 9,
+                                "endLine": 30,
+                                "endCol": 13
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 30,
+                            "col": 6,
+                            "endLine": 30,
+                            "endCol": 14
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 30,
+                          "col": 6,
+                          "endLine": 30,
+                          "endCol": 14
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 22,
+                  "col": 2,
+                  "endLine": 32,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "矩阵",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 34,
+                        "col": 11,
+                        "endLine": 34,
+                        "endCol": 12
+                      }
+                    },
+                    {
+                      "expr": "list",
+                      "items": [
+                        {
+                          "expr": "int",
+                          "value": 7,
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 34,
+                            "col": 15,
+                            "endLine": 34,
+                            "endCol": 16
+                          }
+                        },
+                        {
+                          "expr": "int",
+                          "value": 9,
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 34,
+                            "col": 18,
+                            "endLine": 34,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 34,
+                        "col": 14,
+                        "endLine": 34,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 34,
+                    "col": 10,
+                    "endLine": 34,
+                    "endCol": 21
+                  }
+                },
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 34,
+                  "col": 2,
+                  "endLine": 34,
+                  "endCol": 21
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "矩阵",
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 35,
+                    "col": 6,
+                    "endLine": 35,
+                    "endCol": 8
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 0,
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 36,
+                              "col": 5,
+                              "endLine": 36,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 36,
+                            "col": 5,
+                            "endLine": 36,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "bind",
+                                "name": "甲",
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 36,
+                                  "col": 12,
+                                  "endLine": 36,
+                                  "endCol": 13
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "乙",
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 36,
+                                  "col": 18,
+                                  "endLine": 36,
+                                  "endCol": 19
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 36,
+                              "col": 8,
+                              "endLine": 36,
+                              "endCol": 20
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 36,
+                            "col": 8,
+                            "endLine": 36,
+                            "endCol": 20
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 36,
+                        "col": 4,
+                        "endLine": 36,
+                        "endCol": 21
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "错层",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 36,
+                                "col": 27,
+                                "endLine": 36,
+                                "endCol": 31
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "甲",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 36,
+                                "col": 33,
+                                "endLine": 36,
+                                "endCol": 34
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "乙",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 36,
+                                "col": 36,
+                                "endLine": 36,
+                                "endCol": 37
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 36,
+                            "col": 24,
+                            "endLine": 36,
+                            "endCol": 38
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 36,
+                          "col": 24,
+                          "endLine": 36,
+                          "endCol": 38
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 2,
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 37,
+                              "col": 5,
+                              "endLine": 37,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 37,
+                            "col": 5,
+                            "endLine": 37,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "literal",
+                                "value": {
+                                  "expr": "int",
+                                  "value": 7,
+                                  "span": {
+                                    "file": "listpat_zh.agl",
+                                    "line": 37,
+                                    "col": 9,
+                                    "endLine": 37,
+                                    "endCol": 10
+                                  }
+                                },
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 37,
+                                  "col": 9,
+                                  "endLine": 37,
+                                  "endCol": 10
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "尾",
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 37,
+                                  "col": 15,
+                                  "endLine": 37,
+                                  "endCol": 16
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 37,
+                              "col": 8,
+                              "endLine": 37,
+                              "endCol": 17
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 37,
+                            "col": 8,
+                            "endLine": 37,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 37,
+                        "col": 4,
+                        "endLine": 37,
+                        "endCol": 18
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "嵌套",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 37,
+                                "col": 24,
+                                "endLine": 37,
+                                "endCol": 28
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "尾",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 37,
+                                "col": 30,
+                                "endLine": 37,
+                                "endCol": 31
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 37,
+                            "col": 21,
+                            "endLine": 37,
+                            "endCol": 32
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 37,
+                          "col": 21,
+                          "endLine": 37,
+                          "endCol": 32
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "外",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 38,
+                            "col": 8,
+                            "endLine": 38,
+                            "endCol": 9
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "bind",
+                                "name": "甲",
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 38,
+                                  "col": 15,
+                                  "endLine": 38,
+                                  "endCol": 16
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "乙",
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 38,
+                                  "col": 21,
+                                  "endLine": 38,
+                                  "endCol": 22
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 38,
+                              "col": 11,
+                              "endLine": 38,
+                              "endCol": 23
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 38,
+                            "col": 11,
+                            "endLine": 38,
+                            "endCol": 23
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 38,
+                        "col": 4,
+                        "endLine": 38,
+                        "endCol": 24
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "全绑定",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 38,
+                                "col": 30,
+                                "endLine": 38,
+                                "endCol": 35
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "外",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 38,
+                                "col": 37,
+                                "endLine": 38,
+                                "endCol": 38
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "甲",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 38,
+                                "col": 40,
+                                "endLine": 38,
+                                "endCol": 41
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "乙",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 38,
+                                "col": 43,
+                                "endLine": 38,
+                                "endCol": 44
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 38,
+                            "col": 27,
+                            "endLine": 38,
+                            "endCol": 45
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 38,
+                          "col": 27,
+                          "endLine": 38,
+                          "endCol": 45
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 39,
+                        "col": 4,
+                        "endLine": 39,
+                        "endCol": 6
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "无嵌套",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 39,
+                                "col": 12,
+                                "endLine": 39,
+                                "endCol": 17
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 39,
+                            "col": 9,
+                            "endLine": 39,
+                            "endCol": 18
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 39,
+                          "col": 9,
+                          "endLine": 39,
+                          "endCol": 18
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 35,
+                  "col": 2,
+                  "endLine": 40,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "扁",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 42,
+                        "col": 10,
+                        "endLine": 42,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "list",
+                      "items": [
+                        {
+                          "expr": "int",
+                          "value": 7,
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 42,
+                            "col": 14,
+                            "endLine": 42,
+                            "endCol": 15
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 42,
+                        "col": 13,
+                        "endLine": 42,
+                        "endCol": 16
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 42,
+                    "col": 9,
+                    "endLine": 42,
+                    "endCol": 17
+                  }
+                },
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 42,
+                  "col": 2,
+                  "endLine": 42,
+                  "endCol": 17
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "扁",
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 43,
+                    "col": 6,
+                    "endLine": 43,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 2,
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 44,
+                              "col": 5,
+                              "endLine": 44,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 44,
+                            "col": 5,
+                            "endLine": 44,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "literal",
+                                "value": {
+                                  "expr": "int",
+                                  "value": 7,
+                                  "span": {
+                                    "file": "listpat_zh.agl",
+                                    "line": 44,
+                                    "col": 9,
+                                    "endLine": 44,
+                                    "endCol": 10
+                                  }
+                                },
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 44,
+                                  "col": 9,
+                                  "endLine": 44,
+                                  "endCol": 10
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "尾",
+                                "span": {
+                                  "file": "listpat_zh.agl",
+                                  "line": 44,
+                                  "col": 15,
+                                  "endLine": 44,
+                                  "endCol": 16
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_zh.agl",
+                              "line": 44,
+                              "col": 8,
+                              "endLine": 44,
+                              "endCol": 17
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 44,
+                            "col": 8,
+                            "endLine": 44,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 44,
+                        "col": 4,
+                        "endLine": 44,
+                        "endCol": 18
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "不该命中",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 44,
+                                "col": 24,
+                                "endLine": 44,
+                                "endCol": 30
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "尾",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 44,
+                                "col": 32,
+                                "endLine": 44,
+                                "endCol": 33
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 44,
+                            "col": 21,
+                            "endLine": 44,
+                            "endCol": 34
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 44,
+                          "col": 21,
+                          "endLine": 44,
+                          "endCol": 34
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 45,
+                        "col": 4,
+                        "endLine": 45,
+                        "endCol": 6
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "短内层",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 45,
+                                "col": 12,
+                                "endLine": 45,
+                                "endCol": 17
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 45,
+                            "col": 9,
+                            "endLine": 45,
+                            "endCol": 18
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 45,
+                          "col": 9,
+                          "endLine": 45,
+                          "endCol": 18
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 43,
+                  "col": 2,
+                  "endLine": 46,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "单",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 7,
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 48,
+                        "col": 10,
+                        "endLine": 48,
+                        "endCol": 11
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 48,
+                    "col": 9,
+                    "endLine": 48,
+                    "endCol": 12
+                  }
+                },
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 48,
+                  "col": 2,
+                  "endLine": 48,
+                  "endCol": 12
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "单",
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 49,
+                    "col": 6,
+                    "endLine": 49,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "唯一",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 50,
+                            "col": 8,
+                            "endLine": 50,
+                            "endCol": 10
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 50,
+                        "col": 4,
+                        "endLine": 50,
+                        "endCol": 11
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "单",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 51,
+                                "col": 9,
+                                "endLine": 51,
+                                "endCol": 12
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "唯一",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 51,
+                                "col": 14,
+                                "endLine": 51,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 51,
+                            "col": 6,
+                            "endLine": 51,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 51,
+                          "col": 6,
+                          "endLine": 51,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 53,
+                        "col": 4,
+                        "endLine": 53,
+                        "endCol": 6
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "兜底",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 54,
+                                "col": 9,
+                                "endLine": 54,
+                                "endCol": 13
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 54,
+                            "col": 6,
+                            "endLine": 54,
+                            "endCol": 14
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 54,
+                          "col": 6,
+                          "endLine": 54,
+                          "endCol": 14
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 49,
+                  "col": 2,
+                  "endLine": 56,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "数",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 5,
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 58,
+                    "col": 9,
+                    "endLine": 58,
+                    "endCol": 10
+                  }
+                },
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 58,
+                  "col": 2,
+                  "endLine": 58,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "数",
+                  "span": {
+                    "file": "listpat_zh.agl",
+                    "line": 59,
+                    "col": 6,
+                    "endLine": 59,
+                    "endCol": 7
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "项",
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 60,
+                            "col": 8,
+                            "endLine": 60,
+                            "endCol": 9
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 60,
+                        "col": 4,
+                        "endLine": 60,
+                        "endCol": 10
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "列表",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 61,
+                                "col": 9,
+                                "endLine": 61,
+                                "endCol": 13
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "项",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 61,
+                                "col": 15,
+                                "endLine": 61,
+                                "endCol": 16
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 61,
+                            "col": 6,
+                            "endLine": 61,
+                            "endCol": 17
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 61,
+                          "col": 6,
+                          "endLine": 61,
+                          "endCol": 17
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_zh.agl",
+                        "line": 63,
+                        "col": 4,
+                        "endLine": 63,
+                        "endCol": 6
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "非列表",
+                              "span": {
+                                "file": "listpat_zh.agl",
+                                "line": 64,
+                                "col": 9,
+                                "endLine": 64,
+                                "endCol": 14
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_zh.agl",
+                            "line": 64,
+                            "col": 6,
+                            "endLine": 64,
+                            "endCol": 15
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_zh.agl",
+                          "line": 64,
+                          "col": 6,
+                          "endLine": 64,
+                          "endCol": 15
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_zh.agl",
+                  "line": 59,
+                  "col": 2,
+                  "endLine": 66,
+                  "endCol": 3
+                }
+              }
+            ],
+            "span": {
+              "file": "listpat_zh.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 67,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "listpat_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 68,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

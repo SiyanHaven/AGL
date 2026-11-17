@@ -1,0 +1,220 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "type_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [
+          {
+            "name": "User",
+            "fields": [
+              {
+                "name": "id",
+                "type": {
+                  "type": "Int"
+                },
+                "span": {
+                  "file": "type_en.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 9
+                }
+              },
+              {
+                "name": "name",
+                "type": {
+                  "type": "String"
+                },
+                "span": {
+                  "file": "type_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 14
+                }
+              }
+            ],
+            "span": {
+              "file": "type_en.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 6,
+              "endCol": 1
+            }
+          }
+        ],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "a",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "User",
+                  "args": [
+                    {
+                      "expr": "named",
+                      "name": "id",
+                      "value": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "type_en.agl",
+                          "line": 9,
+                          "col": 19,
+                          "endLine": 9,
+                          "endCol": 20
+                        }
+                      },
+                      "span": {
+                        "file": "type_en.agl",
+                        "line": 9,
+                        "col": 15,
+                        "endLine": 9,
+                        "endCol": 20
+                      }
+                    },
+                    {
+                      "expr": "named",
+                      "name": "name",
+                      "value": {
+                        "expr": "string",
+                        "value": "Aming",
+                        "span": {
+                          "file": "type_en.agl",
+                          "line": 9,
+                          "col": 28,
+                          "endLine": 9,
+                          "endCol": 35
+                        }
+                      },
+                      "span": {
+                        "file": "type_en.agl",
+                        "line": 9,
+                        "col": 22,
+                        "endLine": 9,
+                        "endCol": 35
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "type_en.agl",
+                    "line": 9,
+                    "col": 10,
+                    "endLine": 9,
+                    "endCol": 36
+                  }
+                },
+                "span": {
+                  "file": "type_en.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 36
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "a",
+                        "span": {
+                          "file": "type_en.agl",
+                          "line": 10,
+                          "col": 8,
+                          "endLine": 10,
+                          "endCol": 9
+                        }
+                      },
+                      "field": "id",
+                      "span": {
+                        "file": "type_en.agl",
+                        "line": 10,
+                        "col": 8,
+                        "endLine": 10,
+                        "endCol": 12
+                      }
+                    },
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "a",
+                        "span": {
+                          "file": "type_en.agl",
+                          "line": 10,
+                          "col": 14,
+                          "endLine": 10,
+                          "endCol": 15
+                        }
+                      },
+                      "field": "name",
+                      "span": {
+                        "file": "type_en.agl",
+                        "line": 10,
+                        "col": 14,
+                        "endLine": 10,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "type_en.agl",
+                    "line": 10,
+                    "col": 2,
+                    "endLine": 10,
+                    "endCol": 21
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "type_en.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 21
+                }
+              }
+            ],
+            "span": {
+              "file": "type_en.agl",
+              "line": 8,
+              "col": 0,
+              "endLine": 11,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "type_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 12,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

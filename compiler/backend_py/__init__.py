@@ -10,7 +10,7 @@
     并把真实落点记进 source map；
   · source map 是 {python_line: agl_line}，运行期回译**只认它**。
 
-当前版本 明确的限制（写进文档，不藏着）：
+阶段 1 明确的限制（写进文档，不藏着）：
   · 属性访问原样转译（`x.状态` → `x.状态`），由宿主对象自行保证成员存在；
   · 不生成类型注解；
   · `异步` 按同步处理，并已由 M4 告警。
@@ -514,9 +514,15 @@ def _agl_反转(列表):
 
 
 def _agl_获取网页(url):
-    # v0.51：获取网页文本内容
+    # v0.51：获取网页文本内容；只允许 http/https，避免 file:// 读本机文件。
     import urllib.request
-    req = urllib.request.Request(url, headers={"User-Agent": "AGL/0.5"})
+    from urllib.parse import urlsplit
+    地址 = str(url)
+    协议 = urlsplit(地址).scheme.lower()
+    if 协议 not in ("http", "https"):
+        raise ValueError("获取网页只允许 http/https 地址" if _AGL_ZH
+                         else "fetch only accepts http/https URLs")
+    req = urllib.request.Request(地址, headers={"User-Agent": "AGL/0.5"})
     with urllib.request.urlopen(req, timeout=10) as resp:
         return resp.read().decode("utf-8")
 
@@ -534,9 +540,21 @@ def _agl_当前目录():
 
 
 def _agl_环境变量(名, 默认=""):
-    # v0.51：读环境变量
+    # v0.51：读环境变量。凭证类变量默认拒绝，必须在宿主侧显式点名放行
+    # （AGL_ENV_ALLOW_SECRETS=NAME 或 all），避免一行 AGL 就把密钥读走。
     import os
-    return os.environ.get(名, 默认)
+    name = str(名)
+    blocked = ("TOKEN", "SECRET", "PASSWORD", "PASSWD", "CREDENTIAL",
+               "PRIVATE_KEY", "API_KEY", "ACCESS_KEY", "AUTH", "SESSION", "COOKIE")
+    upper = name.upper()
+    if any(k in upper for k in blocked):
+        allow = os.environ.get("AGL_ENV_ALLOW_SECRETS", "")
+        allowed = {x.strip() for x in allow.split(",") if x.strip()}
+        if "all" not in allowed and name not in allowed:
+            raise PermissionError(
+                f"读取环境变量 `{name}` 被拒绝：名称像凭证；"
+                f"确需读取时由宿主设置 AGL_ENV_ALLOW_SECRETS={name}")
+    return os.environ.get(name, 默认)
 
 
 def _agl_MD5(文本):
@@ -552,14 +570,32 @@ def _agl_SHA256(文本):
 
 
 # ── v0.52：SQLite数据库基础能力 ─────────────────────────────────
+def _agl_连接值(连接):
+    # 打开数据库返回结果；执行函数同时接受「结果」和已取到的连接对象，
+    # 这样 `取到(...)` / `如果` 两种写法都能对上同一份规格。
+    if isinstance(连接, _Result):
+        if not 连接.ok:
+            raise RuntimeError(f"数据库连接失败：{连接.value}")
+        return 连接.value
+    if hasattr(连接, "ok") and hasattr(连接, "value"):
+        if not 连接.ok:
+            raise RuntimeError(f"数据库连接失败：{连接.value}")
+        return 连接.value
+    return 连接
+
+
 def _agl_打开数据库(路径):
-    # 打开SQLite数据库，返回连接对象
+    # 打开SQLite数据库，返回 Result<连接>
     import sqlite3
-    return sqlite3.connect(路径)
+    try:
+        return _Result(True, sqlite3.connect(路径))
+    except Exception as 错误:
+        return _Result(False, str(错误))
 
 
 def _agl_执行SQL(连接, sql):
     # 执行写操作SQL（增删改），自动提交
+    连接 = _agl_连接值(连接)
     游标 = 连接.cursor()
     游标.execute(sql)
     连接.commit()
@@ -568,6 +604,7 @@ def _agl_执行SQL(连接, sql):
 
 def _agl_查询SQL(连接, sql):
     # 执行查询SQL，返回所有结果列表
+    连接 = _agl_连接值(连接)
     游标 = 连接.cursor()
     游标.execute(sql)
     return 游标.fetchall()
@@ -575,6 +612,7 @@ def _agl_查询SQL(连接, sql):
 
 def _agl_执行SQL带参(连接, sql, 参数们):
     # 参数化执行写操作，防注入
+    连接 = _agl_连接值(连接)
     游标 = 连接.cursor()
     游标.execute(sql, 参数们)
     连接.commit()
@@ -583,6 +621,7 @@ def _agl_执行SQL带参(连接, sql, 参数们):
 
 def _agl_查询SQL带参(连接, sql, 参数们):
     # 参数化查询，防注入
+    连接 = _agl_连接值(连接)
     游标 = 连接.cursor()
     游标.execute(sql, 参数们)
     return 游标.fetchall()
@@ -590,7 +629,7 @@ def _agl_查询SQL带参(连接, sql, 参数们):
 
 def _agl_关闭数据库(连接):
     # 关闭数据库连接
-    连接.close()
+    _agl_连接值(连接).close()
 
 
 def _agl_启动HTTP(端口, 返回文本):
@@ -609,14 +648,34 @@ def _agl_启动HTTP(端口, 返回文本):
         def log_message(self, *args):
             pass
 
-    服务器 = HTTPServer(("0.0.0.0", int(端口)), _处理器)
+    服务器 = HTTPServer(("127.0.0.1", int(端口)), _处理器)
     print(f"HTTP服务已启动：http://localhost:{端口}")
     服务器.serve_forever()
+
+
+def _agl_启动网页应用(端口, 处理函数名, 绑定地址="127.0.0.1"):
+    # 可编程网页服务：每个请求交给同模块中指定名称的处理函数。
+    # 默认只监听回环地址；需要局域网访问时显式传 "0.0.0.0"。
+    from compiler.webapp import serve_web_app
+
+    def _调用处理函数(请求):
+        函数 = globals().get(str(处理函数名))
+        if not callable(函数):
+            return {
+                "状态": 500,
+                "类型": "text/plain; charset=utf-8",
+                "内容": f"找不到处理函数：{处理函数名}",
+            }
+        return 函数(请求)
+
+    serve_web_app(int(端口), _调用处理函数, "zh" if __AGL_ZH__ else "en",
+                  host=str(绑定地址))
 
 
 def _agl_启动待办HTTP(端口, db路径):
     # 完整待办Web服务：支持列表展示、新增待办、标记完成
     from http.server import HTTPServer, BaseHTTPRequestHandler
+    import html as _html
     import sqlite3
     import urllib.parse
     
@@ -658,7 +717,7 @@ a { color: #2196F3; text-decoration: none; margin-left: auto; }
             for r in rows:
                 状态 = 'class="done"' if r[2] == 1 else ''
                 徽章 = '<span class="badge">已完成</span>' if r[2] == 1 else ''
-                html += f'<div class="todo-item">{徽章}<span {状态}>{r[1]}</span>'
+                html += f'<div class="todo-item">{徽章}<span {状态}>{_html.escape(str(r[1]))}</span>'
                 if r[2] == 0:
                     html += f'<a href="/完成/{r[0]}">标记完成</a>'
                 html += '</div>'
@@ -683,7 +742,7 @@ a { color: #2196F3; text-decoration: none; margin-left: auto; }
         def log_message(self, *args):
             pass
     
-    服务器 = HTTPServer(("0.0.0.0", 端口), _处理器)
+    服务器 = HTTPServer(("127.0.0.1", 端口), _处理器)
     print(f"✅ 待办Web服务已启动：http://localhost:{端口}")
     服务器.serve_forever()
 
@@ -1474,6 +1533,27 @@ def _agl_replace(text, old, new, count=-1):
     if count is None or count < 0:
         return str(text).replace(o, str(new))
     return str(text).replace(o, str(new), int(count))
+
+
+def _agl_html_escape(text):
+    # HTML 文本节点 / 属性里必须转义的五个字符。
+    return (str(text).replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace('"', "&quot;")
+            .replace("'", "&#39;"))
+
+
+def _agl_url_encode(text):
+    # URL 组件编码：空格编码为 %20，斜杠不保留。
+    from urllib.parse import quote
+    return quote(str(text), safe="")
+
+
+def _agl_url_decode(text):
+    # URL 百分比解码；`+` 留给表单解析，不在这里当空格。
+    from urllib.parse import unquote
+    return unquote(str(text))
 
 
 def _agl_strip(text, chars=None):

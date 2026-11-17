@@ -1,0 +1,18 @@
+# case: the expanded standard library (text_util + list_util + math)
+
+[project]
+name = "stdlib2_en"
+version = "0.1.0"
+entry = "main.agl"
+language = "en"
+
+[build]
+backend = "python"
+out_dir = "build"
+ir_dir = "build/ir"
+diff_dir = "build/diff"
+
+[dependencies]
+text_util = "0.2.0"
+list_util = "0.2.0"
+math = "0.2.0"

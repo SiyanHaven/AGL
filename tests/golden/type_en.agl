@@ -1,0 +1,11 @@
+#lang=English
+// Custom struct: fields, named construction, field access
+type User {
+  id: Int
+  name: String
+}
+
+fn main() {
+  let a = User(id: 1, name: "Aming")
+  print(a.id, a.name)
+}

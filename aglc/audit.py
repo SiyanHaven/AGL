@@ -187,6 +187,109 @@ def _call_name(node: ast.Call) -> str:
     return ".".join(reversed(parts))
 
 
+def _const_str(node: ast.AST) -> str | None:
+    """静态求值只含字符串常量的表达式；求不出就返回 None。"""
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        left, right = _const_str(node.left), _const_str(node.right)
+        return None if left is None or right is None else left + right
+    if isinstance(node, ast.JoinedStr):
+        parts = []
+        for v in node.values:
+            if not isinstance(v, ast.Constant) or not isinstance(v.value, str):
+                return None
+            parts.append(v.value)
+        return "".join(parts)
+    return None
+
+
+def _build_context(tree: ast.AST) -> dict:
+    """收集 import 别名、动态导入模块变量和 getattr 别名。
+
+    这不是完整的 Python 求值器，只覆盖审计报告里点名的静态可判形态：
+    `import requests as r`、`importlib.import_module("requests")`、
+    `getattr(m, "ge" + "t")`。动态到无法判定的调用仍会漏报，报告会明说。
+    """
+    aliases: dict[str, str] = {}
+    module_vars: dict[str, str] = {}
+    func_vars: dict[str, str] = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for a in node.names:
+                local = a.asname or a.name.split(".")[0]
+                aliases[local] = a.name if a.asname else a.name.split(".")[0]
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                for a in node.names:
+                    if a.name != "*":
+                        aliases[a.asname or a.name] = f"{node.module}.{a.name}"
+    # 两轮：允许 `m = import_module(...)` 后再被 getattr 使用
+    for _ in range(2):
+        for node in ast.walk(tree):
+            if not isinstance(node, (ast.Assign, ast.AnnAssign)):
+                continue
+            value = node.value
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            if not isinstance(value, ast.Call):
+                continue
+            callee = _call_name(value)
+            callee = aliases.get(callee.split(".")[0], callee.split(".")[0]) + (
+                "." + ".".join(callee.split(".")[1:]) if "." in callee else "")
+            if callee.rsplit(".", 1)[-1] not in ("import_module", "__import__"):
+                continue
+            if not value.args:
+                continue
+            mod = _const_str(value.args[0])
+            if not mod:
+                continue
+            for t in targets:
+                if isinstance(t, ast.Name):
+                    module_vars[t.id] = mod
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign) or len(node.targets) != 1:
+            continue
+        target = node.targets[0]
+        if not isinstance(target, ast.Name):
+            continue
+        value = node.value
+        if (isinstance(value, ast.Call) and isinstance(value.func, ast.Name)
+                and value.func.id == "getattr"):
+            if len(value.args) >= 2:
+                obj = _expr_name(value.args[0], aliases, module_vars, func_vars)
+                attr = _const_str(value.args[1])
+                if obj and attr:
+                    func_vars[target.id] = f"{obj}.{attr}"
+        elif isinstance(value, ast.Attribute):
+            obj = _expr_name(value, aliases, module_vars, func_vars)
+            if obj:
+                func_vars[target.id] = obj
+    return {"aliases": aliases, "module_vars": module_vars, "func_vars": func_vars}
+
+
+def _expr_name(node: ast.AST, aliases: dict[str, str], module_vars: dict[str, str],
+               func_vars: dict[str, str], depth: int = 0) -> str | None:
+    if depth > 6:
+        return None
+    if isinstance(node, ast.Name):
+        return func_vars.get(node.id) or module_vars.get(node.id) or aliases.get(node.id, node.id)
+    if isinstance(node, ast.Attribute):
+        base = _expr_name(node.value, aliases, module_vars, func_vars, depth + 1)
+        return f"{base}.{node.attr}" if base else None
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "getattr":
+        if len(node.args) >= 2:
+            base = _expr_name(node.args[0], aliases, module_vars, func_vars, depth + 1)
+            attr = _const_str(node.args[1])
+            if base and attr:
+                return f"{base}.{attr}"
+    return None
+
+
+def _call_full(node: ast.Call, ctx: dict) -> str:
+    base = _expr_name(node.func, ctx["aliases"], ctx["module_vars"], ctx["func_vars"])
+    return base or _call_name(node)
+
+
 def _open_mode(node: ast.Call) -> str:
     """判断 open() 的模式：写 / 读"""
     mode = ""
@@ -222,6 +325,7 @@ def scan_file(path: Path) -> Audit:
         sys.exit(2)
 
     audit = Audit(source=str(path))
+    ctx = _build_context(tree)
 
     # 收集函数名（用于报告"哪一步做的"）
     for node in ast.walk(tree):
@@ -245,7 +349,7 @@ def scan_file(path: Path) -> Audit:
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
-        call = _call_name(node)
+        call = _call_full(node, ctx)
 
         # open() 单独判断读写
         if call == "open" or call.endswith(".open"):
@@ -288,8 +392,8 @@ def scan_file(path: Path) -> Audit:
     for node in ast.walk(tree):
         if not isinstance(node, ast.Subscript):
             continue
-        base = _attr_chain(node.value)
-        if not base.startswith("os.environ"):
+        base = _expr_name(node.value, ctx["aliases"], ctx["module_vars"], ctx["func_vars"]) or _attr_chain(node.value)
+        if not (base == "os.environ" or base.startswith("os.environ.")):
             continue
         seg = ast.get_source_segment(src, node) or base
         is_secret = any(k in seg.upper() for k in SECRET_KEYS)
@@ -346,8 +450,10 @@ def render(audits: list[Audit]) -> None:
 
     print()
     print("═" * 68)
-    print("  AGL 契约检查报告")
+    print("  AGL 契约审查报告")
     print("═" * 68)
+    print("  注意 这是启发式静态扫描，只覆盖 Python 源码；动态拼接、反射和")
+    print("        运行时生成的调用可能漏报，不能当安全边界，只能帮人先看一遍。")
     print(f"  审查对象  {', '.join(Path(a.source).name for a in audits)}")
     print(f"  发现动作  {total} 处" + (f"    其中需要你特别确认的 {high} 处" if high else ""))
     print()

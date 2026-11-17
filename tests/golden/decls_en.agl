@@ -1,0 +1,41 @@
+#lang=English
+tool fetch_file {
+  input(file_path: String)
+  return String?
+  config {
+    protocol = "mcp"
+    endpoint = "http://127.0.0.1:8080/mcp"
+    max_retry = 2
+    timeout_sec = 10
+    permissions = ["file_read"]
+    subscribe = false
+  }
+}
+
+agent research_helper {
+  target = "finish research with sourced conclusions"
+  input(topic: String)
+  return String
+  config {
+    model = "research-model"
+  }
+}
+
+rule data_redaction {
+  version = 2
+  scope = all_project
+  priority = high
+  content = "redact phone and id before output"
+}
+
+rule report_tone {
+  version = 1
+  scope = module finance_report
+  priority = normal
+  content = "cite data sources"
+  expires = 2026-12-31
+}
+
+fn main() {
+  print("decls ok")
+}

@@ -1,0 +1,329 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "decls_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "decls ok",
+                      "span": {
+                        "file": "decls_zh.agl",
+                        "line": 40,
+                        "col": 5,
+                        "endLine": 40,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "decls_zh.agl",
+                    "line": 40,
+                    "col": 2,
+                    "endLine": 40,
+                    "endCol": 16
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 40,
+                  "col": 2,
+                  "endLine": 40,
+                  "endCol": 16
+                }
+              }
+            ],
+            "span": {
+              "file": "decls_zh.agl",
+              "line": 39,
+              "col": 0,
+              "endLine": 41,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "decls_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 42,
+          "endCol": 0
+        },
+        "declarations": [
+          {
+            "kind": "tool",
+            "name": "读取文件",
+            "span": {
+              "file": "decls_zh.agl",
+              "line": 2,
+              "col": 0,
+              "endLine": 2,
+              "endCol": 7
+            },
+            "params": [
+              {
+                "name": "文件路径",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String",
+              "nullable": true
+            },
+            "config": {
+              "protocol": {
+                "expr": "string",
+                "value": "mcp",
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 6,
+                  "col": 9,
+                  "endLine": 6,
+                  "endCol": 14
+                }
+              },
+              "endpoint": {
+                "expr": "string",
+                "value": "http://127.0.0.1:8080/mcp",
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 7,
+                  "col": 9,
+                  "endLine": 7,
+                  "endCol": 36
+                }
+              },
+              "max_retry": {
+                "expr": "int",
+                "value": 2,
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 8,
+                  "col": 13,
+                  "endLine": 8,
+                  "endCol": 14
+                }
+              },
+              "timeout_sec": {
+                "expr": "int",
+                "value": 10,
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 9,
+                  "col": 11,
+                  "endLine": 9,
+                  "endCol": 13
+                }
+              },
+              "permissions": {
+                "expr": "list",
+                "items": [
+                  {
+                    "expr": "string",
+                    "value": "文件只读",
+                    "span": {
+                      "file": "decls_zh.agl",
+                      "line": 10,
+                      "col": 10,
+                      "endLine": 10,
+                      "endCol": 16
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 10,
+                  "col": 9,
+                  "endLine": 10,
+                  "endCol": 17
+                }
+              },
+              "subscribe": {
+                "expr": "bool",
+                "value": false,
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 11,
+                  "col": 9,
+                  "endLine": 11,
+                  "endCol": 10
+                }
+              }
+            }
+          },
+          {
+            "kind": "agent",
+            "name": "调研助手",
+            "span": {
+              "file": "decls_zh.agl",
+              "line": 15,
+              "col": 0,
+              "endLine": 15,
+              "endCol": 8
+            },
+            "params": [
+              {
+                "name": "主题",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "config": {
+              "model": {
+                "expr": "string",
+                "value": "调研模型",
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 20,
+                  "col": 9,
+                  "endLine": 20,
+                  "endCol": 15
+                }
+              }
+            },
+            "target": {
+              "expr": "string",
+              "value": "完成主题调研并给出带来源的结论",
+              "span": {
+                "file": "decls_zh.agl",
+                "line": 16,
+                "col": 7,
+                "endLine": 16,
+                "endCol": 24
+              }
+            }
+          },
+          {
+            "kind": "rule",
+            "name": "数据脱敏",
+            "span": {
+              "file": "decls_zh.agl",
+              "line": 24,
+              "col": 0,
+              "endLine": 24,
+              "endCol": 7
+            },
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "fields": {
+              "version": {
+                "expr": "int",
+                "value": 2,
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 25,
+                  "col": 7,
+                  "endLine": 25,
+                  "endCol": 8
+                }
+              },
+              "scope": {
+                "expr": "string",
+                "value": "全项目"
+              },
+              "priority": {
+                "expr": "name",
+                "name": "high"
+              },
+              "content": {
+                "expr": "string",
+                "value": "输出任何文本前先脱敏手机号与身份证号",
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 28,
+                  "col": 7,
+                  "endLine": 28,
+                  "endCol": 27
+                }
+              }
+            }
+          },
+          {
+            "kind": "rule",
+            "name": "报告语气",
+            "span": {
+              "file": "decls_zh.agl",
+              "line": 31,
+              "col": 0,
+              "endLine": 31,
+              "endCol": 7
+            },
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "fields": {
+              "version": {
+                "expr": "int",
+                "value": 1,
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 32,
+                  "col": 7,
+                  "endLine": 32,
+                  "endCol": 8
+                }
+              },
+              "scope": {
+                "expr": "scope",
+                "level": "模块",
+                "value": "财务报告"
+              },
+              "priority": {
+                "expr": "name",
+                "name": "normal"
+              },
+              "content": {
+                "expr": "string",
+                "value": "报告结论必须附数据来源",
+                "span": {
+                  "file": "decls_zh.agl",
+                  "line": 35,
+                  "col": 7,
+                  "endLine": 35,
+                  "endCol": 20
+                }
+              },
+              "expires": {
+                "expr": "string",
+                "value": "2026-12-31"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

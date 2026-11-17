@@ -1,0 +1,1994 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "listpat_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "pair",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 5,
+                        "col": 14,
+                        "endLine": 5,
+                        "endCol": 15
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 0,
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 5,
+                        "col": 17,
+                        "endLine": 5,
+                        "endCol": 18
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 5,
+                    "col": 13,
+                    "endLine": 5,
+                    "endCol": 19
+                  }
+                },
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 19
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "pair",
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 6,
+                    "col": 9,
+                    "endLine": 6,
+                    "endCol": 13
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "first",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 7,
+                            "col": 9,
+                            "endLine": 7,
+                            "endCol": 14
+                          }
+                        },
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 0,
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 7,
+                              "col": 16,
+                              "endLine": 7,
+                              "endCol": 17
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 7,
+                            "col": 16,
+                            "endLine": 7,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 18
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "tail zero",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 8,
+                                "col": 12,
+                                "endLine": 8,
+                                "endCol": 23
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "first",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 8,
+                                "col": 25,
+                                "endLine": 8,
+                                "endCol": 30
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 8,
+                            "col": 6,
+                            "endLine": 8,
+                            "endCol": 31
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 8,
+                          "col": 6,
+                          "endLine": 8,
+                          "endCol": 31
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "first",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 10,
+                            "col": 9,
+                            "endLine": 10,
+                            "endCol": 14
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "second",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 10,
+                            "col": 20,
+                            "endLine": 10,
+                            "endCol": 26
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 10,
+                        "col": 4,
+                        "endLine": 10,
+                        "endCol": 27
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "both",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 11,
+                                "col": 12,
+                                "endLine": 11,
+                                "endCol": 18
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "first",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 11,
+                                "col": 20,
+                                "endLine": 11,
+                                "endCol": 25
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "second",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 11,
+                                "col": 27,
+                                "endLine": 11,
+                                "endCol": 33
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 11,
+                            "col": 6,
+                            "endLine": 11,
+                            "endCol": 34
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 11,
+                          "col": 6,
+                          "endLine": 11,
+                          "endCol": 34
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "binop",
+                      "op": ">",
+                      "left": {
+                        "expr": "name",
+                        "name": "first",
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 10,
+                          "col": 31,
+                          "endLine": 10,
+                          "endCol": 36
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 10,
+                          "col": 39,
+                          "endLine": 10,
+                          "endCol": 40
+                        }
+                      },
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 10,
+                        "col": 31,
+                        "endLine": 10,
+                        "endCol": 40
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 13,
+                              "col": 5,
+                              "endLine": 13,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 13,
+                            "col": 5,
+                            "endLine": 13,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "second",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 13,
+                            "col": 12,
+                            "endLine": 13,
+                            "endCol": 18
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 19
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "first one",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 14,
+                                "col": 12,
+                                "endLine": 14,
+                                "endCol": 23
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "second",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 14,
+                                "col": 25,
+                                "endLine": 14,
+                                "endCol": 31
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 14,
+                            "col": 6,
+                            "endLine": 14,
+                            "endCol": 32
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 14,
+                          "col": 6,
+                          "endLine": 14,
+                          "endCol": 32
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 16,
+                        "col": 4,
+                        "endLine": 16,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "none",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 17,
+                                "col": 12,
+                                "endLine": 17,
+                                "endCol": 18
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 17,
+                            "col": 6,
+                            "endLine": 17,
+                            "endCol": 19
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 17,
+                          "col": 6,
+                          "endLine": 17,
+                          "endCol": 19
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "other",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 21,
+                        "col": 15,
+                        "endLine": 21,
+                        "endCol": 16
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 9,
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 21,
+                        "col": 18,
+                        "endLine": 21,
+                        "endCol": 19
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 21,
+                    "col": 14,
+                    "endLine": 21,
+                    "endCol": 20
+                  }
+                },
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 21,
+                  "col": 2,
+                  "endLine": 21,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "other",
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 22,
+                    "col": 9,
+                    "endLine": 22,
+                    "endCol": 14
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 23,
+                              "col": 5,
+                              "endLine": 23,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 23,
+                            "col": 5,
+                            "endLine": 23,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "second",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 23,
+                            "col": 12,
+                            "endLine": 23,
+                            "endCol": 18
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 23,
+                        "col": 4,
+                        "endLine": 23,
+                        "endCol": 19
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "first one",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 24,
+                                "col": 12,
+                                "endLine": 24,
+                                "endCol": 23
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "second",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 24,
+                                "col": 25,
+                                "endLine": 24,
+                                "endCol": 31
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 24,
+                            "col": 6,
+                            "endLine": 24,
+                            "endCol": 32
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 24,
+                          "col": 6,
+                          "endLine": 24,
+                          "endCol": 32
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "first",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 26,
+                            "col": 9,
+                            "endLine": 26,
+                            "endCol": 14
+                          }
+                        },
+                        {
+                          "kind": "bind",
+                          "name": "second",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 26,
+                            "col": 20,
+                            "endLine": 26,
+                            "endCol": 26
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 26,
+                        "col": 4,
+                        "endLine": 26,
+                        "endCol": 27
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "guard",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 27,
+                                "col": 12,
+                                "endLine": 27,
+                                "endCol": 19
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "first",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 27,
+                                "col": 21,
+                                "endLine": 27,
+                                "endCol": 26
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "second",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 27,
+                                "col": 28,
+                                "endLine": 27,
+                                "endCol": 34
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 27,
+                            "col": 6,
+                            "endLine": 27,
+                            "endCol": 35
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 27,
+                          "col": 6,
+                          "endLine": 27,
+                          "endCol": 35
+                        }
+                      }
+                    ],
+                    "guard": {
+                      "expr": "binop",
+                      "op": ">",
+                      "left": {
+                        "expr": "name",
+                        "name": "second",
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 26,
+                          "col": 31,
+                          "endLine": 26,
+                          "endCol": 37
+                        }
+                      },
+                      "right": {
+                        "expr": "int",
+                        "value": 4,
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 26,
+                          "col": 40,
+                          "endLine": 26,
+                          "endCol": 41
+                        }
+                      },
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 26,
+                        "col": 31,
+                        "endLine": 26,
+                        "endCol": 41
+                      }
+                    }
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 29,
+                        "col": 4,
+                        "endLine": 29,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "none two",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 30,
+                                "col": 12,
+                                "endLine": 30,
+                                "endCol": 22
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 30,
+                            "col": 6,
+                            "endLine": 30,
+                            "endCol": 23
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 30,
+                          "col": 6,
+                          "endLine": 30,
+                          "endCol": 23
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 22,
+                  "col": 2,
+                  "endLine": 32,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "matrix",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 34,
+                        "col": 16,
+                        "endLine": 34,
+                        "endCol": 17
+                      }
+                    },
+                    {
+                      "expr": "list",
+                      "items": [
+                        {
+                          "expr": "int",
+                          "value": 7,
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 34,
+                            "col": 20,
+                            "endLine": 34,
+                            "endCol": 21
+                          }
+                        },
+                        {
+                          "expr": "int",
+                          "value": 9,
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 34,
+                            "col": 23,
+                            "endLine": 34,
+                            "endCol": 24
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 34,
+                        "col": 19,
+                        "endLine": 34,
+                        "endCol": 25
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 34,
+                    "col": 15,
+                    "endLine": 34,
+                    "endCol": 26
+                  }
+                },
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 34,
+                  "col": 2,
+                  "endLine": 34,
+                  "endCol": 26
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "matrix",
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 35,
+                    "col": 9,
+                    "endLine": 35,
+                    "endCol": 15
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 0,
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 36,
+                              "col": 5,
+                              "endLine": 36,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 36,
+                            "col": 5,
+                            "endLine": 36,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "bind",
+                                "name": "first",
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 36,
+                                  "col": 13,
+                                  "endLine": 36,
+                                  "endCol": 18
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "second",
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 36,
+                                  "col": 24,
+                                  "endLine": 36,
+                                  "endCol": 30
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 36,
+                              "col": 8,
+                              "endLine": 36,
+                              "endCol": 31
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 36,
+                            "col": 8,
+                            "endLine": 36,
+                            "endCol": 31
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 36,
+                        "col": 4,
+                        "endLine": 36,
+                        "endCol": 32
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "wrong nest",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 36,
+                                "col": 41,
+                                "endLine": 36,
+                                "endCol": 53
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "first",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 36,
+                                "col": 55,
+                                "endLine": 36,
+                                "endCol": 60
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "second",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 36,
+                                "col": 62,
+                                "endLine": 36,
+                                "endCol": 68
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 36,
+                            "col": 35,
+                            "endLine": 36,
+                            "endCol": 69
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 36,
+                          "col": 35,
+                          "endLine": 36,
+                          "endCol": 69
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 2,
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 37,
+                              "col": 5,
+                              "endLine": 37,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 37,
+                            "col": 5,
+                            "endLine": 37,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "literal",
+                                "value": {
+                                  "expr": "int",
+                                  "value": 7,
+                                  "span": {
+                                    "file": "listpat_en.agl",
+                                    "line": 37,
+                                    "col": 9,
+                                    "endLine": 37,
+                                    "endCol": 10
+                                  }
+                                },
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 37,
+                                  "col": 9,
+                                  "endLine": 37,
+                                  "endCol": 10
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "tail",
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 37,
+                                  "col": 16,
+                                  "endLine": 37,
+                                  "endCol": 20
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 37,
+                              "col": 8,
+                              "endLine": 37,
+                              "endCol": 21
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 37,
+                            "col": 8,
+                            "endLine": 37,
+                            "endCol": 21
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 37,
+                        "col": 4,
+                        "endLine": 37,
+                        "endCol": 22
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "nested",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 37,
+                                "col": 31,
+                                "endLine": 37,
+                                "endCol": 39
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "tail",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 37,
+                                "col": 41,
+                                "endLine": 37,
+                                "endCol": 45
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 37,
+                            "col": 25,
+                            "endLine": 37,
+                            "endCol": 46
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 37,
+                          "col": 25,
+                          "endLine": 37,
+                          "endCol": 46
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "outer",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 38,
+                            "col": 9,
+                            "endLine": 38,
+                            "endCol": 14
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "bind",
+                                "name": "first",
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 38,
+                                  "col": 21,
+                                  "endLine": 38,
+                                  "endCol": 26
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "second",
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 38,
+                                  "col": 32,
+                                  "endLine": 38,
+                                  "endCol": 38
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 38,
+                              "col": 16,
+                              "endLine": 38,
+                              "endCol": 39
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 38,
+                            "col": 16,
+                            "endLine": 38,
+                            "endCol": 39
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 38,
+                        "col": 4,
+                        "endLine": 38,
+                        "endCol": 40
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "all bound",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 38,
+                                "col": 49,
+                                "endLine": 38,
+                                "endCol": 60
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "outer",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 38,
+                                "col": 62,
+                                "endLine": 38,
+                                "endCol": 67
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "first",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 38,
+                                "col": 69,
+                                "endLine": 38,
+                                "endCol": 74
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "second",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 38,
+                                "col": 76,
+                                "endLine": 38,
+                                "endCol": 82
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 38,
+                            "col": 43,
+                            "endLine": 38,
+                            "endCol": 83
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 38,
+                          "col": 43,
+                          "endLine": 38,
+                          "endCol": 83
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 39,
+                        "col": 4,
+                        "endLine": 39,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no nested",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 39,
+                                "col": 17,
+                                "endLine": 39,
+                                "endCol": 28
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 39,
+                            "col": 11,
+                            "endLine": 39,
+                            "endCol": 29
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 39,
+                          "col": 11,
+                          "endLine": 39,
+                          "endCol": 29
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 35,
+                  "col": 2,
+                  "endLine": 40,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "flat",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 42,
+                        "col": 14,
+                        "endLine": 42,
+                        "endCol": 15
+                      }
+                    },
+                    {
+                      "expr": "list",
+                      "items": [
+                        {
+                          "expr": "int",
+                          "value": 7,
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 42,
+                            "col": 18,
+                            "endLine": 42,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 42,
+                        "col": 17,
+                        "endLine": 42,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 42,
+                    "col": 13,
+                    "endLine": 42,
+                    "endCol": 21
+                  }
+                },
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 42,
+                  "col": 2,
+                  "endLine": 42,
+                  "endCol": 21
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "flat",
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 43,
+                    "col": 9,
+                    "endLine": 43,
+                    "endCol": 13
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "literal",
+                          "value": {
+                            "expr": "int",
+                            "value": 2,
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 44,
+                              "col": 5,
+                              "endLine": 44,
+                              "endCol": 6
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 44,
+                            "col": 5,
+                            "endLine": 44,
+                            "endCol": 6
+                          }
+                        },
+                        {
+                          "kind": "list",
+                          "pattern": {
+                            "expr": "list_pattern",
+                            "items": [
+                              {
+                                "kind": "literal",
+                                "value": {
+                                  "expr": "int",
+                                  "value": 7,
+                                  "span": {
+                                    "file": "listpat_en.agl",
+                                    "line": 44,
+                                    "col": 9,
+                                    "endLine": 44,
+                                    "endCol": 10
+                                  }
+                                },
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 44,
+                                  "col": 9,
+                                  "endLine": 44,
+                                  "endCol": 10
+                                }
+                              },
+                              {
+                                "kind": "bind",
+                                "name": "tail",
+                                "span": {
+                                  "file": "listpat_en.agl",
+                                  "line": 44,
+                                  "col": 16,
+                                  "endLine": 44,
+                                  "endCol": 20
+                                }
+                              }
+                            ],
+                            "span": {
+                              "file": "listpat_en.agl",
+                              "line": 44,
+                              "col": 8,
+                              "endLine": 44,
+                              "endCol": 21
+                            }
+                          },
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 44,
+                            "col": 8,
+                            "endLine": 44,
+                            "endCol": 21
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 44,
+                        "col": 4,
+                        "endLine": 44,
+                        "endCol": 22
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "should not match",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 44,
+                                "col": 31,
+                                "endLine": 44,
+                                "endCol": 49
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "tail",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 44,
+                                "col": 51,
+                                "endLine": 44,
+                                "endCol": 55
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 44,
+                            "col": 25,
+                            "endLine": 44,
+                            "endCol": 56
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 44,
+                          "col": 25,
+                          "endLine": 44,
+                          "endCol": 56
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 45,
+                        "col": 4,
+                        "endLine": 45,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "short inner",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 45,
+                                "col": 17,
+                                "endLine": 45,
+                                "endCol": 30
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 45,
+                            "col": 11,
+                            "endLine": 45,
+                            "endCol": 31
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 45,
+                          "col": 11,
+                          "endLine": 45,
+                          "endCol": 31
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 43,
+                  "col": 2,
+                  "endLine": 46,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "single",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 7,
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 48,
+                        "col": 16,
+                        "endLine": 48,
+                        "endCol": 17
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 48,
+                    "col": 15,
+                    "endLine": 48,
+                    "endCol": 18
+                  }
+                },
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 48,
+                  "col": 2,
+                  "endLine": 48,
+                  "endCol": 18
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "single",
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 49,
+                    "col": 9,
+                    "endLine": 49,
+                    "endCol": 15
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "only",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 50,
+                            "col": 9,
+                            "endLine": 50,
+                            "endCol": 13
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 50,
+                        "col": 4,
+                        "endLine": 50,
+                        "endCol": 14
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "single",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 51,
+                                "col": 12,
+                                "endLine": 51,
+                                "endCol": 20
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "only",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 51,
+                                "col": 22,
+                                "endLine": 51,
+                                "endCol": 26
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 51,
+                            "col": 6,
+                            "endLine": 51,
+                            "endCol": 27
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 51,
+                          "col": 6,
+                          "endLine": 51,
+                          "endCol": 27
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 53,
+                        "col": 4,
+                        "endLine": 53,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "fallback",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 54,
+                                "col": 12,
+                                "endLine": 54,
+                                "endCol": 22
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 54,
+                            "col": 6,
+                            "endLine": 54,
+                            "endCol": 23
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 54,
+                          "col": 6,
+                          "endLine": 54,
+                          "endCol": 23
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 49,
+                  "col": 2,
+                  "endLine": 56,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "num",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 5,
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 58,
+                    "col": 12,
+                    "endLine": 58,
+                    "endCol": 13
+                  }
+                },
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 58,
+                  "col": 2,
+                  "endLine": 58,
+                  "endCol": 13
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "num",
+                  "span": {
+                    "file": "listpat_en.agl",
+                    "line": 59,
+                    "col": 9,
+                    "endLine": 59,
+                    "endCol": 12
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "list_pattern",
+                      "items": [
+                        {
+                          "kind": "bind",
+                          "name": "item",
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 60,
+                            "col": 9,
+                            "endLine": 60,
+                            "endCol": 13
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 60,
+                        "col": 4,
+                        "endLine": 60,
+                        "endCol": 14
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "list",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 61,
+                                "col": 12,
+                                "endLine": 61,
+                                "endCol": 18
+                              }
+                            },
+                            {
+                              "expr": "name",
+                              "name": "item",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 61,
+                                "col": 20,
+                                "endLine": 61,
+                                "endCol": 24
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 61,
+                            "col": 6,
+                            "endLine": 61,
+                            "endCol": 25
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 61,
+                          "col": 6,
+                          "endLine": 61,
+                          "endCol": 25
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "listpat_en.agl",
+                        "line": 63,
+                        "col": 4,
+                        "endLine": 63,
+                        "endCol": 8
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "not list",
+                              "span": {
+                                "file": "listpat_en.agl",
+                                "line": 64,
+                                "col": 12,
+                                "endLine": 64,
+                                "endCol": 22
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "listpat_en.agl",
+                            "line": 64,
+                            "col": 6,
+                            "endLine": 64,
+                            "endCol": 23
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "listpat_en.agl",
+                          "line": 64,
+                          "col": 6,
+                          "endLine": 64,
+                          "endCol": 23
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "listpat_en.agl",
+                  "line": 59,
+                  "col": 2,
+                  "endLine": 66,
+                  "endCol": 3
+                }
+              }
+            ],
+            "span": {
+              "file": "listpat_en.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 67,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "listpat_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 68,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

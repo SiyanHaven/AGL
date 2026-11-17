@@ -1,0 +1,48 @@
+name: Feature request
+description: Propose a language, compiler, example or documentation improvement.
+title: "feature: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        AGL 当前版本的能力边界写在 `docs/SPEC.zh.md` / `docs/SPEC.en.md` 第 13 节。
+        请先确认你的提议不是已知未实现项（元组、类、闭包、工具运行时、OS 沙箱等）。
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: 你想解决的具体问题是什么？谁受影响？
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: 描述行为、语法或 CLI 变化；如果有中英双语写法，请同时给出。
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Language surface / keywords
+        - Compiler or VM
+        - CLI / MCP / LSP
+        - Examples
+        - Documentation
+        - Release / packaging
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: 我确认这不是文档已声明的已知限制，或我明确希望把该限制纳入下一版本
+          required: true

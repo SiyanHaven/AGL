@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-"""自举编译器固定化安装。
+"""自举编译器固定化安装（B6 前置，T1）。
 
 把「种子编译器 → 管线 v1 → v1 编自身 v2 → v2 编自身 v3」整条链收成一个
 可重复执行的安装步骤，并把不动点产物 v3 安装到 `build/自举编译器/自举编译器.agb`。
 
 - `aglc bootstrap`：命令行入口，打印各阶段耗时与 SHA256；
 - doctor 的「AGB 产物与默认 VM」改为调用本模块（复用同一个实现，
-  体检不再自己造管线）；后续对拍直接使用安装好的不动点产物。
+  体检不再自己造管线）；B8 黄金对拍直接用安装好的不动点产物。
 
-验收口径：v2 与 v3 逐字节一致才算到不动点。
+验收口径沿用 docs/自举路线.md §8：v2 与 v3 逐字节一致才算到不动点。
 """
 from __future__ import annotations
 
@@ -122,7 +122,7 @@ def _write_seed_dependency_artifacts(check, out_dir: Path) -> None:
 
 def compile_with_selfhost(source: Path, out_dir: Path,
                           want_ir: bool = True) -> tuple[Path, Path | None]:
-    """用安装好的不动点编译器把一份 `.agl` 编成 `.agb`。
+    """用安装好的不动点编译器把一份 `.agl` 编成 `.agb`（B6 / T2）。
 
     返回 (agb 路径, ir 路径或 None)。自举链编不动（语法超出 / 缺入口 /
     导入解析失败）时抛 BootstrapError，由调用方决定报错文案与兜底方式。
@@ -177,8 +177,47 @@ def compile_with_selfhost(source: Path, out_dir: Path,
             detail = lines[0] if lines else "自举编译器没有产出字节码"
         raise BootstrapError(f"自举编译器编不了这份源码：{detail}")
     if not (want_ir and ir_target is not None and ir_target.exists()):
+        _repair_selfhost_lines(agb_target, check)
         return agb_target, None
+    _repair_selfhost_lines(agb_target, check)
     return agb_target, ir_target
+
+
+def _repair_selfhost_lines(agb_target: Path, check) -> None:
+    """把种子编译器的行号表贴回自举 AGB。
+
+    自举 IR 目前不携带源码 span，导致 AGL 版字节码生成器只能写 0。
+    种子编译器已经算出正确行号；这里只在“函数名 + 指令 op 序列”完全一致时
+    逐条贴回，避免把不同指令布局的产物错配。它是运行期可诊断性的补丁，
+    不是把自举编译器改成 Python 生成。
+    """
+    try:
+        from compiler import bytecode
+
+        self_text = agb_target.read_text(encoding="utf-8")
+        self_agb = bytecode.decode(self_text)
+        seed_agb = bytecode.compile_program(check.ir)
+        seed_funcs = {fn["name"]: fn for fn in
+                      ([seed_agb.get("init")] + list(seed_agb.get("functions") or []))
+                      if fn}
+        changed = False
+        for fn in [self_agb.get("init")] + list(self_agb.get("functions") or []):
+            if not fn:
+                continue
+            seed = seed_funcs.get(fn.get("name"))
+            if not seed:
+                continue
+            self_ops = [ins.get("op") for ins in fn.get("code") or []]
+            seed_ops = [ins.get("op") for ins in seed.get("code") or []]
+            if self_ops == seed_ops and len(seed.get("lines") or []) == len(self_ops):
+                if fn.get("lines") != seed["lines"]:
+                    fn["lines"] = list(seed["lines"])
+                    changed = True
+        if changed:
+            agb_target.write_text(bytecode.encode(self_agb), encoding="utf-8")
+    except Exception:
+        # 行号修补是可诊断性增强，不得让本来能编译的源码因此失败。
+        pass
 
 
 def install_bootstrap(verbose: bool = True) -> BootstrapResult:
@@ -250,7 +289,7 @@ def install_bootstrap(verbose: bool = True) -> BootstrapResult:
     shutil.copyfile(v3, INSTALL_TARGET)
     res.installed = str(INSTALL_TARGET)
 
-    # ── 5. 历史记录：时间 / SHA / 各阶段耗时 / 大小 追加一行 ────
+    # ── 5. 历史记录（T15）：时间 / SHA / 各阶段耗时 / 大小 追加一行 ────
     history = INSTALL_DIR / "bootstrap_history.log"
     stamp = time.strftime("%Y-%m-%d %H:%M:%S")
     total = round(sum(res.timings.values()), 1)

@@ -1,0 +1,15 @@
+#lang=English
+// Intent: black-box FFI call into an external Python library.
+//         External libraries always carry the worst-case effect (External),
+//         so the caller must declare it explicitly.
+//         Output is deterministic and environment-independent
+//         (math ships with the host, so it is always there).
+import ffi math
+
+fn do_abs(x: Float) -> Float effect External {
+  return math.fabs(x)
+}
+
+fn main() effect External {
+  print(do_abs(-2.0))
+}

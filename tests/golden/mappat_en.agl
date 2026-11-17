@@ -1,0 +1,21 @@
+#lang=English
+// map patterns: key exists + value matches, extra keys allowed; lists/maps can nest
+fn main() {
+  let m = {"type": "ok", "value": 9, "inner": {"x": 1}, "list": [1, 2]}
+  match (m) {
+    {"type": "ok", "value": let v} { print(v) }
+    _ { print("no1") }
+  }
+  match (m) {
+    {"inner": {"x": let x}} { print(x) }
+    _ { print("no2") }
+  }
+  match (m) {
+    {"list": [1, let tail]} { print(tail) }
+    _ { print("no3") }
+  }
+  match (m) {
+    {"missing": 1} { print("bad") }
+    _ { print("fallback") }
+  }
+}

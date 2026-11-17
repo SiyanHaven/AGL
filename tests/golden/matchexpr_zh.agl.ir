@@ -1,0 +1,725 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "matchexpr_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "甲",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "int",
+                    "value": 3,
+                    "span": {
+                      "file": "matchexpr_zh.agl",
+                      "line": 3,
+                      "col": 12,
+                      "endLine": 3,
+                      "endCol": 13
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 4,
+                          "col": 4,
+                          "endLine": 4,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "string",
+                        "value": "一",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 4,
+                          "col": 9,
+                          "endLine": 4,
+                          "endCol": 12
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 5,
+                          "col": 7,
+                          "endLine": 5,
+                          "endCol": 8
+                        }
+                      },
+                      "body": {
+                        "expr": "binop",
+                        "op": "*",
+                        "left": {
+                          "expr": "name",
+                          "name": "值",
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 5,
+                            "col": 12,
+                            "endLine": 5,
+                            "endCol": 13
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 2,
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 5,
+                            "col": 16,
+                            "endLine": 5,
+                            "endCol": 17
+                          }
+                        },
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 5,
+                          "col": 12,
+                          "endLine": 5,
+                          "endCol": 17
+                        }
+                      },
+                      "bind": "值"
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 6,
+                          "col": 4,
+                          "endLine": 6,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "int",
+                        "value": 0,
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 6,
+                          "col": 9,
+                          "endLine": 6,
+                          "endCol": 10
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 3,
+                    "col": 9,
+                    "endLine": 7,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 3,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "甲",
+                      "span": {
+                        "file": "matchexpr_zh.agl",
+                        "line": 8,
+                        "col": 5,
+                        "endLine": 8,
+                        "endCol": 6
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 7
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 7
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "乙",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "map",
+                    "entries": [
+                      {
+                        "key": {
+                          "expr": "string",
+                          "value": "x",
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 9,
+                            "col": 13,
+                            "endLine": 9,
+                            "endCol": 16
+                          }
+                        },
+                        "value": {
+                          "expr": "int",
+                          "value": 1,
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 9,
+                            "col": 18,
+                            "endLine": 9,
+                            "endCol": 19
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "file": "matchexpr_zh.agl",
+                      "line": 9,
+                      "col": 12,
+                      "endLine": 9,
+                      "endCol": 20
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "map_pattern",
+                        "entries": [
+                          {
+                            "key": {
+                              "expr": "string",
+                              "value": "x",
+                              "span": {
+                                "file": "matchexpr_zh.agl",
+                                "line": 10,
+                                "col": 5,
+                                "endLine": 10,
+                                "endCol": 8
+                              }
+                            },
+                            "value": {
+                              "kind": "bind",
+                              "name": "值",
+                              "span": {
+                                "file": "matchexpr_zh.agl",
+                                "line": 10,
+                                "col": 13,
+                                "endLine": 10,
+                                "endCol": 14
+                              }
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 10,
+                          "col": 4,
+                          "endLine": 10,
+                          "endCol": 15
+                        }
+                      },
+                      "body": {
+                        "expr": "binop",
+                        "op": "+",
+                        "left": {
+                          "expr": "name",
+                          "name": "值",
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 10,
+                            "col": 19,
+                            "endLine": 10,
+                            "endCol": 20
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 8,
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 10,
+                            "col": 23,
+                            "endLine": 10,
+                            "endCol": 24
+                          }
+                        },
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 10,
+                          "col": 19,
+                          "endLine": 10,
+                          "endCol": 24
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 11,
+                          "col": 4,
+                          "endLine": 11,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "int",
+                        "value": 0,
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 11,
+                          "col": 9,
+                          "endLine": 11,
+                          "endCol": 10
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 9,
+                    "col": 9,
+                    "endLine": 12,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "乙",
+                      "span": {
+                        "file": "matchexpr_zh.agl",
+                        "line": 13,
+                        "col": 5,
+                        "endLine": 13,
+                        "endCol": 6
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 13,
+                    "col": 2,
+                    "endLine": 13,
+                    "endCol": 7
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 13,
+                  "endCol": 7
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "丙",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "list",
+                    "items": [
+                      {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 14,
+                          "col": 13,
+                          "endLine": 14,
+                          "endCol": 14
+                        }
+                      },
+                      {
+                        "expr": "int",
+                        "value": 2,
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 14,
+                          "col": 16,
+                          "endLine": 14,
+                          "endCol": 17
+                        }
+                      }
+                    ],
+                    "span": {
+                      "file": "matchexpr_zh.agl",
+                      "line": 14,
+                      "col": 12,
+                      "endLine": 14,
+                      "endCol": 18
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "list_pattern",
+                        "items": [
+                          {
+                            "kind": "literal",
+                            "value": {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "matchexpr_zh.agl",
+                                "line": 15,
+                                "col": 5,
+                                "endLine": 15,
+                                "endCol": 6
+                              }
+                            },
+                            "span": {
+                              "file": "matchexpr_zh.agl",
+                              "line": 15,
+                              "col": 5,
+                              "endLine": 15,
+                              "endCol": 6
+                            }
+                          },
+                          {
+                            "kind": "bind",
+                            "name": "尾",
+                            "span": {
+                              "file": "matchexpr_zh.agl",
+                              "line": 15,
+                              "col": 11,
+                              "endLine": 15,
+                              "endCol": 12
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 15,
+                          "col": 4,
+                          "endLine": 15,
+                          "endCol": 13
+                        }
+                      },
+                      "body": {
+                        "expr": "name",
+                        "name": "尾",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 15,
+                          "col": 17,
+                          "endLine": 15,
+                          "endCol": 18
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 16,
+                          "col": 4,
+                          "endLine": 16,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "int",
+                        "value": 0,
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 16,
+                          "col": 9,
+                          "endLine": 16,
+                          "endCol": 10
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 14,
+                    "col": 9,
+                    "endLine": 17,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "丙",
+                      "span": {
+                        "file": "matchexpr_zh.agl",
+                        "line": 18,
+                        "col": 5,
+                        "endLine": 18,
+                        "endCol": 6
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 18,
+                    "col": 2,
+                    "endLine": 18,
+                    "endCol": 7
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 18,
+                  "col": 2,
+                  "endLine": 18,
+                  "endCol": 7
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "丁",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "int",
+                    "value": 7,
+                    "span": {
+                      "file": "matchexpr_zh.agl",
+                      "line": 19,
+                      "col": 12,
+                      "endLine": 19,
+                      "endCol": 13
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 20,
+                          "col": 7,
+                          "endLine": 20,
+                          "endCol": 8
+                        }
+                      },
+                      "body": {
+                        "expr": "string",
+                        "value": "大",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 20,
+                          "col": 22,
+                          "endLine": 20,
+                          "endCol": 25
+                        }
+                      },
+                      "bind": "值",
+                      "guard": {
+                        "expr": "binop",
+                        "op": ">",
+                        "left": {
+                          "expr": "name",
+                          "name": "值",
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 20,
+                            "col": 12,
+                            "endLine": 20,
+                            "endCol": 13
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 5,
+                          "span": {
+                            "file": "matchexpr_zh.agl",
+                            "line": 20,
+                            "col": 17,
+                            "endLine": 20,
+                            "endCol": 18
+                          }
+                        },
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 20,
+                          "col": 12,
+                          "endLine": 20,
+                          "endCol": 18
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 21,
+                          "col": 4,
+                          "endLine": 21,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "string",
+                        "value": "小",
+                        "span": {
+                          "file": "matchexpr_zh.agl",
+                          "line": 21,
+                          "col": 9,
+                          "endLine": 21,
+                          "endCol": 12
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 19,
+                    "col": 9,
+                    "endLine": 22,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 22,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "丁",
+                      "span": {
+                        "file": "matchexpr_zh.agl",
+                        "line": 23,
+                        "col": 5,
+                        "endLine": 23,
+                        "endCol": 6
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_zh.agl",
+                    "line": 23,
+                    "col": 2,
+                    "endLine": 23,
+                    "endCol": 7
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_zh.agl",
+                  "line": 23,
+                  "col": 2,
+                  "endLine": 23,
+                  "endCol": 7
+                }
+              }
+            ],
+            "span": {
+              "file": "matchexpr_zh.agl",
+              "line": 2,
+              "col": 0,
+              "endLine": 24,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "matchexpr_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 25,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

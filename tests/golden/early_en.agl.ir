@@ -1,0 +1,285 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "early_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "check_text",
+            "params": [
+              {
+                "name": "value",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": "==",
+                  "left": {
+                    "expr": "member",
+                    "target": {
+                      "expr": "name",
+                      "name": "value",
+                      "span": {
+                        "file": "early_en.agl",
+                        "line": 6,
+                        "col": 5,
+                        "endLine": 6,
+                        "endCol": 10
+                      }
+                    },
+                    "field": "length",
+                    "span": {
+                      "file": "early_en.agl",
+                      "line": 6,
+                      "col": 5,
+                      "endLine": 6,
+                      "endCol": 17
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 0,
+                    "span": {
+                      "file": "early_en.agl",
+                      "line": 6,
+                      "col": 21,
+                      "endLine": 6,
+                      "endCol": 22
+                    }
+                  },
+                  "span": {
+                    "file": "early_en.agl",
+                    "line": 6,
+                    "col": 5,
+                    "endLine": 6,
+                    "endCol": 22
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "empty, early return",
+                          "span": {
+                            "file": "early_en.agl",
+                            "line": 7,
+                            "col": 10,
+                            "endLine": 7,
+                            "endCol": 31
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "early_en.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 32
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "early_en.agl",
+                      "line": 7,
+                      "col": 4,
+                      "endLine": 7,
+                      "endCol": 32
+                    }
+                  },
+                  {
+                    "stmt": "return",
+                    "span": {
+                      "file": "early_en.agl",
+                      "line": 8,
+                      "col": 4,
+                      "endLine": 8,
+                      "endCol": 10
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "early_en.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "has content",
+                      "span": {
+                        "file": "early_en.agl",
+                        "line": 10,
+                        "col": 8,
+                        "endLine": 10,
+                        "endCol": 21
+                      }
+                    },
+                    {
+                      "expr": "name",
+                      "name": "value",
+                      "span": {
+                        "file": "early_en.agl",
+                        "line": 10,
+                        "col": 23,
+                        "endLine": 10,
+                        "endCol": 28
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "early_en.agl",
+                    "line": 10,
+                    "col": 2,
+                    "endLine": 10,
+                    "endCol": 29
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "early_en.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 29
+                }
+              }
+            ],
+            "span": {
+              "file": "early_en.agl",
+              "line": 5,
+              "col": 0,
+              "endLine": 11,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "check_text",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "",
+                      "span": {
+                        "file": "early_en.agl",
+                        "line": 14,
+                        "col": 13,
+                        "endLine": 14,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "early_en.agl",
+                    "line": 14,
+                    "col": 2,
+                    "endLine": 14,
+                    "endCol": 16
+                  }
+                },
+                "span": {
+                  "file": "early_en.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 16
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "check_text",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "A",
+                      "span": {
+                        "file": "early_en.agl",
+                        "line": 15,
+                        "col": 13,
+                        "endLine": 15,
+                        "endCol": 16
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "early_en.agl",
+                    "line": 15,
+                    "col": 2,
+                    "endLine": 15,
+                    "endCol": 17
+                  }
+                },
+                "span": {
+                  "file": "early_en.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 17
+                }
+              }
+            ],
+            "span": {
+              "file": "early_en.agl",
+              "line": 13,
+              "col": 0,
+              "endLine": 16,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "early_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 17,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

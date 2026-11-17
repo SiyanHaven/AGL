@@ -77,7 +77,7 @@ def _en_pattern(words: list[str]) -> str:
 def build(table: KeywordTable | None = None) -> dict:
     """生成完整的 TextMate 语法（JSON 版），中英两分支的启用的词都在里面。"""
     t = table or KeywordTable.load()
-    live = [k for k in t.keywords if k.stage <= 1]
+    live = [k for k in t.keywords if k.stage <= 2]
 
     patterns: list[dict] = [_LANG_DECL, _COMMENT, _STRING, _NUMBER]
 
@@ -233,7 +233,7 @@ def audit(table: KeywordTable | None = None) -> list[str]:
     if not g["patterns"]:
         problems.append("patterns 为空")
 
-    live = [k for k in t.keywords if k.stage <= 1]
+    live = [k for k in t.keywords if k.stage <= 2]
     for k in live:
         for word in (k.zh, k.en):
             if not _oniguruma_possible(word):

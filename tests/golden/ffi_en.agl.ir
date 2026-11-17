@@ -1,0 +1,193 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "ffi_en",
+        "imports": [
+          {
+            "module": "math",
+            "names": [],
+            "span": {
+              "file": "ffi_en.agl",
+              "line": 7,
+              "col": 0,
+              "endLine": 7,
+              "endCol": 15
+            },
+            "kind": "ffi",
+            "effect": "External"
+          }
+        ],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "do_abs",
+            "params": [
+              {
+                "name": "x",
+                "type": {
+                  "type": "Float"
+                }
+              }
+            ],
+            "return": {
+              "type": "Float"
+            },
+            "effects": [
+              "External"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "call",
+                  "name": "fabs",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "x",
+                      "span": {
+                        "file": "ffi_en.agl",
+                        "line": 10,
+                        "col": 19,
+                        "endLine": 10,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "ffi_en.agl",
+                    "line": 10,
+                    "col": 9,
+                    "endLine": 10,
+                    "endCol": 21
+                  },
+                  "target": {
+                    "expr": "name",
+                    "name": "math",
+                    "span": {
+                      "file": "ffi_en.agl",
+                      "line": 10,
+                      "col": 9,
+                      "endLine": 10,
+                      "endCol": 13
+                    }
+                  },
+                  "ffi": "math"
+                },
+                "span": {
+                  "file": "ffi_en.agl",
+                  "line": 10,
+                  "col": 2,
+                  "endLine": 10,
+                  "endCol": 21
+                }
+              }
+            ],
+            "span": {
+              "file": "ffi_en.agl",
+              "line": 9,
+              "col": 0,
+              "endLine": 11,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [
+              "External"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "do_abs",
+                      "args": [
+                        {
+                          "expr": "unop",
+                          "op": "-",
+                          "operand": {
+                            "expr": "float",
+                            "value": 2.0,
+                            "span": {
+                              "file": "ffi_en.agl",
+                              "line": 14,
+                              "col": 16,
+                              "endLine": 14,
+                              "endCol": 19
+                            }
+                          },
+                          "span": {
+                            "file": "ffi_en.agl",
+                            "line": 14,
+                            "col": 15,
+                            "endLine": 14,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "ffi_en.agl",
+                        "line": 14,
+                        "col": 8,
+                        "endLine": 14,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "ffi_en.agl",
+                    "line": 14,
+                    "col": 2,
+                    "endLine": 14,
+                    "endCol": 21
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "ffi_en.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 21
+                }
+              }
+            ],
+            "span": {
+              "file": "ffi_en.agl",
+              "line": 13,
+              "col": 0,
+              "endLine": 15,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "ffi_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 16,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

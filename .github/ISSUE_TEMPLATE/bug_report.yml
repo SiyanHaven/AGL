@@ -1,0 +1,73 @@
+name: Bug report
+description: Report a compiler, VM, CLI, MCP or documentation defect.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先运行 `python -m compiler.cli doctor`，并把结果贴在这里。
+        安全漏洞不要用这个模板；请按 SECURITY.md 私密报告。
+  - type: input
+    id: agl-version
+    attributes:
+      label: AGL version
+      description: "输出 `python -m compiler.cli --version`"
+      placeholder: "0.53.0"
+    validations:
+      required: true
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version and OS
+      placeholder: "Python 3.13.18, Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: 粘贴最小的 `.agl` 文件内容；不要只描述现象。
+      render: agl
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      placeholder: "python -m compiler.cli run examples/zh/01_销售日报.agl"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: 贴完整诊断或堆栈的行号；不要只写“报错了”。
+    validations:
+      required: true
+  - type: dropdown
+    id: compiler
+    attributes:
+      label: Compiler path
+      options:
+        - Default self-hosted compiler
+        - "--compiler seed"
+        - "--backend py"
+        - Not sure
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: 我已运行 doctor，并确认问题不在文档写明的已知边界内
+          required: true
+        - label: 我已搜索现有 issue，没有找到重复项
+          required: true

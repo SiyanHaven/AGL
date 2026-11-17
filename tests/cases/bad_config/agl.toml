@@ -1,0 +1,9 @@
+# 用例：故意写坏 agl.toml —— 中文键没加引号，TOML 不允许
+
+[project]
+name = "bad_config"
+entry = "main.agl"
+language = "zh"
+
+[dependencies]
+数学 = "0.1.0"

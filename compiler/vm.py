@@ -18,6 +18,7 @@ from __future__ import annotations
 import importlib
 import json
 import time
+from urllib.parse import quote, unquote
 
 RT_GENERIC = "AGL-RT-0001"
 RT_DIV_ZERO = "AGL-RT-0010"
@@ -28,6 +29,27 @@ RT_EFFECT = "AGL-RT-0092"
 RT_CALLS = "AGL-RT-0093"
 RT_TOOLS = "AGL-RT-0094"
 RT_TIMEOUT = "AGL-RT-0095"
+
+
+def _html_escape(value):
+    """转义 HTML 文本节点/属性里必须转义的五个字符。"""
+    text = str(value)
+    return (text.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace('"', "&quot;")
+                .replace("'", "&#39;"))
+
+
+def _url_encode(value):
+    """按 URL 组件编码：保留 RFC 3986 的非保留字符，空格编码为 %20。"""
+    return quote(str(value), safe="")
+
+
+def _url_decode(value):
+    """解码 URL 百分比转义；不把 `+` 当空格（那是表单的规则）。"""
+    return unquote(str(value))
+
 
 def _load_builtin_effects() -> dict[str, str]:
     """从关键字表读「内建 → 必需效应」，不在 VM 里维护第二份手写表。
@@ -317,9 +339,23 @@ def _agl_http_serve(port, text):
         def log_message(self, *args):
             pass
 
-    server = HTTPServer(("0.0.0.0", int(port)), Handler)
+    server = HTTPServer(("127.0.0.1", int(port)), Handler)
     print(f"HTTP服务已启动：http://localhost:{port}")
     server.serve_forever()
+
+
+def _agl_web_serve(port, handler_name, vm, host="127.0.0.1"):
+    """可编程网页服务：把请求映射交给用户指定的 AGL 处理函数。"""
+    from compiler.webapp import serve_web_app
+
+    name = str(handler_name or "").strip()
+    if not name:
+        _raise(RT_GENERIC, "启动网页应用需要一个处理函数名")
+
+    def call_handler(request):
+        return vm._call(vm.root, name, [request])
+
+    serve_web_app(int(port), call_handler, vm.lang, host=str(host))
 
 
 def _agl_todo_web_serve(port, db_path):
@@ -377,7 +413,7 @@ def _agl_todo_web_serve(port, db_path):
         def log_message(self, *args):
             pass
 
-    server = HTTPServer(("0.0.0.0", int(port)), Handler)
+    server = HTTPServer(("127.0.0.1", int(port)), Handler)
     print(f"待办Web服务已启动：http://localhost:{port}")
     server.serve_forever()
 
@@ -490,6 +526,9 @@ def _builtins(vm) -> dict:
             if maxsplit is None or int(maxsplit) < 0 else str(s).split(str(sep), int(maxsplit))),
         "join": lambda sep, items: sep.join(show(x) for x in items),
         "replace": lambda s, a, b: s.replace(a, b),
+        "html_escape": _html_escape,
+        "url_encode": _url_encode,
+        "url_decode": _url_decode,
         "strip": lambda s: s.strip(), "lstrip": lambda s: s.lstrip(),
         "rstrip": lambda s: s.rstrip(),
         "upper": lambda s: s.upper(), "lower": lambda s: s.lower(),
@@ -508,6 +547,7 @@ def _builtins(vm) -> dict:
         "call_fn": lambda ref, *a: vm._call_ref(ref, *a),
         "sleep": lambda ms: time.sleep(float(ms) / 1000.0),
         "http_serve": _agl_http_serve,
+        "web_serve": lambda port, handler, host="127.0.0.1": _agl_web_serve(port, handler, vm, host),
         "todo_web_serve": _agl_todo_web_serve,
         "cancel": lambda h: vm._cancel_task(h),
         "report_progress": lambda text: vm._report_progress(text),
@@ -548,7 +588,7 @@ def _builtins(vm) -> dict:
         "print", "print_no_newline", "to_text", "sort_by", "call_fn",
         "sleep", "cancel", "report_progress", "read_file", "write_file",
         "append_file", "save_state", "load_state", "Ok", "Err", "unwrap", "fail_reason", "task",
-        "http_serve", "todo_web_serve",
+        "http_serve", "web_serve", "todo_web_serve",
     }
     try:
         from compiler.lexer import KeywordTable

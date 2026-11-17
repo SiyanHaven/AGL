@@ -1,0 +1,553 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "aug_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "计数到",
+            "params": [
+              {
+                "name": "上限",
+                "type": {
+                  "type": "Int"
+                }
+              }
+            ],
+            "return": {
+              "type": "Int"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "和",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 3,
+                    "col": 9,
+                    "endLine": 3,
+                    "endCol": 10
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 3,
+                  "col": 2,
+                  "endLine": 3,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "i",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 4,
+                    "col": 9,
+                    "endLine": 4,
+                    "endCol": 10
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "while",
+                "cond": {
+                  "expr": "binop",
+                  "op": "<",
+                  "left": {
+                    "expr": "name",
+                    "name": "i",
+                    "span": {
+                      "file": "aug_zh.agl",
+                      "line": 5,
+                      "col": 4,
+                      "endLine": 5,
+                      "endCol": 5
+                    }
+                  },
+                  "right": {
+                    "expr": "name",
+                    "name": "上限",
+                    "span": {
+                      "file": "aug_zh.agl",
+                      "line": 5,
+                      "col": 9,
+                      "endLine": 5,
+                      "endCol": 11
+                    }
+                  },
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 5,
+                    "col": 4,
+                    "endLine": 5,
+                    "endCol": 11
+                  }
+                },
+                "body": [
+                  {
+                    "stmt": "aug_assign",
+                    "target": {
+                      "expr": "name",
+                      "name": "和",
+                      "span": {
+                        "file": "aug_zh.agl",
+                        "line": 6,
+                        "col": 4,
+                        "endLine": 6,
+                        "endCol": 5
+                      }
+                    },
+                    "op": "+",
+                    "value": {
+                      "expr": "name",
+                      "name": "i",
+                      "span": {
+                        "file": "aug_zh.agl",
+                        "line": 6,
+                        "col": 9,
+                        "endLine": 6,
+                        "endCol": 10
+                      }
+                    },
+                    "span": {
+                      "file": "aug_zh.agl",
+                      "line": 6,
+                      "col": 4,
+                      "endLine": 6,
+                      "endCol": 10
+                    }
+                  },
+                  {
+                    "stmt": "aug_assign",
+                    "target": {
+                      "expr": "name",
+                      "name": "i",
+                      "span": {
+                        "file": "aug_zh.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 5
+                      }
+                    },
+                    "op": "+",
+                    "value": {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "aug_zh.agl",
+                        "line": 7,
+                        "col": 9,
+                        "endLine": 7,
+                        "endCol": 10
+                      }
+                    },
+                    "span": {
+                      "file": "aug_zh.agl",
+                      "line": 7,
+                      "col": 4,
+                      "endLine": 7,
+                      "endCol": 10
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "name",
+                  "name": "和",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 9,
+                    "col": 5,
+                    "endLine": 9,
+                    "endCol": 6
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 6
+                }
+              }
+            ],
+            "span": {
+              "file": "aug_zh.agl",
+              "line": 2,
+              "col": 0,
+              "endLine": 10,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "数",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 10,
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 13,
+                    "col": 9,
+                    "endLine": 13,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 13,
+                  "endCol": 11
+                }
+              },
+              {
+                "stmt": "aug_assign",
+                "target": {
+                  "expr": "name",
+                  "name": "数",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 14,
+                    "col": 2,
+                    "endLine": 14,
+                    "endCol": 3
+                  }
+                },
+                "op": "-",
+                "value": {
+                  "expr": "int",
+                  "value": 3,
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 14,
+                    "col": 7,
+                    "endLine": 14,
+                    "endCol": 8
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 8
+                }
+              },
+              {
+                "stmt": "aug_assign",
+                "target": {
+                  "expr": "name",
+                  "name": "数",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 15,
+                    "col": 2,
+                    "endLine": 15,
+                    "endCol": 3
+                  }
+                },
+                "op": "*",
+                "value": {
+                  "expr": "int",
+                  "value": 2,
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 15,
+                    "col": 7,
+                    "endLine": 15,
+                    "endCol": 8
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 8
+                }
+              },
+              {
+                "stmt": "aug_assign",
+                "target": {
+                  "expr": "name",
+                  "name": "数",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 16,
+                    "col": 2,
+                    "endLine": 16,
+                    "endCol": 3
+                  }
+                },
+                "op": "/",
+                "value": {
+                  "expr": "int",
+                  "value": 4,
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 16,
+                    "col": 7,
+                    "endLine": 16,
+                    "endCol": 8
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 16,
+                  "col": 2,
+                  "endLine": 16,
+                  "endCol": 8
+                }
+              },
+              {
+                "stmt": "aug_assign",
+                "target": {
+                  "expr": "name",
+                  "name": "数",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 17,
+                    "col": 2,
+                    "endLine": 17,
+                    "endCol": 3
+                  }
+                },
+                "op": "%",
+                "value": {
+                  "expr": "int",
+                  "value": 3,
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 17,
+                    "col": 7,
+                    "endLine": 17,
+                    "endCol": 8
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 17,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 8
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "数",
+                      "span": {
+                        "file": "aug_zh.agl",
+                        "line": 18,
+                        "col": 5,
+                        "endLine": 18,
+                        "endCol": 6
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "计数到",
+                      "args": [
+                        {
+                          "expr": "int",
+                          "value": 5,
+                          "span": {
+                            "file": "aug_zh.agl",
+                            "line": 18,
+                            "col": 12,
+                            "endLine": 18,
+                            "endCol": 13
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "aug_zh.agl",
+                        "line": 18,
+                        "col": 8,
+                        "endLine": 18,
+                        "endCol": 14
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 18,
+                    "col": 2,
+                    "endLine": 18,
+                    "endCol": 15
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 18,
+                  "col": 2,
+                  "endLine": 18,
+                  "endCol": 15
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "词",
+                "mutable": true,
+                "value": {
+                  "expr": "string",
+                  "value": "你好",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 19,
+                    "col": 9,
+                    "endLine": 19,
+                    "endCol": 13
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 13
+                }
+              },
+              {
+                "stmt": "aug_assign",
+                "target": {
+                  "expr": "name",
+                  "name": "词",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 20,
+                    "col": 2,
+                    "endLine": 20,
+                    "endCol": 3
+                  }
+                },
+                "op": "+",
+                "value": {
+                  "expr": "string",
+                  "value": "世界",
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 20,
+                    "col": 7,
+                    "endLine": 20,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 20,
+                  "col": 2,
+                  "endLine": 20,
+                  "endCol": 11
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "词",
+                      "span": {
+                        "file": "aug_zh.agl",
+                        "line": 21,
+                        "col": 5,
+                        "endLine": 21,
+                        "endCol": 6
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "aug_zh.agl",
+                    "line": 21,
+                    "col": 2,
+                    "endLine": 21,
+                    "endCol": 7
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "aug_zh.agl",
+                  "line": 21,
+                  "col": 2,
+                  "endLine": 21,
+                  "endCol": 7
+                }
+              }
+            ],
+            "span": {
+              "file": "aug_zh.agl",
+              "line": 12,
+              "col": 0,
+              "endLine": 22,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "aug_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 23,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

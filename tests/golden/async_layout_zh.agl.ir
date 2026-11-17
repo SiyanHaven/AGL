@@ -1,0 +1,507 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "async_layout_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "慢",
+            "params": [],
+            "return": {
+              "type": "String"
+            },
+            "effects": [],
+            "is_async": true,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "string",
+                  "value": "ok",
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 9,
+                    "col": 5,
+                    "endLine": 9,
+                    "endCol": 9
+                  }
+                },
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 9
+                }
+              }
+            ],
+            "span": {
+              "file": "async_layout_zh.agl",
+              "line": 8,
+              "col": 0,
+              "endLine": 10,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": true,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "甲",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "任务",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "慢",
+                      "args": [],
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 13,
+                        "col": 12,
+                        "endLine": 13,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 13,
+                    "col": 9,
+                    "endLine": 13,
+                    "endCol": 16
+                  },
+                  "builtin": "task"
+                },
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 13,
+                  "endCol": 16
+                }
+              },
+              {
+                "stmt": "on_event",
+                "event": "finish",
+                "task": {
+                  "expr": "name",
+                  "name": "甲",
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 14,
+                    "col": 8,
+                    "endLine": 14,
+                    "endCol": 9
+                  }
+                },
+                "param": "返回值",
+                "param_type": {
+                  "type": "String"
+                },
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "多行",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 15,
+                            "col": 7,
+                            "endLine": 15,
+                            "endCol": 11
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "返回值",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 15,
+                            "col": 13,
+                            "endLine": 15,
+                            "endCol": 16
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 15,
+                        "col": 4,
+                        "endLine": 15,
+                        "endCol": 17
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "async_layout_zh.agl",
+                      "line": 15,
+                      "col": 4,
+                      "endLine": 15,
+                      "endCol": 17
+                    }
+                  },
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "第二条",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 16,
+                            "col": 7,
+                            "endLine": 16,
+                            "endCol": 12
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "返回值",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 16,
+                            "col": 14,
+                            "endLine": 16,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 16,
+                        "col": 4,
+                        "endLine": 16,
+                        "endCol": 18
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "async_layout_zh.agl",
+                      "line": 16,
+                      "col": 4,
+                      "endLine": 16,
+                      "endCol": 18
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "乙",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "任务",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "慢",
+                      "args": [],
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 18,
+                        "col": 12,
+                        "endLine": 18,
+                        "endCol": 15
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 18,
+                    "col": 9,
+                    "endLine": 18,
+                    "endCol": 16
+                  },
+                  "builtin": "task"
+                },
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 18,
+                  "col": 2,
+                  "endLine": 18,
+                  "endCol": 16
+                }
+              },
+              {
+                "stmt": "on_event",
+                "event": "finish",
+                "task": {
+                  "expr": "name",
+                  "name": "乙",
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 19,
+                    "col": 8,
+                    "endLine": 19,
+                    "endCol": 9
+                  }
+                },
+                "param": "返回值",
+                "param_type": {
+                  "type": "String"
+                },
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "单行",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 19,
+                            "col": 25,
+                            "endLine": 19,
+                            "endCol": 29
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "返回值",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 19,
+                            "col": 31,
+                            "endLine": 19,
+                            "endCol": 34
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 19,
+                        "col": 22,
+                        "endLine": 19,
+                        "endCol": 35
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "async_layout_zh.agl",
+                      "line": 19,
+                      "col": 22,
+                      "endLine": 19,
+                      "endCol": 35
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 37
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "r",
+                "mutable": true,
+                "value": {
+                  "expr": "await",
+                  "value": {
+                    "expr": "name",
+                    "name": "乙",
+                    "span": {
+                      "file": "async_layout_zh.agl",
+                      "line": 20,
+                      "col": 12,
+                      "endLine": 20,
+                      "endCol": 13
+                    }
+                  },
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 20,
+                    "col": 9,
+                    "endLine": 20,
+                    "endCol": 13
+                  }
+                },
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 20,
+                  "col": 2,
+                  "endLine": 20,
+                  "endCol": 13
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "结果",
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 21,
+                        "col": 5,
+                        "endLine": 21,
+                        "endCol": 9
+                      }
+                    },
+                    {
+                      "expr": "name",
+                      "name": "r",
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 21,
+                        "col": 11,
+                        "endLine": 21,
+                        "endCol": 12
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 21,
+                    "col": 2,
+                    "endLine": 21,
+                    "endCol": 13
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 21,
+                  "col": 2,
+                  "endLine": 21,
+                  "endCol": 13
+                }
+              },
+              {
+                "stmt": "on_event",
+                "event": "finish",
+                "task": {
+                  "expr": "name",
+                  "name": "甲",
+                  "span": {
+                    "file": "async_layout_zh.agl",
+                    "line": 22,
+                    "col": 8,
+                    "endLine": 22,
+                    "endCol": 9
+                  }
+                },
+                "param": "返回值",
+                "param_type": {
+                  "type": "String"
+                },
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "收尾",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 22,
+                            "col": 25,
+                            "endLine": 22,
+                            "endCol": 29
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "返回值",
+                          "span": {
+                            "file": "async_layout_zh.agl",
+                            "line": 22,
+                            "col": 31,
+                            "endLine": 22,
+                            "endCol": 34
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "async_layout_zh.agl",
+                        "line": 22,
+                        "col": 22,
+                        "endLine": 22,
+                        "endCol": 35
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "async_layout_zh.agl",
+                      "line": 22,
+                      "col": 22,
+                      "endLine": 22,
+                      "endCol": 35
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "async_layout_zh.agl",
+                  "line": 22,
+                  "col": 2,
+                  "endLine": 22,
+                  "endCol": 37
+                }
+              }
+            ],
+            "span": {
+              "file": "async_layout_zh.agl",
+              "line": 12,
+              "col": 0,
+              "endLine": 23,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "async_layout_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 24,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

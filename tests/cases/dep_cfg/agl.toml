@@ -1,0 +1,5 @@
+[project]
+name = "dep_cfg"
+
+[dependencies]
+"工具包" = "1.2.0"

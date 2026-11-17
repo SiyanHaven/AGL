@@ -1,0 +1,9 @@
+#lang=English
+// 防回归：这里的中文版注释讲的是同一个坑 —— 映射字面量里的 `:` 曾经会把
+// 类型上下文跟踪带进一个出不去的状态。
+fn main() {
+  let table = {"ab": 1 < 2}
+  if 3 > 2 {
+    print("compare ok", table)
+  }
+}

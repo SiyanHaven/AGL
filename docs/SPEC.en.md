@@ -1,6 +1,6 @@
 # AGL Language Specification (English)
 
-> Version: **0.53.0**　Release date: 2026-11-15　Status: current release specification
+> Version: **0.53.0**　Freeze date: 2026-11-15　Status: release-candidate specification
 >
 > This document describes the language surface that is implemented and verified by `aglc doctor` in
 > `v0.53.0`. The machine-readable source of truth is [`spec/keywords.toml`](../spec/keywords.toml).
@@ -14,7 +14,7 @@ able to review. Fixed keywords, explicit types, explicit effects and source-line
 
 This specification covers: lexing, types, declarations, statements, expressions, effects, check
 blocks, modules, runtime artifacts, diagnostics and the MCP entry point. It does not cover compiler
-implementation details, editor UI details, or tool-runtime features that are not implemented in this version.
+internals, editor UI details, or stage-2 tool-runtime features that are not implemented yet.
 
 ## 2. Source files and lexing
 
@@ -54,7 +54,7 @@ fn main() {
 - Keywords are reserved and cannot be used as variable, function, parameter or field names.
 - Built-in function names are not keywords. A user definition wins on a name collision; using a
   built-in name as a variable is legal but discouraged.
-- The full keyword table is in this document's keyword table; the full built-in table is available with
+- The full keyword table is in section 5; the full built-in table is available with
   `aglc card --lang en` or `aglc list-builtins`.
 
 ### 2.4 Literals
@@ -303,8 +303,8 @@ English file may use only the English column.
 | Booleans | `true` `false` | `真` `假` |
 | Entry | `main` `Ok` `Err` `print` | `主入口` `成功` `失败` `打印` |
 
-`tool` / `工具`, `input` / `入参`, `config` / `配置`, `agent` / `智能体` and `rule` / `规则` are
-extension keywords. This version treats them as ordinary names; they do not create a callable tool runtime.
+`tool` / `工具`, `input` / `入参`, `config` / `配置`, `agent` / `智能体` and `rule` / `规则` are stage-2
+design terms. This version treats them as ordinary names; they do not create a callable tool runtime.
 
 ## 8. Built-in functions
 
@@ -323,7 +323,7 @@ Built-ins are defined by the `[[builtin]]` table in `spec/keywords.toml`; there 
 | Async | `task` `sleep` `report_progress` `cancel` |
 
 The full list, including parameters, effects and examples, is available from `aglc card` /
-`aglc list-builtins`. Built-in effects obey the effects rules in this document.
+`aglc list-builtins`. Built-in effects obey section 4.3.
 
 ## 9. Modules and projects
 
@@ -399,7 +399,8 @@ Configuration:
 ```jsonc
 {
   "command": "python",
-  "args": ["-m", "compiler.cli", "mcp"]
+  "args": ["-m", "compiler.cli", "mcp"],
+  "cwd": "D:\\AGL"
 }
 ```
 
@@ -420,25 +421,30 @@ Verified version command: `python -m compiler.mcp --version` → `agl-mcp 0.53.0
 ## 14. Known limits
 
 The following are **not** implemented in this version and must not be implied by examples or
-documentation:
+marketing:
 
 - tuples, classes, inheritance, generic functions, closures, lambdas, first-class function values;
 - flow-sensitive null narrowing across branches;
-- a real MCP / local-skill / ACP tool-call runtime (`tool` blocks are still extension keywords);
-- an OS-level runtime sandbox; current safety is **compile-time effect declaration checking**, not
+- a real MCP / local-skill / ACP tool-call runtime (`tool` blocks are still design terms);
+- an OS-level runtime sandbox; stage-1 safety is **compile-time effect declaration checking**, not
   system permission isolation;
-- repeat-call circuit breaking (design only, no runtime code);
+- repeat-call circuit breaker T19 (design only, no runtime code);
 - standard-library version locking and a package manager.
 
 ## 15. Verification
 
-From the root of the extracted AGL directory, run:
+From the root of the extracted or cloned AGL directory, run:
 
 ```powershell
-.\aglc.cmd doctor
+python -m compiler.cli doctor
 python examples/run_examples.py
+python scripts/verify_spec_snippets.py
 ```
 
-The runtime package and the source tree both pass **5/5** (`doctor`). The example verifier checks and runs all six examples and compares their expected output. Actual output is recorded in [`examples/README.md`](../examples/README.md).
+`doctor` currently passes **28/28**; the example verifier checks and runs all six examples and
+compares their expected output. Actual output is recorded in [`examples/README.md`](../examples/README.md).
 
-The minimal runnable block above is verified as `examples/zh/00_最小程序.agl`.
+The minimal runnable block in section 2.2 is verified as `docs/spec-snippets/en/00_minimal.agl`
+and the Chinese counterpart `examples/zh/00_最小程序.agl`. The other AGL blocks in this document
+have matching files under `docs/spec-snippets/en/` and `docs/spec-snippets/zh/`, all executed by
+`scripts/verify_spec_snippets.py`.

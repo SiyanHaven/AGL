@@ -1,0 +1,22 @@
+#lang=English
+fn sum_to(limit: Int) -> Int {
+  let total = 0
+  let i = 0
+  while i < limit {
+    total += i
+    i += 1
+  }
+  return total
+}
+
+fn main() {
+  let n = 10
+  n -= 3
+  n *= 2
+  n /= 4
+  n %= 3
+  print(n, sum_to(5))
+  let word = "hello"
+  word += "world"
+  print(word)
+}

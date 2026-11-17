@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+        python: ["3.10", "3.13"]
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install package (editable, no runtime dependencies)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Bootstrap the self-hosted compiler
+        run: python -m compiler.cli bootstrap
+
+      - name: Doctor
+        run: python -m compiler.cli doctor
+
+      - name: Examples end to end
+        run: python examples/run_examples.py
+
+      - name: Specification snippets
+        run: python scripts/verify_spec_snippets.py
+
+      - name: MCP metadata smoke test
+        shell: bash
+        run: |
+          python -m compiler.mcp --version
+          python -m compiler.mcp --list

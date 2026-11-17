@@ -1,0 +1,9 @@
+#lang=English
+// Intent: import another module and call its exported function
+
+import helper
+
+fn main() {
+  print(helper.greet("world"))
+  print(helper.greet("AGL"))
+}

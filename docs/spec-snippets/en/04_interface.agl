@@ -1,0 +1,12 @@
+#lang=English
+interface Payment {
+  fn pay(amount: Int) -> Result<String>
+}
+
+fn pay(amount: Int) -> Result<String> {
+  return Ok("paid")
+}
+
+fn main() {
+  print(pay(100))
+}

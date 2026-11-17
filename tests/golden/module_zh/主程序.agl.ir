@@ -1,0 +1,175 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "主程序",
+        "imports": [
+          {
+            "module": "工具",
+            "names": [],
+            "span": {
+              "file": "主程序.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 4,
+              "endCol": 5
+            },
+            "kind": "module"
+          }
+        ],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "打招呼",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "世界",
+                          "span": {
+                            "file": "主程序.agl",
+                            "line": 7,
+                            "col": 12,
+                            "endLine": 7,
+                            "endCol": 16
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "主程序.agl",
+                        "line": 7,
+                        "col": 5,
+                        "endLine": 7,
+                        "endCol": 17
+                      },
+                      "target": {
+                        "expr": "name",
+                        "name": "工具",
+                        "span": {
+                          "file": "主程序.agl",
+                          "line": 7,
+                          "col": 5,
+                          "endLine": 7,
+                          "endCol": 7
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "主程序.agl",
+                    "line": 7,
+                    "col": 2,
+                    "endLine": 7,
+                    "endCol": 18
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "主程序.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 18
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "打招呼",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "AGL",
+                          "span": {
+                            "file": "主程序.agl",
+                            "line": 8,
+                            "col": 12,
+                            "endLine": 8,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "主程序.agl",
+                        "line": 8,
+                        "col": 5,
+                        "endLine": 8,
+                        "endCol": 18
+                      },
+                      "target": {
+                        "expr": "name",
+                        "name": "工具",
+                        "span": {
+                          "file": "主程序.agl",
+                          "line": 8,
+                          "col": 5,
+                          "endLine": 8,
+                          "endCol": 7
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "主程序.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 19
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "主程序.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 19
+                }
+              }
+            ],
+            "span": {
+              "file": "主程序.agl",
+              "line": 6,
+              "col": 0,
+              "endLine": 9,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "主程序.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 10,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,725 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "matchexpr_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "a",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "int",
+                    "value": 3,
+                    "span": {
+                      "file": "matchexpr_en.agl",
+                      "line": 3,
+                      "col": 16,
+                      "endLine": 3,
+                      "endCol": 17
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 4,
+                          "col": 4,
+                          "endLine": 4,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "string",
+                        "value": "one",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 4,
+                          "col": 9,
+                          "endLine": 4,
+                          "endCol": 14
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 5,
+                          "col": 8,
+                          "endLine": 5,
+                          "endCol": 13
+                        }
+                      },
+                      "body": {
+                        "expr": "binop",
+                        "op": "*",
+                        "left": {
+                          "expr": "name",
+                          "name": "value",
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 5,
+                            "col": 17,
+                            "endLine": 5,
+                            "endCol": 22
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 2,
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 5,
+                            "col": 25,
+                            "endLine": 5,
+                            "endCol": 26
+                          }
+                        },
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 5,
+                          "col": 17,
+                          "endLine": 5,
+                          "endCol": 26
+                        }
+                      },
+                      "bind": "value"
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 6,
+                          "col": 4,
+                          "endLine": 6,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "int",
+                        "value": 0,
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 6,
+                          "col": 9,
+                          "endLine": 6,
+                          "endCol": 10
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 3,
+                    "col": 10,
+                    "endLine": 7,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 3,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "a",
+                      "span": {
+                        "file": "matchexpr_en.agl",
+                        "line": 8,
+                        "col": 8,
+                        "endLine": 8,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 8,
+                    "col": 2,
+                    "endLine": 8,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "b",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "map",
+                    "entries": [
+                      {
+                        "key": {
+                          "expr": "string",
+                          "value": "x",
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 9,
+                            "col": 17,
+                            "endLine": 9,
+                            "endCol": 20
+                          }
+                        },
+                        "value": {
+                          "expr": "int",
+                          "value": 1,
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 9,
+                            "col": 22,
+                            "endLine": 9,
+                            "endCol": 23
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "file": "matchexpr_en.agl",
+                      "line": 9,
+                      "col": 16,
+                      "endLine": 9,
+                      "endCol": 24
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "map_pattern",
+                        "entries": [
+                          {
+                            "key": {
+                              "expr": "string",
+                              "value": "x",
+                              "span": {
+                                "file": "matchexpr_en.agl",
+                                "line": 10,
+                                "col": 5,
+                                "endLine": 10,
+                                "endCol": 8
+                              }
+                            },
+                            "value": {
+                              "kind": "bind",
+                              "name": "value",
+                              "span": {
+                                "file": "matchexpr_en.agl",
+                                "line": 10,
+                                "col": 14,
+                                "endLine": 10,
+                                "endCol": 19
+                              }
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 10,
+                          "col": 4,
+                          "endLine": 10,
+                          "endCol": 20
+                        }
+                      },
+                      "body": {
+                        "expr": "binop",
+                        "op": "+",
+                        "left": {
+                          "expr": "name",
+                          "name": "value",
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 10,
+                            "col": 24,
+                            "endLine": 10,
+                            "endCol": 29
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 8,
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 10,
+                            "col": 32,
+                            "endLine": 10,
+                            "endCol": 33
+                          }
+                        },
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 10,
+                          "col": 24,
+                          "endLine": 10,
+                          "endCol": 33
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 11,
+                          "col": 4,
+                          "endLine": 11,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "int",
+                        "value": 0,
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 11,
+                          "col": 9,
+                          "endLine": 11,
+                          "endCol": 10
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 9,
+                    "col": 10,
+                    "endLine": 12,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "b",
+                      "span": {
+                        "file": "matchexpr_en.agl",
+                        "line": 13,
+                        "col": 8,
+                        "endLine": 13,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 13,
+                    "col": 2,
+                    "endLine": 13,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 13,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "c",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "list",
+                    "items": [
+                      {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 14,
+                          "col": 17,
+                          "endLine": 14,
+                          "endCol": 18
+                        }
+                      },
+                      {
+                        "expr": "int",
+                        "value": 2,
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 14,
+                          "col": 20,
+                          "endLine": 14,
+                          "endCol": 21
+                        }
+                      }
+                    ],
+                    "span": {
+                      "file": "matchexpr_en.agl",
+                      "line": 14,
+                      "col": 16,
+                      "endLine": 14,
+                      "endCol": 22
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "list_pattern",
+                        "items": [
+                          {
+                            "kind": "literal",
+                            "value": {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "matchexpr_en.agl",
+                                "line": 15,
+                                "col": 5,
+                                "endLine": 15,
+                                "endCol": 6
+                              }
+                            },
+                            "span": {
+                              "file": "matchexpr_en.agl",
+                              "line": 15,
+                              "col": 5,
+                              "endLine": 15,
+                              "endCol": 6
+                            }
+                          },
+                          {
+                            "kind": "bind",
+                            "name": "tail",
+                            "span": {
+                              "file": "matchexpr_en.agl",
+                              "line": 15,
+                              "col": 12,
+                              "endLine": 15,
+                              "endCol": 16
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 15,
+                          "col": 4,
+                          "endLine": 15,
+                          "endCol": 17
+                        }
+                      },
+                      "body": {
+                        "expr": "name",
+                        "name": "tail",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 15,
+                          "col": 21,
+                          "endLine": 15,
+                          "endCol": 25
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 16,
+                          "col": 4,
+                          "endLine": 16,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "int",
+                        "value": 0,
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 16,
+                          "col": 9,
+                          "endLine": 16,
+                          "endCol": 10
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 14,
+                    "col": 10,
+                    "endLine": 17,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "c",
+                      "span": {
+                        "file": "matchexpr_en.agl",
+                        "line": 18,
+                        "col": 8,
+                        "endLine": 18,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 18,
+                    "col": 2,
+                    "endLine": 18,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 18,
+                  "col": 2,
+                  "endLine": 18,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "d",
+                "mutable": true,
+                "value": {
+                  "expr": "match",
+                  "subject": {
+                    "expr": "int",
+                    "value": 7,
+                    "span": {
+                      "file": "matchexpr_en.agl",
+                      "line": 19,
+                      "col": 16,
+                      "endLine": 19,
+                      "endCol": 17
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 20,
+                          "col": 8,
+                          "endLine": 20,
+                          "endCol": 13
+                        }
+                      },
+                      "body": {
+                        "expr": "string",
+                        "value": "big",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 20,
+                          "col": 30,
+                          "endLine": 20,
+                          "endCol": 35
+                        }
+                      },
+                      "bind": "value",
+                      "guard": {
+                        "expr": "binop",
+                        "op": ">",
+                        "left": {
+                          "expr": "name",
+                          "name": "value",
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 20,
+                            "col": 17,
+                            "endLine": 20,
+                            "endCol": 22
+                          }
+                        },
+                        "right": {
+                          "expr": "int",
+                          "value": 5,
+                          "span": {
+                            "file": "matchexpr_en.agl",
+                            "line": 20,
+                            "col": 25,
+                            "endLine": 20,
+                            "endCol": 26
+                          }
+                        },
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 20,
+                          "col": 17,
+                          "endLine": 20,
+                          "endCol": 26
+                        }
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "expr": "name",
+                        "name": "_",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 21,
+                          "col": 4,
+                          "endLine": 21,
+                          "endCol": 5
+                        }
+                      },
+                      "body": {
+                        "expr": "string",
+                        "value": "small",
+                        "span": {
+                          "file": "matchexpr_en.agl",
+                          "line": 21,
+                          "col": 9,
+                          "endLine": 21,
+                          "endCol": 16
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 19,
+                    "col": 10,
+                    "endLine": 22,
+                    "endCol": 3
+                  }
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 22,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "d",
+                      "span": {
+                        "file": "matchexpr_en.agl",
+                        "line": 23,
+                        "col": 8,
+                        "endLine": 23,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "matchexpr_en.agl",
+                    "line": 23,
+                    "col": 2,
+                    "endLine": 23,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "matchexpr_en.agl",
+                  "line": 23,
+                  "col": 2,
+                  "endLine": 23,
+                  "endCol": 10
+                }
+              }
+            ],
+            "span": {
+              "file": "matchexpr_en.agl",
+              "line": 2,
+              "col": 0,
+              "endLine": 24,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "matchexpr_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 25,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

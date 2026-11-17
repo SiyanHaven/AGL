@@ -1,0 +1,516 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "nullable_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "可能空",
+            "params": [
+              {
+                "name": "有没有",
+                "type": {
+                  "type": "Bool"
+                }
+              }
+            ],
+            "return": {
+              "type": "String",
+              "nullable": true
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "name",
+                  "name": "有没有",
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 4,
+                    "col": 5,
+                    "endLine": 4,
+                    "endCol": 8
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "return",
+                    "value": {
+                      "expr": "string",
+                      "value": "有值",
+                      "span": {
+                        "file": "nullable_zh.agl",
+                        "line": 5,
+                        "col": 7,
+                        "endLine": 5,
+                        "endCol": 11
+                      }
+                    },
+                    "span": {
+                      "file": "nullable_zh.agl",
+                      "line": 5,
+                      "col": 4,
+                      "endLine": 5,
+                      "endCol": 11
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "null",
+                  "value": null,
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 7,
+                    "col": 5,
+                    "endLine": 7,
+                    "endCol": 6
+                  }
+                },
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 6
+                }
+              }
+            ],
+            "span": {
+              "file": "nullable_zh.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 8,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "是否有值",
+            "params": [
+              {
+                "name": "值",
+                "type": {
+                  "type": "String",
+                  "nullable": true
+                }
+              }
+            ],
+            "return": {
+              "type": "Bool"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "binop",
+                  "op": "!=",
+                  "left": {
+                    "expr": "name",
+                    "name": "值",
+                    "span": {
+                      "file": "nullable_zh.agl",
+                      "line": 11,
+                      "col": 5,
+                      "endLine": 11,
+                      "endCol": 6
+                    }
+                  },
+                  "right": {
+                    "expr": "null",
+                    "value": null,
+                    "span": {
+                      "file": "nullable_zh.agl",
+                      "line": 11,
+                      "col": 11,
+                      "endLine": 11,
+                      "endCol": 12
+                    }
+                  },
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 11,
+                    "col": 5,
+                    "endLine": 11,
+                    "endCol": 12
+                  }
+                },
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 12
+                }
+              }
+            ],
+            "span": {
+              "file": "nullable_zh.agl",
+              "line": 10,
+              "col": 0,
+              "endLine": 12,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "甲",
+                "mutable": true,
+                "value": {
+                  "expr": "null",
+                  "value": null,
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 15,
+                    "col": 14,
+                    "endLine": 15,
+                    "endCol": 15
+                  }
+                },
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 15
+                },
+                "type": {
+                  "type": "String",
+                  "nullable": true
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "乙",
+                "mutable": true,
+                "value": {
+                  "expr": "string",
+                  "value": "AGL",
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 16,
+                    "col": 14,
+                    "endLine": 16,
+                    "endCol": 19
+                  }
+                },
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 16,
+                  "col": 2,
+                  "endLine": 16,
+                  "endCol": 19
+                },
+                "type": {
+                  "type": "String",
+                  "nullable": true
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "binop",
+                      "op": "==",
+                      "left": {
+                        "expr": "name",
+                        "name": "甲",
+                        "span": {
+                          "file": "nullable_zh.agl",
+                          "line": 17,
+                          "col": 5,
+                          "endLine": 17,
+                          "endCol": 6
+                        }
+                      },
+                      "right": {
+                        "expr": "null",
+                        "value": null,
+                        "span": {
+                          "file": "nullable_zh.agl",
+                          "line": 17,
+                          "col": 10,
+                          "endLine": 17,
+                          "endCol": 11
+                        }
+                      },
+                      "span": {
+                        "file": "nullable_zh.agl",
+                        "line": 17,
+                        "col": 5,
+                        "endLine": 17,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "binop",
+                      "op": "==",
+                      "left": {
+                        "expr": "name",
+                        "name": "乙",
+                        "span": {
+                          "file": "nullable_zh.agl",
+                          "line": 17,
+                          "col": 13,
+                          "endLine": 17,
+                          "endCol": 14
+                        }
+                      },
+                      "right": {
+                        "expr": "null",
+                        "value": null,
+                        "span": {
+                          "file": "nullable_zh.agl",
+                          "line": 17,
+                          "col": 18,
+                          "endLine": 17,
+                          "endCol": 19
+                        }
+                      },
+                      "span": {
+                        "file": "nullable_zh.agl",
+                        "line": 17,
+                        "col": 13,
+                        "endLine": 17,
+                        "endCol": 19
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 17,
+                    "col": 2,
+                    "endLine": 17,
+                    "endCol": 20
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 17,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "可能空",
+                      "args": [
+                        {
+                          "expr": "bool",
+                          "value": true,
+                          "span": {
+                            "file": "nullable_zh.agl",
+                            "line": 18,
+                            "col": 9,
+                            "endLine": 18,
+                            "endCol": 10
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "nullable_zh.agl",
+                        "line": 18,
+                        "col": 5,
+                        "endLine": 18,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "binop",
+                      "op": "==",
+                      "left": {
+                        "expr": "call",
+                        "name": "可能空",
+                        "args": [
+                          {
+                            "expr": "bool",
+                            "value": false,
+                            "span": {
+                              "file": "nullable_zh.agl",
+                              "line": 18,
+                              "col": 17,
+                              "endLine": 18,
+                              "endCol": 18
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "nullable_zh.agl",
+                          "line": 18,
+                          "col": 13,
+                          "endLine": 18,
+                          "endCol": 19
+                        }
+                      },
+                      "right": {
+                        "expr": "null",
+                        "value": null,
+                        "span": {
+                          "file": "nullable_zh.agl",
+                          "line": 18,
+                          "col": 23,
+                          "endLine": 18,
+                          "endCol": 24
+                        }
+                      },
+                      "span": {
+                        "file": "nullable_zh.agl",
+                        "line": 18,
+                        "col": 13,
+                        "endLine": 18,
+                        "endCol": 24
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 18,
+                    "col": 2,
+                    "endLine": 18,
+                    "endCol": 25
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 18,
+                  "col": 2,
+                  "endLine": 18,
+                  "endCol": 25
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "是否有值",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "甲",
+                          "span": {
+                            "file": "nullable_zh.agl",
+                            "line": 19,
+                            "col": 10,
+                            "endLine": 19,
+                            "endCol": 11
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "nullable_zh.agl",
+                        "line": 19,
+                        "col": 5,
+                        "endLine": 19,
+                        "endCol": 12
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "是否有值",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "乙",
+                          "span": {
+                            "file": "nullable_zh.agl",
+                            "line": 19,
+                            "col": 19,
+                            "endLine": 19,
+                            "endCol": 20
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "nullable_zh.agl",
+                        "line": 19,
+                        "col": 14,
+                        "endLine": 19,
+                        "endCol": 21
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "nullable_zh.agl",
+                    "line": 19,
+                    "col": 2,
+                    "endLine": 19,
+                    "endCol": 22
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "nullable_zh.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 22
+                }
+              }
+            ],
+            "span": {
+              "file": "nullable_zh.agl",
+              "line": 14,
+              "col": 0,
+              "endLine": 20,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "nullable_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 21,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

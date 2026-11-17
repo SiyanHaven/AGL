@@ -1,0 +1,381 @@
+#lang=English
+// Intent: built-in functions (slice / split / join / replace / strip / upper / lower /
+//         contains / to_text / append / sublist / to_int / to_float) produce the same IR
+//         in both branches. Anything that can fail returns a Result instead of throwing;
+//         going out of range is an error, never a silent truncation.
+//         The second half covers async built-ins (task / sleep / on_finish / report_progress / cancel).
+
+async fn slow() -> String effect Time {
+  await sleep(1)
+  return "ok"
+}
+
+fn closure0(x: Int) -> Int {
+  return x + 5
+}
+
+fn 取长度(x: String) -> Any {
+  return x.length
+}
+
+async fn main() effect Time IO {
+  let sentence = "a,b,c"
+  let parts = split(sentence, ",")
+  print("count", parts.length)
+  print("first", parts[0])
+
+  print("slice", slice("hello", 1, 3))
+  print("empty slice length", slice("ab", 1, 1).length)
+  print("split chars", split("ab", ""))
+  print("join", join("a", "b", "c"))
+  print("replace", replace("aba", "a", "d"))
+  print("html_escape", html_escape("<a> & b"))
+  print("url_encode", url_encode("你好 A/B"))
+  print("url_decode", url_decode("%E4%BD%A0%E5%A5%BD"))
+  print("strip", strip("  mid  "))
+  print("upper", upper("abc"))
+  print("lower", lower("ABC"))
+  print("contains", contains("ab", "b"))
+  print("not contains", contains("ab", "c"))
+  print("to text", to_text(42))
+  print("format number", format_number(3.14159, 2))
+  print("wide format", format_number(3.14159, 2, 10))
+  print("sum", sum([1, 2, 3]))
+  print("trunc", trunc(1.9))
+  print("trunc negative", trunc(0 - 1.9))
+  print("ceil", ceil(3.2))
+  print("floor", floor(3.9))
+  print("max default", max_default([], 0))
+  print("min default", min_default([], -1))
+  let made_ok = Ok(7)
+  print("made ok", made_ok)
+  let made_err = Err("deliberate")
+  print("made err", made_err)
+
+  let original = [1, 2]
+  let grown = append(original, 3)
+  print("original", original)
+  print("grown", grown)
+  print("sublist", sublist(grown, 1, 3))
+  print("empty sublist", sublist(original, 0, 0))
+
+  let number = to_int("42")
+  if number {
+    print("integer", unwrap(number))
+  }
+  let bad = to_int("forty-two")
+  if !bad {
+    print("not integer", fail_reason(bad))
+  }
+  let fn_ref = ["closure0"]
+  print("call_fn", call_fn(fn_ref, 3))
+  print("float", to_float("1.5"))
+  print("abs", abs(-3.14))
+  print("min", min(3, 5))
+  print("max", max(3, 5))
+  print("min list", min([3, 1, 2]))
+  print("max list", max([3, 1, 2]))
+  print("max many", max(3, 5, 9, 1))
+  print("fill", fill("{} in {}, buy {}", "Xiao", "Hangzhou", 3))
+  print("regex match", regex_match("abc123", "\\d+"))
+  print("regex no", regex_match("abc", "\\d+"))
+  print("regex sub", regex_sub("a1b2", "\\d", "X"))
+  print("isdigit", isdigit("123"), isdigit("12a"))
+  print("isalpha", isalpha("abc"), isalpha("a1"))
+  print("find", find("甲乙丙", "乙"), find("甲乙", "丁"))
+  print("startswith", startswith("甲乙", "甲"))
+  print("endswith", endswith("甲乙", "乙"))
+  print("get", get({"甲": 1}, "甲", 0), get({"甲": 1}, "乙", 0))
+  // a whole builtin name at statement start is not prefix-split
+  now()
+  let current = now()
+  print("strftime", strftime("%Y"))
+  print("merge_map", merge_map({"a": 1}, {"b": 2}))
+  print("join_list", join_list("-", ["a", "b", "c"]))
+  print("sorted", sorted([3, 1, 2]))
+  print("sort_by", sort_by(["bb", "a", "ccc"], 取长度))
+  print("reverse", reverse([1, 2, 3]))
+  print("is_same", is_same(1, 1), is_same([1], [1]))
+  print("is_not_same", is_not_same(1, 2), is_not_same([1], [1]))
+
+  // —— async built-ins coverage ——
+  let handle = task(slow())
+  on_finish(handle, value: String) { print("done", value) }
+  let r = await handle
+  print("result", r)
+  cancel(handle)
+  report_progress("done")
+
+  // —— file IO built-ins coverage (compile-only, no real disk write) ——
+  let read_probe = read_file("missing.txt")
+  print("read missing", fail_reason(read_probe))
+  let write_probe = write_file("temp.txt", "content")
+  print("write probe", write_probe)
+}
+
+// random output is non-deterministic; compile-only (not called from main)
+fn random_demo() -> Int {
+  let die = randint(1, 6)
+  let pick = choice([1, 2, 3])
+  let picked = random_choice([1, 2, 3])
+  seed(1)
+  return die
+}
+
+// input() would block; append_file would touch disk; compile-only
+fn input_demo() -> String effect IO {
+  let line = input("enter: ")
+  let appended = append_file("temp.txt", line)
+  return line
+}
+
+// v0.24 sets / JSON / network (fetch really hits the wire; compile-only)
+fn set_demo() -> Set<Int> {
+  let s = make_set(1, 2, 3)
+  let t = set_add(s, 4)
+  let u = set_union(s, {3, 4})
+  let v = set_intersection(s, {2, 3})
+  let w = set_difference(s, {2})
+  let x = set_symmetric_difference(s, {3, 4})
+  let sub = is_subset({1, 2}, s)
+  let sup = is_superset(s, {1, 2})
+  let d = unwrap(parse_json("{\"a\": 1}"))
+  let j = unwrap(dump_json(d))
+  return w
+}
+
+fn web_demo() -> String effect Net {
+  let r = fetch("https://example.com/")
+  return unwrap(r)
+}
+
+// v0.25 count / range_list / optional-prompt input
+fn count_demo() -> Int {
+  let s = "香蕉香蕉苹果"
+  let sub = count(s, "香蕉")
+  let xs = [1, 2, 2, 3]
+  let cnt = count(xs, 2)
+  return sub + cnt
+}
+
+fn range_demo() -> List<Int> {
+  let r1 = range_list(3)
+  let r2 = range_list(2, 6)
+  let r3 = range_list(0, 10, 3)
+  return r3
+}
+
+fn no_prompt_input() -> String effect IO {
+  let line = input()
+  return line
+}
+
+// v0.26 string repeat / title / zfill / lstrip / rstrip
+fn text_demo() -> String {
+  let rep = repeat("ab", 3)
+  let ttl = title("hello world")
+  let zf = zfill(to_text(7), 3)
+  let ls = lstrip("  甲")
+  let rs = rstrip("甲  ")
+  return rep + ttl + zf + ls + rs
+}
+
+// v0.27 string family (ljust/rjust/center/removeprefix/removesuffix/swapcase/capitalize/is* booleans) + type ctors (to_bool/to_list/keys/make_map)
+fn str_methods_demo() {
+  print("ljust", ljust("abc", 5, "-"))
+  print("rjust", rjust("abc", 5, "-"))
+  print("center", center("abc", 7, "*"))
+  print("swapcase", swapcase("AbC"))
+  print("capitalize", capitalize("abc"))
+  print("removeprefix", removeprefix("abc", "a"))
+  print("removesuffix", removesuffix("abc", "c"))
+  print("islower", islower("abc"))
+  print("isupper", isupper("ABC"))
+  print("isspace", isspace("  "))
+  print("istitle", istitle("Hello World"))
+  print("isdecimal", isdecimal("42"))
+  print("isnumeric", isnumeric("42"))
+  print("to_bool", to_bool(0))
+  print("to_list", to_list("abc"))
+  print("keys", keys({"a": 1}))
+  print("make_map", make_map([["a", 1], ["b", 2]]))
+}
+
+// v0.28 slice upgrade (list+step) / round / pow / divmod / ord / chr / all / any / items / values / hex / oct / bin
+fn num_format_demo() {
+  print("slice_list", slice([10, 20, 30, 40], 1, 3))
+  print("slice_rev", reverse([1, 2, 3]))
+  print("round", round(3.7))
+  print("pow", pow(2, 10))
+  print("divmod", divmod(17, 5)[0], divmod(17, 5)[1])
+  print("ord", ord("A"))
+  print("chr", chr(66))
+  print("all", all([true, true]))
+  print("any", any([false, true]))
+  print("items", items({"a": 1})[0][0])
+  print("values", values({"a": 1})[0])
+  print("hex", hex(255))
+  print("oct", oct(8))
+  print("bin", bin(10))
+}
+
+// v0.29 to_int base param (int(x, base) direct)
+fn base_convert_demo() {
+  print("bin_to_dec", unwrap(to_int("101", 2)))
+  print("hex_to_dec", unwrap(to_int("ff", 16)))
+}
+
+// v0.30 list/map method family (pop/remove/insert/index/pop_key) both branches
+fn method_family_demo() {
+  let xs = [10, 20, 30]
+  let ys, xs2 = pop(xs)
+  print("pop_tail", ys, xs2)
+  let y2, xs3 = pop(xs2, 0)
+  print("pop_index", y2, xs3)
+  print("remove", remove(xs3, 20))
+  print("insert", insert([1, 3], 1, 2))
+  print("index", unwrap(index([7, 8, 9], 8)))
+  print("index_missing", index([7], 9))
+  let d = make_map([["a", 1], ["b", 2]])
+  print("pop_key", pop_key(d, "a")[0], pop_key(d, "a")[1])
+  print("pop_key_default", pop_key(d, "z", 9))
+  // format spec base & alignment (shared _format_spec_conversion)
+  print("hex_text", removeprefix(hex(255), "0x"))
+  print("hex_upper", upper(removeprefix(hex(255), "0x")))
+  print("rjust", rjust(to_text(7), 5))
+  print("ljust", ljust(to_text(7), 5))
+  print("center", center(to_text(7), 5))
+  print("zfill", zfill(to_text(42), 5))
+}
+
+// v0.31 clear / format_value / repr + scientific literal (complex spec passthrough)
+fn format_passthrough_demo() {
+  print("clear_list", clear([10, 20]))
+  print("clear_map", clear(make_map([["a", 1]])))
+  print("thousands", format_value(1234567, ","))
+  print("scientific", format_value(3.14159, ".3e"))
+  print("sign", format_value(42, "+d"))
+  print("eq_align", format_value(42, "=10"))
+  print("custom_fill", format_value(42, "*<10"))
+  print("repr", repr("x"))
+  print("sci_literal", 1.23e-05)
+}
+fn splitlines_demo() {
+  print("lines", splitlines("a\nb").length)
+  print("first", splitlines("a\nb")[0])
+  print("parts", partition("a-b-c", "-")[0], partition("a-b-c", "-")[1], partition("a-b-c", "-")[2])
+  print("nofind", partition("xyz", "-")[0])
+}
+
+fn v33_probe() {
+  print("maxsplit", split("a b c d", " ", 2).length)
+  print("sep", split("a,b,c", ",").length)
+  print("ws", split("a b").length)
+  print("count", replace("a-a-a", "-", "+", 2))
+  print("strindex", unwrap(index("abc", "b")))
+  print("rfind", rfind("abcabc", "b"))
+  print("setdefault", setdefault({}, "k", 0))
+  print("fromkeys", fromkeys(["a", "b"], 0).length)
+  print("floordiv", floordiv(-7, 2))
+  print("listrepeat", repeat([0], 3).length)
+}
+
+fn v34_probe() {
+  print("rpartition", rpartition("a-b-c", "-")[0])
+  print("casefold", casefold("Ä"))
+  print("expandtabs", expandtabs("a\tb", 4).length)
+  print("endswith_list", endswith("a.py", [".py", ".txt"]))
+  print("startswith_list", startswith("abc", ["x", "a"]))
+}
+
+fn v35_probe() {
+  print("trim_chars", strip("a-b-", "-"))
+  print("lstrip_chars", lstrip("aa-x", "a"))
+  print("isinstance", isinstance(5, "int"))
+  print("isinstance_list", isinstance("s", ["str", "list"]))
+  print("assert_ok", assert(5 > 1))
+  print("del_key", del_key({1: "a", 2: "b"}, 1).length)
+  print_no_newline("no_newline")
+  print("memoryview", memoryview("hello").length)
+  print("getattr", getattr("hello", "length"))
+  print("getattr", getattr("hello", "length"))
+  print("hasattr", hasattr("hello", "length"))
+  setattr("hello", "length", 5)
+  delattr("hello", "length")
+  print("type_name", type_name(123))
+  print("sqrt", sqrt(16))
+  print("log", log(1))
+  print("sin", sin(0))
+  print("cos", cos(0))
+  print("exp", exp(0))
+  print("tan", tan(0))
+  print("asin", asin(0))
+  print("acos", acos(1))
+  print("atan", atan(0))
+  print("radians", radians(180))
+  print("degrees", degrees(3.14159))
+  print("sinh", sinh(0))
+  print("cosh", cosh(0))
+  print("tanh", tanh(0))
+  print("pi", pi())
+  print("sign", sign(-5))
+}
+
+// v0.53 extended built-in dual-branch coverage (compile-only: disk / db / ports)
+fn extended_io_demo() -> Int effect IO {
+  let here = exists("temp.txt")
+  let entries = list_dir(".")
+  mkdir("tmpdir")
+  delete_file("temp.txt")
+  let argv = args()
+  let joined = path_join("data", "config.json")
+  rename("old.txt", "new.txt")
+  let size = file_size("temp.txt")
+  let isdir = is_dir("data")
+  let isfile = is_file("temp.txt")
+  let walked = walk_dir(".")
+  let cwd_now = cwd()
+  let digest = md5("abc")
+  let sha = sha256("abc")
+  let env = getenv("PATH")
+  let db = sqlite_open("todo.db")
+  sqlite_exec(db, "CREATE TABLE IF NOT EXISTS t(x)")
+  sqlite_query(db, "SELECT 1")
+  sqlite_exec_param(db, "INSERT INTO t VALUES(?)", [1])
+  sqlite_query_param(db, "SELECT * FROM t WHERE x=?", [1])
+  sqlite_close(db)
+  let table = read_csv("data.csv")
+  write_csv("data.csv", table)
+  return walked.length
+}
+
+fn extended_time_demo() -> String effect Time {
+  return now_str()
+}
+
+fn extended_net_demo() effect Net {
+  http_serve(8080, ".")
+  web_serve(8080, "handler")
+  todo_web_serve(8080, "todo.db")
+}
+
+fn extended_pure_demo() -> Int {
+  let pairs_seq = enumerate([10, 20])
+  let zipped = zip([1, 2], ["a", "b"])
+  let pieces = split_string("a,b", ",")
+  let joined_text = join_string("-", ["a", "b"])
+  let sorted_list = sort_list([3, 1, 2])
+  let kept = filter_list(["a.txt"], is_file)
+  let mapped = map_list([1, 2], to_text)
+  return sorted_list.length
+}
+
+fn extended_exit_demo() {
+  exit(0)
+}
+
+// T18 snapshot built-ins: save_state / load_state. Semantics covered by snapshot_en.agl.
+fn extended_snapshot_demo() effect IO {
+  save_state("build/builtin_en.state")
+  load_state("build/builtin_en.state")
+}

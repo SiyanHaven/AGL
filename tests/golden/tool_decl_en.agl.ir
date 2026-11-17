@@ -1,0 +1,240 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "tool_decl_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "declaration blocks parsed",
+                      "span": {
+                        "file": "tool_decl_en.agl",
+                        "line": 31,
+                        "col": 8,
+                        "endLine": 31,
+                        "endCol": 35
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "tool_decl_en.agl",
+                    "line": 31,
+                    "col": 2,
+                    "endLine": 31,
+                    "endCol": 36
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 31,
+                  "col": 2,
+                  "endLine": 31,
+                  "endCol": 36
+                }
+              }
+            ],
+            "span": {
+              "file": "tool_decl_en.agl",
+              "line": 30,
+              "col": 0,
+              "endLine": 32,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "tool_decl_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 33,
+          "endCol": 0
+        },
+        "declarations": [
+          {
+            "kind": "tool",
+            "name": "load_text",
+            "span": {
+              "file": "tool_decl_en.agl",
+              "line": 5,
+              "col": 0,
+              "endLine": 5,
+              "endCol": 14
+            },
+            "params": [
+              {
+                "name": "file_path",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "config": {
+              "protocol": {
+                "expr": "string",
+                "value": "mcp",
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 9,
+                  "col": 15,
+                  "endLine": 9,
+                  "endCol": 20
+                }
+              },
+              "endpoint": {
+                "expr": "string",
+                "value": "http://127.0.0.1:8080/mcp",
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 10,
+                  "col": 15,
+                  "endLine": 10,
+                  "endCol": 42
+                }
+              },
+              "max_retry": {
+                "expr": "int",
+                "value": 2,
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 11,
+                  "col": 16,
+                  "endLine": 11,
+                  "endCol": 17
+                }
+              },
+              "timeout_sec": {
+                "expr": "int",
+                "value": 10,
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 12,
+                  "col": 18,
+                  "endLine": 12,
+                  "endCol": 20
+                }
+              },
+              "subscribe": {
+                "expr": "bool",
+                "value": false,
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 13,
+                  "col": 16,
+                  "endLine": 13,
+                  "endCol": 21
+                }
+              }
+            }
+          },
+          {
+            "kind": "agent",
+            "name": "researcher",
+            "span": {
+              "file": "tool_decl_en.agl",
+              "line": 17,
+              "col": 0,
+              "endLine": 17,
+              "endCol": 16
+            },
+            "params": [
+              {
+                "name": "topic",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "target": {
+              "expr": "string",
+              "value": "produce a research summary for the topic",
+              "span": {
+                "file": "tool_decl_en.agl",
+                "line": 20,
+                "col": 11,
+                "endLine": 20,
+                "endCol": 53
+              }
+            }
+          },
+          {
+            "kind": "rule",
+            "name": "no_drop_database",
+            "span": {
+              "file": "tool_decl_en.agl",
+              "line": 23,
+              "col": 0,
+              "endLine": 23,
+              "endCol": 21
+            },
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "fields": {
+              "version": {
+                "expr": "int",
+                "value": 1,
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 24,
+                  "col": 12,
+                  "endLine": 24,
+                  "endCol": 13
+                }
+              },
+              "scope": {
+                "expr": "string",
+                "value": "全项目"
+              },
+              "content": {
+                "expr": "string",
+                "value": "never drop the database under any circumstance",
+                "span": {
+                  "file": "tool_decl_en.agl",
+                  "line": 26,
+                  "col": 12,
+                  "endLine": 26,
+                  "endCol": 60
+                }
+              },
+              "priority": {
+                "expr": "name",
+                "name": "high"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

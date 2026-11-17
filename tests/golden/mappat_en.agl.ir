@@ -1,0 +1,926 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "mappat_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "m",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "type",
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 11,
+                          "endLine": 4,
+                          "endCol": 17
+                        }
+                      },
+                      "value": {
+                        "expr": "string",
+                        "value": "ok",
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 19,
+                          "endLine": 4,
+                          "endCol": 23
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "value",
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 25,
+                          "endLine": 4,
+                          "endCol": 32
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 9,
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 34,
+                          "endLine": 4,
+                          "endCol": 35
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "inner",
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 37,
+                          "endLine": 4,
+                          "endCol": 44
+                        }
+                      },
+                      "value": {
+                        "expr": "map",
+                        "entries": [
+                          {
+                            "key": {
+                              "expr": "string",
+                              "value": "x",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 4,
+                                "col": 47,
+                                "endLine": 4,
+                                "endCol": 50
+                              }
+                            },
+                            "value": {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 4,
+                                "col": 52,
+                                "endLine": 4,
+                                "endCol": 53
+                              }
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 46,
+                          "endLine": 4,
+                          "endCol": 54
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "list",
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 56,
+                          "endLine": 4,
+                          "endCol": 62
+                        }
+                      },
+                      "value": {
+                        "expr": "list",
+                        "items": [
+                          {
+                            "expr": "int",
+                            "value": 1,
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 4,
+                              "col": 65,
+                              "endLine": 4,
+                              "endCol": 66
+                            }
+                          },
+                          {
+                            "expr": "int",
+                            "value": 2,
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 4,
+                              "col": 68,
+                              "endLine": 4,
+                              "endCol": 69
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 4,
+                          "col": 64,
+                          "endLine": 4,
+                          "endCol": 70
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "mappat_en.agl",
+                    "line": 4,
+                    "col": 10,
+                    "endLine": 4,
+                    "endCol": 71
+                  }
+                },
+                "span": {
+                  "file": "mappat_en.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 71
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_en.agl",
+                    "line": 5,
+                    "col": 9,
+                    "endLine": 5,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "type",
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 6,
+                              "col": 5,
+                              "endLine": 6,
+                              "endCol": 11
+                            }
+                          },
+                          "value": {
+                            "kind": "literal",
+                            "value": {
+                              "expr": "string",
+                              "value": "ok",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 6,
+                                "col": 13,
+                                "endLine": 6,
+                                "endCol": 17
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 6,
+                              "col": 13,
+                              "endLine": 6,
+                              "endCol": 17
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "value",
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 6,
+                              "col": 19,
+                              "endLine": 6,
+                              "endCol": 26
+                            }
+                          },
+                          "value": {
+                            "kind": "bind",
+                            "name": "v",
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 6,
+                              "col": 32,
+                              "endLine": 6,
+                              "endCol": 33
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 6,
+                        "col": 4,
+                        "endLine": 6,
+                        "endCol": 34
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "name",
+                              "name": "v",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 6,
+                                "col": 43,
+                                "endLine": 6,
+                                "endCol": 44
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 6,
+                            "col": 37,
+                            "endLine": 6,
+                            "endCol": 45
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 6,
+                          "col": 37,
+                          "endLine": 6,
+                          "endCol": 45
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no1",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 7,
+                                "col": 14,
+                                "endLine": 7,
+                                "endCol": 19
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 7,
+                            "col": 8,
+                            "endLine": 7,
+                            "endCol": 20
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 7,
+                          "col": 8,
+                          "endLine": 7,
+                          "endCol": 20
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_en.agl",
+                    "line": 9,
+                    "col": 9,
+                    "endLine": 9,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "inner",
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 10,
+                              "col": 5,
+                              "endLine": 10,
+                              "endCol": 12
+                            }
+                          },
+                          "value": {
+                            "kind": "map",
+                            "pattern": {
+                              "expr": "map_pattern",
+                              "entries": [
+                                {
+                                  "key": {
+                                    "expr": "string",
+                                    "value": "x",
+                                    "span": {
+                                      "file": "mappat_en.agl",
+                                      "line": 10,
+                                      "col": 15,
+                                      "endLine": 10,
+                                      "endCol": 18
+                                    }
+                                  },
+                                  "value": {
+                                    "kind": "bind",
+                                    "name": "x",
+                                    "span": {
+                                      "file": "mappat_en.agl",
+                                      "line": 10,
+                                      "col": 24,
+                                      "endLine": 10,
+                                      "endCol": 25
+                                    }
+                                  }
+                                }
+                              ],
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 10,
+                                "col": 14,
+                                "endLine": 10,
+                                "endCol": 26
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 10,
+                              "col": 14,
+                              "endLine": 10,
+                              "endCol": 26
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 10,
+                        "col": 4,
+                        "endLine": 10,
+                        "endCol": 27
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "name",
+                              "name": "x",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 10,
+                                "col": 36,
+                                "endLine": 10,
+                                "endCol": 37
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 10,
+                            "col": 30,
+                            "endLine": 10,
+                            "endCol": 38
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 10,
+                          "col": 30,
+                          "endLine": 10,
+                          "endCol": 38
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 11,
+                        "col": 4,
+                        "endLine": 11,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no2",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 11,
+                                "col": 14,
+                                "endLine": 11,
+                                "endCol": 19
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 11,
+                            "col": 8,
+                            "endLine": 11,
+                            "endCol": 20
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 11,
+                          "col": 8,
+                          "endLine": 11,
+                          "endCol": 20
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_en.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_en.agl",
+                    "line": 13,
+                    "col": 9,
+                    "endLine": 13,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "list",
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 14,
+                              "col": 5,
+                              "endLine": 14,
+                              "endCol": 11
+                            }
+                          },
+                          "value": {
+                            "kind": "list",
+                            "pattern": {
+                              "expr": "list_pattern",
+                              "items": [
+                                {
+                                  "kind": "literal",
+                                  "value": {
+                                    "expr": "int",
+                                    "value": 1,
+                                    "span": {
+                                      "file": "mappat_en.agl",
+                                      "line": 14,
+                                      "col": 14,
+                                      "endLine": 14,
+                                      "endCol": 15
+                                    }
+                                  },
+                                  "span": {
+                                    "file": "mappat_en.agl",
+                                    "line": 14,
+                                    "col": 14,
+                                    "endLine": 14,
+                                    "endCol": 15
+                                  }
+                                },
+                                {
+                                  "kind": "bind",
+                                  "name": "tail",
+                                  "span": {
+                                    "file": "mappat_en.agl",
+                                    "line": 14,
+                                    "col": 21,
+                                    "endLine": 14,
+                                    "endCol": 25
+                                  }
+                                }
+                              ],
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 14,
+                                "col": 13,
+                                "endLine": 14,
+                                "endCol": 26
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 14,
+                              "col": 13,
+                              "endLine": 14,
+                              "endCol": 26
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 14,
+                        "col": 4,
+                        "endLine": 14,
+                        "endCol": 27
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "name",
+                              "name": "tail",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 14,
+                                "col": 36,
+                                "endLine": 14,
+                                "endCol": 40
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 14,
+                            "col": 30,
+                            "endLine": 14,
+                            "endCol": 41
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 14,
+                          "col": 30,
+                          "endLine": 14,
+                          "endCol": 41
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 15,
+                        "col": 4,
+                        "endLine": 15,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "no3",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 15,
+                                "col": 14,
+                                "endLine": 15,
+                                "endCol": 19
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 15,
+                            "col": 8,
+                            "endLine": 15,
+                            "endCol": 20
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 15,
+                          "col": 8,
+                          "endLine": 15,
+                          "endCol": 20
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_en.agl",
+                  "line": 13,
+                  "col": 2,
+                  "endLine": 16,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "match",
+                "subject": {
+                  "expr": "name",
+                  "name": "m",
+                  "span": {
+                    "file": "mappat_en.agl",
+                    "line": 17,
+                    "col": 9,
+                    "endLine": 17,
+                    "endCol": 10
+                  }
+                },
+                "arms": [
+                  {
+                    "pattern": {
+                      "expr": "map_pattern",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "missing",
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 18,
+                              "col": 5,
+                              "endLine": 18,
+                              "endCol": 14
+                            }
+                          },
+                          "value": {
+                            "kind": "literal",
+                            "value": {
+                              "expr": "int",
+                              "value": 1,
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 18,
+                                "col": 16,
+                                "endLine": 18,
+                                "endCol": 17
+                              }
+                            },
+                            "span": {
+                              "file": "mappat_en.agl",
+                              "line": 18,
+                              "col": 16,
+                              "endLine": 18,
+                              "endCol": 17
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 18,
+                        "col": 4,
+                        "endLine": 18,
+                        "endCol": 18
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "bad",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 18,
+                                "col": 27,
+                                "endLine": 18,
+                                "endCol": 32
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 18,
+                            "col": 21,
+                            "endLine": 18,
+                            "endCol": 33
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 18,
+                          "col": 21,
+                          "endLine": 18,
+                          "endCol": 33
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "pattern": {
+                      "expr": "name",
+                      "name": "_",
+                      "span": {
+                        "file": "mappat_en.agl",
+                        "line": 19,
+                        "col": 4,
+                        "endLine": 19,
+                        "endCol": 5
+                      }
+                    },
+                    "body": [
+                      {
+                        "stmt": "expr",
+                        "value": {
+                          "expr": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "expr": "string",
+                              "value": "fallback",
+                              "span": {
+                                "file": "mappat_en.agl",
+                                "line": 19,
+                                "col": 14,
+                                "endLine": 19,
+                                "endCol": 24
+                              }
+                            }
+                          ],
+                          "span": {
+                            "file": "mappat_en.agl",
+                            "line": 19,
+                            "col": 8,
+                            "endLine": 19,
+                            "endCol": 25
+                          },
+                          "builtin": "print"
+                        },
+                        "span": {
+                          "file": "mappat_en.agl",
+                          "line": 19,
+                          "col": 8,
+                          "endLine": 19,
+                          "endCol": 25
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "span": {
+                  "file": "mappat_en.agl",
+                  "line": 17,
+                  "col": 2,
+                  "endLine": 20,
+                  "endCol": 3
+                }
+              }
+            ],
+            "span": {
+              "file": "mappat_en.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 21,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "mappat_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 22,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

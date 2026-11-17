@@ -1,0 +1,16 @@
+#lang=English
+// Intent: on_fail receives the error text; on_finish must not fire.
+async fn bad() -> Int {
+  unwrap(Err("boom"))
+  return 0
+}
+async fn main() {
+  let t = task(bad())
+  on_fail(t, err: String) {
+    print("failed")
+  }
+  on_finish(t, value: Int) {
+    print("done", value)
+  }
+  await t
+}

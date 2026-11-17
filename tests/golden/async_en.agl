@@ -1,0 +1,14 @@
+#lang=English
+// Intent: the minimal async skeleton (task / on_finish / await) is equivalent
+// across branches, and the on_event callback block lines up with source line-for-line.
+// Output is deterministic, independent of timing.
+async fn slow() -> String {
+  return "ok"
+}
+
+async fn main() {
+  let a = task(slow())
+  on_finish(a, value: String) { print("done", value) }
+  let r = await a
+  print("result", r)
+}

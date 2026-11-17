@@ -1,0 +1,6 @@
+#lang=English
+import BookLibrary
+
+fn main() {
+  print(BookLibrary.discounted(100.0, 20))
+}

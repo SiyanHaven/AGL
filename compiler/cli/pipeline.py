@@ -135,7 +135,7 @@ def compile_source(source: str, filename: str,
         except Exception as e:  # 后端自身缺陷，不能伪装成用户代码错
             res.diagnostics.append(Diagnostic(
                 code=Code.UNSUPPORTED,
-                message_zh="这段代码里有一处语法，当前版本 的转译后端还不支持",
+                message_zh="这段代码里有一处语法，阶段 1 的转译后端还不支持",
                 file=filename, line=1, col=0, end_col=1,
                 cause=f"{type(e).__name__}: {e}",
                 fix_hints=[FixHint("report_bug", f"{filename}:1",
@@ -188,7 +188,7 @@ def compile_project(entry: Path, optimize: bool = False,
             src = override_source
         else:
             try:
-                src = path.read_text(encoding="utf-8")
+                src = path.read_text(encoding="utf-8-sig")
             except UnicodeDecodeError:
                 return Result(path=path, diagnostics=[Diagnostic(
                     code=Code.BAD_CHAR, severity="error",
@@ -219,7 +219,7 @@ def compile_file(path: str | Path, optimize: bool = False) -> Result:
             fix_hints=[FixHint("check_path", p.name, "确认路径拼写，或用相对路径重试")],
         )])
     try:
-        p.read_text(encoding="utf-8")
+        p.read_text(encoding="utf-8-sig")
     except UnicodeDecodeError:
         return Result(path=p, diagnostics=[Diagnostic(
             code=Code.BAD_CHAR, severity="error",

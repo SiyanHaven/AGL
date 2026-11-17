@@ -209,7 +209,7 @@ class KeywordTable:
     def other_branch_keyword(self, text: str, lang: str) -> bool:
         """text 是否是「另一分支」**当前阶段已启用**的关键字（用于禁混用检测）。
 
-        必须过滤 stage：`配置` 是后续版本 的词，当前版本 里两分支都可以拿它当标识符，
+        必须过滤 stage：`配置` 是阶段 3 的词，阶段 1 里两分支都可以拿它当标识符，
         若不过滤，英文分支写 `let 配置 = …` 会被误报成混用。
         """
         tbl = self._en if lang == LANG_ZH else self._zh
@@ -605,7 +605,7 @@ class Lexer:
                 self._emit_keyword(word, start, sl, sc)
                 return
             # stage > 1 的关键字在当前阶段**不占用词汇**，按普通标识符处理。
-            # 理由：`配置`、`入参`、`依赖` 都是日常中文词，当前版本 却因为
+            # 理由：`配置`、`入参`、`依赖` 都是日常中文词，阶段 1 却因为
             # 一个尚未实现的功能不许用户拿它当变量名，这是不可接受的体验。
             # 代价：将来启用这些词时，曾用作标识符的代码需要改名。
             self._emit(IDENT, start, sl, sc)
@@ -693,7 +693,7 @@ class Lexer:
                 f"关键字 `{word}` 在当前阶段未启用（需阶段 {stage}）",
                 sl, sc, sc + len(word),
                 hints=[FixHint("use_basic_syntax", f"{self.file}:{sl}",
-                               "改用当前版本 的基础写法，或等阶段升级后再用")],
+                               "改用阶段 1 的基础写法，或等阶段升级后再用")],
             )
         canon = self.table.canonical_of(word, self.lang) or word
         self._emit(KEYWORD, start, sl, sc, canonical=canon)

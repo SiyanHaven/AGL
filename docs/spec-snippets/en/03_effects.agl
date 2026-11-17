@@ -1,0 +1,14 @@
+#lang=English
+fn read_config(path: String) -> String
+check {
+  path != ""
+}
+effect IO
+{
+  return unwrap(read_file(path))
+}
+
+fn main() effect IO {
+  let content = read_config("examples/en/sample.log")
+  print(content.length)
+}

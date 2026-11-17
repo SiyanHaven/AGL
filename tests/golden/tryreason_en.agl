@@ -1,0 +1,20 @@
+#lang=English
+// Intent: finally runs on early return; fail_reason keeps the original failure text.
+fn take() -> Int {
+  try {
+    return 7
+  } finally {
+    print("f-return")
+  }
+}
+fn main() {
+  print("value", take())
+  try {
+    unwrap(Err("reason text"))
+  } catch (e) {
+    print("caught", fail_reason(e))
+  } finally {
+    print("f-catch")
+  }
+  print("done")
+}

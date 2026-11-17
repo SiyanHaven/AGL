@@ -1,0 +1,24 @@
+# AGL 工程配置（用例：声明标准库依赖）
+
+[project]
+name = "stdlib_ok"
+version = "0.1.0"
+entry = "main.agl"
+language = "zh"
+
+[build]
+backend = "python"
+out_dir = "build"
+ir_dir = "build/ir"
+diff_dir = "build/diff"
+
+[dependencies]
+"数学" = "0.1.0"
+"列表工具" = "0.1.0"
+
+[tool]
+
+[sandbox]
+max_duration_sec = 60
+max_memory_mb = 512
+max_loop_iterations = 10000

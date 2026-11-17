@@ -1,0 +1,6 @@
+#lang=English
+fn main() {
+  let count = 0
+  const service_name = "agl-api"
+  print(service_name, count)
+}

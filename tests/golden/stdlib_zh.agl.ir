@@ -1,0 +1,462 @@
+{
+  "ir_version": "0.2",
+  "lang": "zh",
+  "program": {
+    "entry": "主入口",
+    "modules": [
+      {
+        "name": "stdlib_zh",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "主入口",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "名",
+                "mutable": true,
+                "value": {
+                  "expr": "string",
+                  "value": "思衍",
+                  "span": {
+                    "file": "stdlib_zh.agl",
+                    "line": 5,
+                    "col": 9,
+                    "endLine": 5,
+                    "endCol": 13
+                  }
+                },
+                "span": {
+                  "file": "stdlib_zh.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 5,
+                  "endCol": 13
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "名",
+                        "span": {
+                          "file": "stdlib_zh.agl",
+                          "line": 6,
+                          "col": 5,
+                          "endLine": 6,
+                          "endCol": 6
+                        }
+                      },
+                      "field": "长度",
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 6,
+                        "col": 5,
+                        "endLine": 6,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_zh.agl",
+                    "line": 6,
+                    "col": 2,
+                    "endLine": 6,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "stdlib_zh.agl",
+                  "line": 6,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "数",
+                "mutable": true,
+                "value": {
+                  "expr": "list",
+                  "items": [
+                    {
+                      "expr": "int",
+                      "value": 3,
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 8,
+                        "col": 10,
+                        "endLine": 8,
+                        "endCol": 11
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 8,
+                        "col": 13,
+                        "endLine": 8,
+                        "endCol": 14
+                      }
+                    },
+                    {
+                      "expr": "int",
+                      "value": 2,
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 8,
+                        "col": 16,
+                        "endLine": 8,
+                        "endCol": 17
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_zh.agl",
+                    "line": 8,
+                    "col": 9,
+                    "endLine": 8,
+                    "endCol": 18
+                  }
+                },
+                "span": {
+                  "file": "stdlib_zh.agl",
+                  "line": 8,
+                  "col": 2,
+                  "endLine": 8,
+                  "endCol": 18
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "数",
+                        "span": {
+                          "file": "stdlib_zh.agl",
+                          "line": 9,
+                          "col": 5,
+                          "endLine": 9,
+                          "endCol": 6
+                        }
+                      },
+                      "field": "长度",
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 9,
+                        "col": 5,
+                        "endLine": 9,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_zh.agl",
+                    "line": 9,
+                    "col": 2,
+                    "endLine": 9,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "stdlib_zh.agl",
+                  "line": 9,
+                  "col": 2,
+                  "endLine": 9,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "表",
+                "mutable": true,
+                "value": {
+                  "expr": "map",
+                  "entries": [
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "甲",
+                        "span": {
+                          "file": "stdlib_zh.agl",
+                          "line": 11,
+                          "col": 10,
+                          "endLine": 11,
+                          "endCol": 13
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 1,
+                        "span": {
+                          "file": "stdlib_zh.agl",
+                          "line": 11,
+                          "col": 15,
+                          "endLine": 11,
+                          "endCol": 16
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "expr": "string",
+                        "value": "乙",
+                        "span": {
+                          "file": "stdlib_zh.agl",
+                          "line": 11,
+                          "col": 18,
+                          "endLine": 11,
+                          "endCol": 21
+                        }
+                      },
+                      "value": {
+                        "expr": "int",
+                        "value": 2,
+                        "span": {
+                          "file": "stdlib_zh.agl",
+                          "line": 11,
+                          "col": 23,
+                          "endLine": 11,
+                          "endCol": 24
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_zh.agl",
+                    "line": 11,
+                    "col": 9,
+                    "endLine": 11,
+                    "endCol": 25
+                  }
+                },
+                "span": {
+                  "file": "stdlib_zh.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 25
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "member",
+                      "target": {
+                        "expr": "name",
+                        "name": "表",
+                        "span": {
+                          "file": "stdlib_zh.agl",
+                          "line": 12,
+                          "col": 5,
+                          "endLine": 12,
+                          "endCol": 6
+                        }
+                      },
+                      "field": "长度",
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 12,
+                        "col": 5,
+                        "endLine": 12,
+                        "endCol": 9
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "stdlib_zh.agl",
+                    "line": 12,
+                    "col": 2,
+                    "endLine": 12,
+                    "endCol": 10
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "stdlib_zh.agl",
+                  "line": 12,
+                  "col": 2,
+                  "endLine": 12,
+                  "endCol": 10
+                }
+              },
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "binop",
+                  "op": ">",
+                  "left": {
+                    "expr": "member",
+                    "target": {
+                      "expr": "name",
+                      "name": "名",
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 14,
+                        "col": 5,
+                        "endLine": 14,
+                        "endCol": 6
+                      }
+                    },
+                    "field": "长度",
+                    "span": {
+                      "file": "stdlib_zh.agl",
+                      "line": 14,
+                      "col": 5,
+                      "endLine": 14,
+                      "endCol": 9
+                    }
+                  },
+                  "right": {
+                    "expr": "int",
+                    "value": 1,
+                    "span": {
+                      "file": "stdlib_zh.agl",
+                      "line": 14,
+                      "col": 13,
+                      "endLine": 14,
+                      "endCol": 14
+                    }
+                  },
+                  "span": {
+                    "file": "stdlib_zh.agl",
+                    "line": 14,
+                    "col": 5,
+                    "endLine": 14,
+                    "endCol": 14
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "长",
+                          "span": {
+                            "file": "stdlib_zh.agl",
+                            "line": 15,
+                            "col": 7,
+                            "endLine": 15,
+                            "endCol": 10
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 15,
+                        "col": 4,
+                        "endLine": 15,
+                        "endCol": 11
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "stdlib_zh.agl",
+                      "line": 15,
+                      "col": 4,
+                      "endLine": 15,
+                      "endCol": 11
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "stdlib_zh.agl",
+                  "line": 14,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 0
+                },
+                "else": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "短",
+                          "span": {
+                            "file": "stdlib_zh.agl",
+                            "line": 17,
+                            "col": 7,
+                            "endLine": 17,
+                            "endCol": 10
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "stdlib_zh.agl",
+                        "line": 17,
+                        "col": 4,
+                        "endLine": 17,
+                        "endCol": 11
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "stdlib_zh.agl",
+                      "line": 17,
+                      "col": 4,
+                      "endLine": 17,
+                      "endCol": 11
+                    }
+                  }
+                ]
+              }
+            ],
+            "span": {
+              "file": "stdlib_zh.agl",
+              "line": 4,
+              "col": 0,
+              "endLine": 19,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "stdlib_zh.agl",
+          "line": 1,
+          "col": 6,
+          "endLine": 20,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

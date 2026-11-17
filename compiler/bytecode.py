@@ -791,12 +791,105 @@ def encode(agb: dict) -> str:
     return json.dumps(agb, ensure_ascii=False, indent=2)
 
 
+_VALID_OPS = {
+    "LOAD_CONST", "LOAD_FUNC", "LOAD_NAME", "STORE_NAME", "STORE_INDEX",
+    "ADD", "SUB", "MUL", "DIV", "MOD", "NEG", "NOT",
+    "EQ", "NE", "GT", "LT", "GE", "LE", "AND", "OR",
+    "JUMP", "JUMP_IF_FALSE", "CALL_USER", "CALL_MODULE", "CALL_BUILTIN",
+    "CALL_FFI", "TASK", "AWAIT", "REGISTER_EVENT", "RETURN", "POP",
+    "WITH_ENTER", "BUILD_LIST", "BUILD_MAP", "BUILD_SET", "INDEX",
+    "LENGTH", "STRUCT_NEW", "GET_FIELD", "GET_ITER", "UNPACK",
+    "ITER_NEXT", "POP_ITER", "MATCH_LIST", "TRY_BEGIN", "TRY_END",
+    "RETHROW",
+}
+
+
+def _validate_agb(data: dict) -> None:
+    """在加载不可信 AGB 时做结构校验，而不是只看 format/version。
+
+    目标不是证明字节码“安全”，而是拦住明显伪造/损坏的产物：
+    未知 opcode、代码行号长度不匹配、跳转越界、池下标越界、函数名重复。
+    """
+    if not isinstance(data, dict):
+        raise ValueError("AGB 顶层不是对象")
+    if not isinstance(data.get("lang"), str) or not isinstance(data.get("module"), str):
+        raise ValueError("AGB 缺少合法的 lang/module")
+    if not isinstance(data.get("entry"), str):
+        raise ValueError("AGB 缺少 entry")
+    consts = data.get("consts")
+    names = data.get("names")
+    if not isinstance(consts, list) or not isinstance(names, list):
+        raise ValueError("AGB 的 consts/names 必须是数组")
+    if not all(isinstance(n, str) for n in names):
+        raise ValueError("AGB 的 names 必须是文本数组")
+    init = data.get("init")
+    funcs = data.get("functions")
+    if not isinstance(init, dict) or not isinstance(funcs, list):
+        raise ValueError("AGB 缺少 init/functions")
+    if not all(isinstance(f, dict) for f in funcs):
+        raise ValueError("AGB 的 functions 必须全是对象")
+
+    seen = set()
+    for fn in [init] + funcs:
+        name = fn.get("name")
+        if not isinstance(name, str) or not name:
+            raise ValueError("AGB 函数缺少合法 name")
+        if name in seen:
+            raise ValueError(f"AGB 函数名重复：{name}")
+        seen.add(name)
+        for key in ("params", "effects", "code", "lines"):
+            if not isinstance(fn.get(key), list):
+                raise ValueError(f"函数 {name} 缺少 {key} 数组")
+        if not all(isinstance(p, str) for p in fn["params"]):
+            raise ValueError(f"函数 {name} 的参数名必须是文本")
+        code, lines = fn["code"], fn["lines"]
+        if len(code) != len(lines):
+            raise ValueError(f"函数 {name} 的 code/lines 长度不一致")
+        if not all(isinstance(ln, int) and ln >= 0 for ln in lines):
+            raise ValueError(f"函数 {name} 的 lines 必须是自然数")
+        for pc, ins in enumerate(code):
+            if not isinstance(ins, dict) or not isinstance(ins.get("op"), str):
+                raise ValueError(f"函数 {name} 第 {pc} 条指令缺少 op")
+            op = ins["op"]
+            if op not in _VALID_OPS:
+                raise ValueError(f"函数 {name} 第 {pc} 条指令的 op 未知：{op}")
+            arg = ins.get("arg")
+            if op in ("LOAD_CONST", "LOAD_FUNC", "LOAD_NAME", "STORE_NAME",
+                      "GET_FIELD"):
+                if not isinstance(arg, int) or not (0 <= arg < len(names if op != "LOAD_CONST" else consts)):
+                    raise ValueError(f"函数 {name} 第 {pc} 条指令的池下标越界")
+            elif op in ("JUMP", "JUMP_IF_FALSE", "ITER_NEXT"):
+                if not isinstance(arg, int) or not (0 <= arg < len(code)):
+                    raise ValueError(f"函数 {name} 第 {pc} 条指令的跳转越界")
+            elif op in ("CALL_USER", "CALL_BUILTIN", "CALL_MODULE", "CALL_FFI"):
+                if not isinstance(arg, dict) or not isinstance(arg.get("name"), int):
+                    raise ValueError(f"函数 {name} 第 {pc} 条调用指令缺少 name")
+                if not (0 <= arg["name"] < len(names)):
+                    raise ValueError(f"函数 {name} 第 {pc} 条调用指令的 name 越界")
+                if "argc" in arg and (not isinstance(arg["argc"], int) or arg["argc"] < 0):
+                    raise ValueError(f"函数 {name} 第 {pc} 条调用指令的 argc 非法")
+                for key in ("lib", "module"):
+                    if key in arg:
+                        if not isinstance(arg[key], int) or not (0 <= arg[key] < len(names)):
+                            raise ValueError(f"函数 {name} 第 {pc} 条调用指令的 {key} 越界")
+            elif op == "TASK":
+                if not isinstance(arg, dict) or arg.get("kind") not in ("builtin", "module", "user"):
+                    raise ValueError(f"函数 {name} 第 {pc} 条 TASK 指令结构非法")
+            elif op in ("TRY_BEGIN",):
+                if not isinstance(arg, dict) or not isinstance(arg.get("target"), int):
+                    raise ValueError(f"函数 {name} 第 {pc} 条 TRY_BEGIN 指令结构非法")
+
+    if data["entry"] not in seen and data["entry"] != "main":
+        raise ValueError(f"AGB 的 entry `{data['entry']}` 不存在")
+
+
 def decode(text: str) -> dict:
     data = json.loads(text)
     if data.get("format") != FORMAT:
         raise ValueError(f"不是 AGB 文件（format={data.get('format')!r}）")
     if data.get("version") != VERSION:
         raise ValueError(f"AGB 版本不支持：{data.get('version')}（本机支持 {VERSION}）")
+    _validate_agb(data)
     return data
 
 

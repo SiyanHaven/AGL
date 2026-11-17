@@ -1,0 +1,353 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "tryfin_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "n",
+                "mutable": true,
+                "value": {
+                  "expr": "int",
+                  "value": 0,
+                  "span": {
+                    "file": "tryfin_en.agl",
+                    "line": 4,
+                    "col": 10,
+                    "endLine": 4,
+                    "endCol": 11
+                  }
+                },
+                "span": {
+                  "file": "tryfin_en.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 4,
+                  "endCol": 11
+                }
+              },
+              {
+                "stmt": "try",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "try",
+                          "span": {
+                            "file": "tryfin_en.agl",
+                            "line": 6,
+                            "col": 10,
+                            "endLine": 6,
+                            "endCol": 15
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 6,
+                        "col": 4,
+                        "endLine": 6,
+                        "endCol": 16
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryfin_en.agl",
+                      "line": 6,
+                      "col": 4,
+                      "endLine": 6,
+                      "endCol": 16
+                    }
+                  },
+                  {
+                    "stmt": "assign",
+                    "target": {
+                      "expr": "name",
+                      "name": "n",
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 7,
+                        "col": 4,
+                        "endLine": 7,
+                        "endCol": 5
+                      }
+                    },
+                    "value": {
+                      "expr": "int",
+                      "value": 1,
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 7,
+                        "col": 8,
+                        "endLine": 7,
+                        "endCol": 9
+                      }
+                    },
+                    "span": {
+                      "file": "tryfin_en.agl",
+                      "line": 7,
+                      "col": 4,
+                      "endLine": 7,
+                      "endCol": 9
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "tryfin_en.agl",
+                  "line": 5,
+                  "col": 2,
+                  "endLine": 14,
+                  "endCol": 3
+                },
+                "catch_name": "e",
+                "catch": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "catch",
+                          "span": {
+                            "file": "tryfin_en.agl",
+                            "line": 9,
+                            "col": 10,
+                            "endLine": 9,
+                            "endCol": 17
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 9,
+                        "col": 4,
+                        "endLine": 9,
+                        "endCol": 18
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryfin_en.agl",
+                      "line": 9,
+                      "col": 4,
+                      "endLine": 9,
+                      "endCol": 18
+                    }
+                  }
+                ],
+                "else": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "else",
+                          "span": {
+                            "file": "tryfin_en.agl",
+                            "line": 11,
+                            "col": 10,
+                            "endLine": 11,
+                            "endCol": 16
+                          }
+                        },
+                        {
+                          "expr": "name",
+                          "name": "n",
+                          "span": {
+                            "file": "tryfin_en.agl",
+                            "line": 11,
+                            "col": 18,
+                            "endLine": 11,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 11,
+                        "col": 4,
+                        "endLine": 11,
+                        "endCol": 20
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryfin_en.agl",
+                      "line": 11,
+                      "col": 4,
+                      "endLine": 11,
+                      "endCol": 20
+                    }
+                  }
+                ],
+                "finally": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "finally",
+                          "span": {
+                            "file": "tryfin_en.agl",
+                            "line": 13,
+                            "col": 10,
+                            "endLine": 13,
+                            "endCol": 19
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 13,
+                        "col": 4,
+                        "endLine": 13,
+                        "endCol": 20
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryfin_en.agl",
+                      "line": 13,
+                      "col": 4,
+                      "endLine": 13,
+                      "endCol": 20
+                    }
+                  }
+                ]
+              },
+              {
+                "stmt": "try",
+                "body": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "try2",
+                          "span": {
+                            "file": "tryfin_en.agl",
+                            "line": 16,
+                            "col": 10,
+                            "endLine": 16,
+                            "endCol": 16
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 16,
+                        "col": 4,
+                        "endLine": 16,
+                        "endCol": 17
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryfin_en.agl",
+                      "line": 16,
+                      "col": 4,
+                      "endLine": 16,
+                      "endCol": 17
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "tryfin_en.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 3
+                },
+                "finally": [
+                  {
+                    "stmt": "expr",
+                    "value": {
+                      "expr": "call",
+                      "name": "print",
+                      "args": [
+                        {
+                          "expr": "string",
+                          "value": "finally2",
+                          "span": {
+                            "file": "tryfin_en.agl",
+                            "line": 18,
+                            "col": 10,
+                            "endLine": 18,
+                            "endCol": 20
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "tryfin_en.agl",
+                        "line": 18,
+                        "col": 4,
+                        "endLine": 18,
+                        "endCol": 21
+                      },
+                      "builtin": "print"
+                    },
+                    "span": {
+                      "file": "tryfin_en.agl",
+                      "line": 18,
+                      "col": 4,
+                      "endLine": 18,
+                      "endCol": 21
+                    }
+                  }
+                ]
+              }
+            ],
+            "span": {
+              "file": "tryfin_en.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 20,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "tryfin_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 20,
+          "endCol": 1
+        }
+      }
+    ]
+  }
+}

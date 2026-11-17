@@ -1,0 +1,516 @@
+{
+  "ir_version": "0.2",
+  "lang": "en",
+  "program": {
+    "entry": "main",
+    "modules": [
+      {
+        "name": "nullable_en",
+        "imports": [],
+        "exports": [],
+        "consts": [],
+        "types": [],
+        "functions": [
+          {
+            "name": "maybe_null",
+            "params": [
+              {
+                "name": "present",
+                "type": {
+                  "type": "Bool"
+                }
+              }
+            ],
+            "return": {
+              "type": "String",
+              "nullable": true
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "if",
+                "cond": {
+                  "expr": "name",
+                  "name": "present",
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 4,
+                    "col": 5,
+                    "endLine": 4,
+                    "endCol": 12
+                  }
+                },
+                "then": [
+                  {
+                    "stmt": "return",
+                    "value": {
+                      "expr": "string",
+                      "value": "value",
+                      "span": {
+                        "file": "nullable_en.agl",
+                        "line": 5,
+                        "col": 11,
+                        "endLine": 5,
+                        "endCol": 18
+                      }
+                    },
+                    "span": {
+                      "file": "nullable_en.agl",
+                      "line": 5,
+                      "col": 4,
+                      "endLine": 5,
+                      "endCol": 18
+                    }
+                  }
+                ],
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 4,
+                  "col": 2,
+                  "endLine": 6,
+                  "endCol": 3
+                }
+              },
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "null",
+                  "value": null,
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 7,
+                    "col": 9,
+                    "endLine": 7,
+                    "endCol": 13
+                  }
+                },
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 7,
+                  "col": 2,
+                  "endLine": 7,
+                  "endCol": 13
+                }
+              }
+            ],
+            "span": {
+              "file": "nullable_en.agl",
+              "line": 3,
+              "col": 0,
+              "endLine": 8,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "has_value",
+            "params": [
+              {
+                "name": "value",
+                "type": {
+                  "type": "String",
+                  "nullable": true
+                }
+              }
+            ],
+            "return": {
+              "type": "Bool"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "return",
+                "value": {
+                  "expr": "binop",
+                  "op": "!=",
+                  "left": {
+                    "expr": "name",
+                    "name": "value",
+                    "span": {
+                      "file": "nullable_en.agl",
+                      "line": 11,
+                      "col": 9,
+                      "endLine": 11,
+                      "endCol": 14
+                    }
+                  },
+                  "right": {
+                    "expr": "null",
+                    "value": null,
+                    "span": {
+                      "file": "nullable_en.agl",
+                      "line": 11,
+                      "col": 18,
+                      "endLine": 11,
+                      "endCol": 22
+                    }
+                  },
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 11,
+                    "col": 9,
+                    "endLine": 11,
+                    "endCol": 22
+                  }
+                },
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 11,
+                  "col": 2,
+                  "endLine": 11,
+                  "endCol": 22
+                }
+              }
+            ],
+            "span": {
+              "file": "nullable_en.agl",
+              "line": 10,
+              "col": 0,
+              "endLine": 12,
+              "endCol": 1
+            }
+          },
+          {
+            "name": "main",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "first",
+                "mutable": true,
+                "value": {
+                  "expr": "null",
+                  "value": null,
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 15,
+                    "col": 23,
+                    "endLine": 15,
+                    "endCol": 27
+                  }
+                },
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 15,
+                  "col": 2,
+                  "endLine": 15,
+                  "endCol": 27
+                },
+                "type": {
+                  "type": "String",
+                  "nullable": true
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "second",
+                "mutable": true,
+                "value": {
+                  "expr": "string",
+                  "value": "AGL",
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 16,
+                    "col": 24,
+                    "endLine": 16,
+                    "endCol": 29
+                  }
+                },
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 16,
+                  "col": 2,
+                  "endLine": 16,
+                  "endCol": 29
+                },
+                "type": {
+                  "type": "String",
+                  "nullable": true
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "binop",
+                      "op": "==",
+                      "left": {
+                        "expr": "name",
+                        "name": "first",
+                        "span": {
+                          "file": "nullable_en.agl",
+                          "line": 17,
+                          "col": 8,
+                          "endLine": 17,
+                          "endCol": 13
+                        }
+                      },
+                      "right": {
+                        "expr": "null",
+                        "value": null,
+                        "span": {
+                          "file": "nullable_en.agl",
+                          "line": 17,
+                          "col": 17,
+                          "endLine": 17,
+                          "endCol": 21
+                        }
+                      },
+                      "span": {
+                        "file": "nullable_en.agl",
+                        "line": 17,
+                        "col": 8,
+                        "endLine": 17,
+                        "endCol": 21
+                      }
+                    },
+                    {
+                      "expr": "binop",
+                      "op": "==",
+                      "left": {
+                        "expr": "name",
+                        "name": "second",
+                        "span": {
+                          "file": "nullable_en.agl",
+                          "line": 17,
+                          "col": 23,
+                          "endLine": 17,
+                          "endCol": 29
+                        }
+                      },
+                      "right": {
+                        "expr": "null",
+                        "value": null,
+                        "span": {
+                          "file": "nullable_en.agl",
+                          "line": 17,
+                          "col": 33,
+                          "endLine": 17,
+                          "endCol": 37
+                        }
+                      },
+                      "span": {
+                        "file": "nullable_en.agl",
+                        "line": 17,
+                        "col": 23,
+                        "endLine": 17,
+                        "endCol": 37
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 17,
+                    "col": 2,
+                    "endLine": 17,
+                    "endCol": 38
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 17,
+                  "col": 2,
+                  "endLine": 17,
+                  "endCol": 38
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "maybe_null",
+                      "args": [
+                        {
+                          "expr": "bool",
+                          "value": true,
+                          "span": {
+                            "file": "nullable_en.agl",
+                            "line": 18,
+                            "col": 19,
+                            "endLine": 18,
+                            "endCol": 23
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "nullable_en.agl",
+                        "line": 18,
+                        "col": 8,
+                        "endLine": 18,
+                        "endCol": 24
+                      }
+                    },
+                    {
+                      "expr": "binop",
+                      "op": "==",
+                      "left": {
+                        "expr": "call",
+                        "name": "maybe_null",
+                        "args": [
+                          {
+                            "expr": "bool",
+                            "value": false,
+                            "span": {
+                              "file": "nullable_en.agl",
+                              "line": 18,
+                              "col": 37,
+                              "endLine": 18,
+                              "endCol": 42
+                            }
+                          }
+                        ],
+                        "span": {
+                          "file": "nullable_en.agl",
+                          "line": 18,
+                          "col": 26,
+                          "endLine": 18,
+                          "endCol": 43
+                        }
+                      },
+                      "right": {
+                        "expr": "null",
+                        "value": null,
+                        "span": {
+                          "file": "nullable_en.agl",
+                          "line": 18,
+                          "col": 47,
+                          "endLine": 18,
+                          "endCol": 51
+                        }
+                      },
+                      "span": {
+                        "file": "nullable_en.agl",
+                        "line": 18,
+                        "col": 26,
+                        "endLine": 18,
+                        "endCol": 51
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 18,
+                    "col": 2,
+                    "endLine": 18,
+                    "endCol": 52
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 18,
+                  "col": 2,
+                  "endLine": 18,
+                  "endCol": 52
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "call",
+                      "name": "has_value",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "first",
+                          "span": {
+                            "file": "nullable_en.agl",
+                            "line": 19,
+                            "col": 18,
+                            "endLine": 19,
+                            "endCol": 23
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "nullable_en.agl",
+                        "line": 19,
+                        "col": 8,
+                        "endLine": 19,
+                        "endCol": 24
+                      }
+                    },
+                    {
+                      "expr": "call",
+                      "name": "has_value",
+                      "args": [
+                        {
+                          "expr": "name",
+                          "name": "second",
+                          "span": {
+                            "file": "nullable_en.agl",
+                            "line": 19,
+                            "col": 36,
+                            "endLine": 19,
+                            "endCol": 42
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "nullable_en.agl",
+                        "line": 19,
+                        "col": 26,
+                        "endLine": 19,
+                        "endCol": 43
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "nullable_en.agl",
+                    "line": 19,
+                    "col": 2,
+                    "endLine": 19,
+                    "endCol": 44
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "nullable_en.agl",
+                  "line": 19,
+                  "col": 2,
+                  "endLine": 19,
+                  "endCol": 44
+                }
+              }
+            ],
+            "span": {
+              "file": "nullable_en.agl",
+              "line": 14,
+              "col": 0,
+              "endLine": 20,
+              "endCol": 1
+            }
+          }
+        ],
+        "span": {
+          "file": "nullable_en.agl",
+          "line": 1,
+          "col": 13,
+          "endLine": 21,
+          "endCol": 0
+        }
+      }
+    ]
+  }
+}

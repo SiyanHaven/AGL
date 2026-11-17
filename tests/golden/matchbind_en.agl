@@ -1,0 +1,13 @@
+#lang=English
+// binding pattern: `let name` matches anything and binds the subject; guard and body can read it.
+fn main() {
+  let x = 2
+  match (x) {
+    1 { print("one") }
+    let n if n > 1 { print("bound", n) }
+    let it { print("any", it) }
+  }
+  match (0) {
+    let v { print("zero", v) }
+  }
+}
