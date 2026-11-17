@@ -27,6 +27,9 @@ semantic versioning, with the authoritative value in `spec/keywords.toml`
 
 - `打开数据库` now really returns `结果`; SQL execution builtins unpack either the result or the
   connection, so `取到(...)` and direct connection flows both work.
+- The parser now recovers at top-level declaration boundaries and reports multiple independent
+  syntax errors in one pass (`parse_many`); a broken entry file no longer hides every later error.
+  A function body still stops at its first error.
 
 ### Security
 
@@ -40,6 +43,10 @@ semantic versioning, with the authoritative value in `spec/keywords.toml`
 - `aglc run` now defaults to **deny**: no effects and no external libraries unless
   `--allow-effects` / `--allow-tools` explicitly list them. Use `all` only when the caller
   deliberately trusts the program.
+- The MCP `agl_run` / `agl_run_source` tools share that default: `allow_effects` and
+  `allow_tools` are empty unless the caller passes them, and `all` is required for full access.
+- `AGB` decoding validates module structure, opcodes, pool indices, jumps, call/task/try
+  instruction shapes and entry points before execution—format/version alone is not trusted.
 - `.agb` loading now validates opcode whitelist, pool indices, jump targets, function
   arrays, duplicate names and call/task/try structures in addition to format/version.
 - `任务(异步函数())` emits `AGL-W-0401` when the started task declares effects that the

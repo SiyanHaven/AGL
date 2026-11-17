@@ -14,7 +14,7 @@ from compiler import backend_py, checker, diagnostics
 from compiler.diagnostics import AglError, Code, Diagnostic, FixHint
 from compiler.ir import build, lower, validate_ir
 from compiler.lexer import detect_lang, tokenize
-from compiler.parser import parse
+from compiler.parser import parse_many
 
 
 @dataclass
@@ -71,11 +71,11 @@ def compile_source(source: str, filename: str,
         return res
 
     # ── 2. 语法 ──────────────────────────────────────────────────────
-    try:
-        ast = parse(res.tokens, filename, res.lang)
-    except AglError as e:
-        _attach_source(e.diag, lines)
-        res.diagnostics.append(e.diag)
+    ast, parse_errors = parse_many(res.tokens, filename, res.lang)
+    if parse_errors:
+        for d in parse_errors:
+            _attach_source(d, lines)
+            res.diagnostics.append(d)
         return res
 
     # ── 3. IR ────────────────────────────────────────────────────────
@@ -178,6 +178,20 @@ def compile_project(entry: Path, optimize: bool = False,
     try:
         order = modules_mod.resolve(entry)
     except AglError as e:
+        # 只有语法类错误才退回带恢复的编译路径：配置/依赖错误必须保留
+        # 原来的错误码和修复提示，不能被重新解析成一条泛泛的语法错误。
+        if not str(e.diag.code).startswith("AGL-E-02"):
+            return Result(path=entry, diagnostics=[e.diag])
+        # 依赖扫描本身要先解析入口；入口有语法错误时它只能看到第一个。
+        # 这里退回带恢复的编译路径，让入口文件一次列出多个声明错误。
+        try:
+            src = entry.read_text(encoding="utf-8-sig")
+        except OSError:
+            return Result(path=entry, diagnostics=[e.diag])
+        res = compile_source(src, entry.name, is_entry=True,
+                             source_path=str(entry))
+        if not res.ok:
+            return res
         return Result(path=entry, diagnostics=[e.diag])
 
     externals: dict[str, dict] = {}

@@ -108,6 +108,10 @@ TOOLS: list[dict] = [
                 "file": _FILE,
                 "backend": {"type": "string", "enum": ["vm", "py", "auto"],
                              "description": "默认 vm；py 显式兜底；auto 超出 AGB 子集才退回 py"},
+                "allow_effects": {"type": "string",
+                                  "description": "允许的效应，逗号分隔；默认全禁，写 all 显式全量放行"},
+                "allow_tools": {"type": "string",
+                                "description": "允许的外部工具，逗号分隔；默认全禁，写 all 显式全量放行"},
             },
             "required": ["file"],
         },
@@ -123,6 +127,10 @@ TOOLS: list[dict] = [
                 "filename": {"type": "string", "description": "虚拟文件名（默认 main.agl），仅用于报错里显示"},
                 "backend": {"type": "string", "enum": ["vm", "py", "auto"],
                              "description": "默认 vm；py 显式兜底；auto 超出 AGB 子集才退回 py"},
+                "allow_effects": {"type": "string",
+                                  "description": "允许的效应，逗号分隔；默认全禁，写 all 显式全量放行"},
+                "allow_tools": {"type": "string",
+                                "description": "允许的外部工具，逗号分隔；默认全禁，写 all 显式全量放行"},
             },
             "required": ["source"],
         },
@@ -272,7 +280,24 @@ def tool_build(args: dict) -> dict:
     return payload
 
 
-def _run_payload(res, backend: str = "vm") -> dict:
+def _allow_set(args: dict, key: str) -> set[str] | None:
+    """MCP 运行授权：未传参默认空集（全禁）；显式 all 才返回 None（全量）。"""
+    raw = args.get(key)
+    if raw is None:
+        return set()
+    if isinstance(raw, (list, tuple, set)):
+        items = [str(x).strip() for x in raw]
+    else:
+        items = [x.strip() for x in str(raw).replace("，", ",").split(",")]
+    values = {x for x in items if x}
+    if any(x.lower() == "all" for x in values):
+        return None
+    return values
+
+
+def _run_payload(res, backend: str = "vm",
+                 allow_effects: set[str] | None = set(),
+                 allow_tools: set[str] | None = set()) -> dict:
     """按后端跑一份已编译结果；默认 VM，超出子集不静默退回 Python。"""
     from compiler import bytecode, vm as vm_backend
 
@@ -307,7 +332,9 @@ def _run_payload(res, backend: str = "vm") -> dict:
                 return payload
         else:
             try:
-                payload["stdout"] = vm_backend.run(agb, res.lang, modules)
+                payload["stdout"] = vm_backend.run(
+                    agb, res.lang, modules,
+                    allowed_effects=allow_effects, allowed_tools=allow_tools)
             except vm_backend.VmError as e:
                 payload["ok"] = False
                 payload["first_error"] = e.code
@@ -350,7 +377,10 @@ def tool_run(args: dict) -> dict:
             if m.get("module") != agb.get("module"):
                 modules[m["module"]] = m
         try:
-            payload["stdout"] = vm_backend.run(agb, agb.get("lang") or "zh", modules)
+            payload["stdout"] = vm_backend.run(
+                agb, agb.get("lang") or "zh", modules,
+                allowed_effects=_allow_set(args, "allow_effects"),
+                allowed_tools=_allow_set(args, "allow_tools"))
         except vm_backend.VmError as e:
             payload.update(ok=False, first_error=e.code, message=e.message,
                            failed_at={"file": path.name, "line": e.line,
@@ -358,14 +388,18 @@ def tool_run(args: dict) -> dict:
         return payload
 
     res = pipeline.compile_file(_file(args))
-    return _run_payload(res, args.get("backend") or "vm")
+    return _run_payload(res, args.get("backend") or "vm",
+                        _allow_set(args, "allow_effects"),
+                        _allow_set(args, "allow_tools"))
 
 
 def tool_run_source(args: dict) -> dict:
     source = args["source"]
     filename = args.get("filename") or "main.agl"
     res = pipeline.compile_source(source, filename)
-    return _run_payload(res, args.get("backend") or "vm")
+    return _run_payload(res, args.get("backend") or "vm",
+                        _allow_set(args, "allow_effects"),
+                        _allow_set(args, "allow_tools"))
 
 
 def tool_convert(args: dict) -> dict:

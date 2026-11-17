@@ -1617,6 +1617,24 @@ def check_security_defaults() -> Check:
                 pass
             else:
                 bad.append("MCP 接受了工作区之外的绝对路径")
+
+            # MCP 的 agl_run_source 也必须默认全禁，不能比 CLI 松。
+            probe = tmp / "mcp_auth_input.txt"
+            probe.write_text("mcp-auth\n", encoding="utf-8")
+            auth_src = (
+                "#语言=中文\n"
+                "函数 主入口() 效应 读写 {\n"
+                f'  变量 内容 = 读文件("{probe.as_posix()}")\n'
+                "  打印(内容)\n"
+                "}\n"
+            )
+            base = {"source": auth_src, "filename": "mcp_auth.agl"}
+            denied = mcp.tool_run_source(dict(base))
+            if denied.get("first_error") != "AGL-RT-0092":
+                bad.append("MCP 未传授权时没有默认拒绝效应")
+            allowed = mcp.tool_run_source(dict(base, allow_effects="IO"))
+            if not allowed.get("ok"):
+                bad.append("MCP 显式 allow_effects=IO 后仍无法运行")
         finally:
             os.chdir(old)
     finally:
@@ -2743,6 +2761,19 @@ def check_resilience() -> Check:
     if bad:
         c.fail("; ".join(bad[:3]))
         return c
+
+    # 一次只报第一个错会让修完一个再跑一遍，来回很多次。这里固定两个
+    # 独立函数的语法错误，要求一次至少拿到两条诊断。
+    multi = (
+        "#语言=中文\n"
+        "函数 坏一() {\n  打印(1\n}\n\n"
+        "函数 坏二() {\n  打印(2\n}\n"
+    )
+    res = pipeline.compile_source(multi, "<multi_diag>")
+    if not res.ok and len(res.errors) < 2:
+        c.fail(f"两个独立语法错误只报了 {len(res.errors)} 条诊断，未按顶层声明恢复")
+        return c
+    c.note("多个顶层声明错误可一次收集")
 
     c.note(f"{len(_resilience_inputs())} 个畸形输入")
     c.note("全部给出 AGL 诊断，没有一次甩出宿主回溯")

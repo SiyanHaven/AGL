@@ -15,7 +15,7 @@
 """
 from __future__ import annotations
 
-from compiler.diagnostics import Code, FixHint, error
+from compiler.diagnostics import AglError, Code, FixHint, error
 from compiler.lexer import (
     COMMENT, EOF, FLOAT, IDENT, INT, KEYWORD, LANG_ZH, NEWLINE, OP, STRING,
     KeywordTable, Token,
@@ -1837,3 +1837,72 @@ def parse(tokens: list[Token], filename: str, lang: str) -> dict:
             col=tok.col if tok else 1,
             end_col=tok.end_col if tok else 1,
         )
+
+
+_TOP_LEVEL_START = {
+    "export", "interface", "deps", "import", "module", "type", "const",
+    "fn", "async",
+}
+_TOP_LEVEL_TEXT = {"工具", "智能体", "规则", "tool", "agent", "rule"}
+
+
+def _recover_boundary(tokens: list[Token], start: int) -> int:
+    """从出错处向后找下一个顶层声明起点，用于一次收集多个声明错误。
+
+    只按花括号深度切分，不试图猜缺失的 `}`；如果括号一直没闭合，就停在
+    文件末尾，让诊断如实显示「后面已经无法继续解析」。
+    """
+    depth = 0
+    for j in range(max(0, start), len(tokens)):
+        t = tokens[j]
+        if t.kind == EOF:
+            return len(tokens) - 1
+        if t.canonical == "{":
+            depth += 1
+        elif t.canonical == "}":
+            depth = max(0, depth - 1)
+            continue
+        if j <= start or depth != 0:
+            continue
+        prev = tokens[j - 1]
+        if prev.kind != NEWLINE:
+            continue
+        if t.kind == KEYWORD and t.canonical in _TOP_LEVEL_START:
+            return j
+        if t.text in _TOP_LEVEL_TEXT:
+            return j
+    return len(tokens) - 1
+
+
+def parse_many(tokens: list[Token], filename: str, lang: str) -> tuple[dict | None, list]:
+    """尽力一次收集多个顶层声明错误；成功时返回 AST 与空列表。
+
+    恢复粒度是「顶层声明」：一个函数体内部仍然会在第一个错误处停下，
+    但不会因为第一个函数写错就吞掉后面所有函数的错误。
+    """
+    errors: list = []
+    rest = tokens
+    while rest:
+        p = Parser(rest, filename, lang)
+        try:
+            return p.parse_program(), errors
+        except AglError as e:
+            errors.append(e.diag)
+            boundary = _recover_boundary(p.toks, p.i)
+            if boundary <= p.i or boundary >= len(p.toks):
+                break
+            rest = p.toks[boundary:]
+        except RecursionError:
+            tok = rest[-1] if rest else None
+            errors.append(error(
+                Code.RECURSION_LIMIT,
+                "语法嵌套太深：括号/块一层套一层，已经超出解析器能处理的深度；"
+                "请把这段表达式或块拆成中间变量，减少嵌套层数",
+                file=filename,
+                line=tok.line if tok else 1,
+                col=tok.col if tok else 1,
+                end_col=tok.end_col if tok else 1,
+            ).diag)
+            break
+    return None, errors
+

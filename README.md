@@ -207,6 +207,8 @@ AI 写的 Python，普通人读不懂，只能选择 “相信” AI，没法 �
 
 工具：`agl_card`、`agl_check`、`agl_check_source`、`agl_build`、`agl_run`、`agl_run_source`、`agl_convert`、`agl_summary`、`agl_version`、`agl_doctor`。
 
+`agl_run` / `agl_run_source` 默认全禁效应和外部库；需要时显式传 `allow_effects` / `allow_tools`（逗号分隔，`all` 才全量放行）。
+
 
 
 在线 pip 安装后，MCP 不需要源码目录：
