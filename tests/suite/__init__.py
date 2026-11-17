@@ -52,6 +52,7 @@ from .checks import (
     check_sources,
     check_spec_files,
     check_stdlib,
+    check_tool_runtime,
 )
 
 __all__ = ["Check", "all_checks", "run_suite"]
@@ -77,6 +78,7 @@ def all_checks() -> list[Check]:
         check_modules(),
         check_card(),
         check_mcp(),
+        check_tool_runtime(),
         check_security_defaults(),
         check_stdlib(),
         check_optimize(),

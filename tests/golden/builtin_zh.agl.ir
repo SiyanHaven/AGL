@@ -18213,15 +18213,431 @@
               "endLine": 381,
               "endCol": 1
             }
+          },
+          {
+            "name": "工具运行时演示",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [
+              "External"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "答复",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "天气占位",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "天气占位",
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 395,
+                        "col": 10,
+                        "endLine": 395,
+                        "endCol": 20
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "城市",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 395,
+                              "col": 10,
+                              "endLine": 395,
+                              "endCol": 20
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "杭州",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 395,
+                              "col": 15,
+                              "endLine": 395,
+                              "endCol": 19
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 395,
+                        "col": 10,
+                        "endLine": 395,
+                        "endCol": 20
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "protocol",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 395,
+                              "col": 10,
+                              "endLine": 395,
+                              "endCol": 20
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "mcp",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 386,
+                              "col": 9,
+                              "endLine": 386,
+                              "endCol": 14
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "endpoint",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 395,
+                              "col": 10,
+                              "endLine": 395,
+                              "endCol": 20
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "http://127.0.0.1:18999/mcp",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 387,
+                              "col": 9,
+                              "endLine": 387,
+                              "endCol": 37
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "timeout_sec",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 395,
+                              "col": 10,
+                              "endLine": 395,
+                              "endCol": 20
+                            }
+                          },
+                          "value": {
+                            "expr": "int",
+                            "value": 5,
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 388,
+                              "col": 11,
+                              "endLine": 388,
+                              "endCol": 12
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 395,
+                        "col": 10,
+                        "endLine": 395,
+                        "endCol": 20
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "builtin_zh.agl",
+                    "line": 395,
+                    "col": 10,
+                    "endLine": 395,
+                    "endCol": 20
+                  },
+                  "builtin": "call_tool"
+                },
+                "span": {
+                  "file": "builtin_zh.agl",
+                  "line": 395,
+                  "col": 2,
+                  "endLine": 395,
+                  "endCol": 20
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "直接答复",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "调用工具",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "天气占位",
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 396,
+                        "col": 17,
+                        "endLine": 396,
+                        "endCol": 23
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "城市",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 396,
+                              "col": 26,
+                              "endLine": 396,
+                              "endCol": 30
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "杭州",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 396,
+                              "col": 32,
+                              "endLine": 396,
+                              "endCol": 36
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 396,
+                        "col": 25,
+                        "endLine": 396,
+                        "endCol": 37
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "协议",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 396,
+                              "col": 40,
+                              "endLine": 396,
+                              "endCol": 44
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "mcp",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 396,
+                              "col": 46,
+                              "endLine": 396,
+                              "endCol": 51
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "地址",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 396,
+                              "col": 53,
+                              "endLine": 396,
+                              "endCol": 57
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "http://127.0.0.1:18999/mcp",
+                            "span": {
+                              "file": "builtin_zh.agl",
+                              "line": 396,
+                              "col": 59,
+                              "endLine": 396,
+                              "endCol": 87
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 396,
+                        "col": 39,
+                        "endLine": 396,
+                        "endCol": 88
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "builtin_zh.agl",
+                    "line": 396,
+                    "col": 12,
+                    "endLine": 396,
+                    "endCol": 89
+                  },
+                  "builtin": "call_tool"
+                },
+                "span": {
+                  "file": "builtin_zh.agl",
+                  "line": 396,
+                  "col": 2,
+                  "endLine": 396,
+                  "endCol": 89
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "答复",
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 397,
+                        "col": 5,
+                        "endLine": 397,
+                        "endCol": 7
+                      }
+                    },
+                    {
+                      "expr": "name",
+                      "name": "直接答复",
+                      "span": {
+                        "file": "builtin_zh.agl",
+                        "line": 397,
+                        "col": 9,
+                        "endLine": 397,
+                        "endCol": 13
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "builtin_zh.agl",
+                    "line": 397,
+                    "col": 2,
+                    "endLine": 397,
+                    "endCol": 14
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "builtin_zh.agl",
+                  "line": 397,
+                  "col": 2,
+                  "endLine": 397,
+                  "endCol": 14
+                }
+              }
+            ],
+            "span": {
+              "file": "builtin_zh.agl",
+              "line": 394,
+              "col": 0,
+              "endLine": 398,
+              "endCol": 1
+            }
           }
         ],
         "span": {
           "file": "builtin_zh.agl",
           "line": 1,
           "col": 6,
-          "endLine": 382,
+          "endLine": 399,
           "endCol": 0
-        }
+        },
+        "declarations": [
+          {
+            "kind": "tool",
+            "name": "天气占位",
+            "span": {
+              "file": "builtin_zh.agl",
+              "line": 384,
+              "col": 0,
+              "endLine": 384,
+              "endCol": 7
+            },
+            "params": [
+              {
+                "name": "城市",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "config": {
+              "protocol": {
+                "expr": "string",
+                "value": "mcp",
+                "span": {
+                  "file": "builtin_zh.agl",
+                  "line": 386,
+                  "col": 9,
+                  "endLine": 386,
+                  "endCol": 14
+                }
+              },
+              "endpoint": {
+                "expr": "string",
+                "value": "http://127.0.0.1:18999/mcp",
+                "span": {
+                  "file": "builtin_zh.agl",
+                  "line": 387,
+                  "col": 9,
+                  "endLine": 387,
+                  "endCol": 37
+                }
+              },
+              "timeout_sec": {
+                "expr": "int",
+                "value": 5,
+                "span": {
+                  "file": "builtin_zh.agl",
+                  "line": 388,
+                  "col": 11,
+                  "endLine": 388,
+                  "endCol": 12
+                }
+              }
+            }
+          }
+        ]
       }
     ]
   }

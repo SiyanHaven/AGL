@@ -379,3 +379,20 @@ fn extended_snapshot_demo() effect IO {
   save_state("build/builtin_en.state")
   load_state("build/builtin_en.state")
 }
+
+// Tool runtime: declaration + direct call / explicit builtin. Compile-only.
+tool weather_probe {
+  config {
+    protocol = "mcp"
+    endpoint = "http://127.0.0.1:18999/mcp"
+    timeout_sec = 5
+  }
+  input(city: String)
+  return String
+}
+
+fn tool_runtime_demo() effect External {
+  let answer = weather_probe("Hangzhou")
+  let direct_answer = call_tool("weather_probe", {"city": "Hangzhou"}, {"protocol": "mcp", "endpoint": "http://127.0.0.1:18999/mcp"})
+  print(answer, direct_answer)
+}

@@ -18213,15 +18213,431 @@
               "endLine": 381,
               "endCol": 1
             }
+          },
+          {
+            "name": "tool_runtime_demo",
+            "params": [],
+            "return": {
+              "type": "Null"
+            },
+            "effects": [
+              "External"
+            ],
+            "is_async": false,
+            "checks": [],
+            "body": [
+              {
+                "stmt": "let",
+                "name": "answer",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "weather_probe",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "weather_probe",
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 395,
+                        "col": 15,
+                        "endLine": 395,
+                        "endCol": 40
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "city",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 395,
+                              "col": 15,
+                              "endLine": 395,
+                              "endCol": 40
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "Hangzhou",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 395,
+                              "col": 29,
+                              "endLine": 395,
+                              "endCol": 39
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 395,
+                        "col": 15,
+                        "endLine": 395,
+                        "endCol": 40
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "protocol",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 395,
+                              "col": 15,
+                              "endLine": 395,
+                              "endCol": 40
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "mcp",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 386,
+                              "col": 15,
+                              "endLine": 386,
+                              "endCol": 20
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "endpoint",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 395,
+                              "col": 15,
+                              "endLine": 395,
+                              "endCol": 40
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "http://127.0.0.1:18999/mcp",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 387,
+                              "col": 15,
+                              "endLine": 387,
+                              "endCol": 43
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "timeout_sec",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 395,
+                              "col": 15,
+                              "endLine": 395,
+                              "endCol": 40
+                            }
+                          },
+                          "value": {
+                            "expr": "int",
+                            "value": 5,
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 388,
+                              "col": 18,
+                              "endLine": 388,
+                              "endCol": 19
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 395,
+                        "col": 15,
+                        "endLine": 395,
+                        "endCol": 40
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "builtin_en.agl",
+                    "line": 395,
+                    "col": 15,
+                    "endLine": 395,
+                    "endCol": 40
+                  },
+                  "builtin": "call_tool"
+                },
+                "span": {
+                  "file": "builtin_en.agl",
+                  "line": 395,
+                  "col": 2,
+                  "endLine": 395,
+                  "endCol": 40
+                }
+              },
+              {
+                "stmt": "let",
+                "name": "direct_answer",
+                "mutable": true,
+                "value": {
+                  "expr": "call",
+                  "name": "call_tool",
+                  "args": [
+                    {
+                      "expr": "string",
+                      "value": "weather_probe",
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 396,
+                        "col": 32,
+                        "endLine": 396,
+                        "endCol": 47
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "city",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 396,
+                              "col": 50,
+                              "endLine": 396,
+                              "endCol": 56
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "Hangzhou",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 396,
+                              "col": 58,
+                              "endLine": 396,
+                              "endCol": 68
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 396,
+                        "col": 49,
+                        "endLine": 396,
+                        "endCol": 69
+                      }
+                    },
+                    {
+                      "expr": "map",
+                      "entries": [
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "protocol",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 396,
+                              "col": 72,
+                              "endLine": 396,
+                              "endCol": 82
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "mcp",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 396,
+                              "col": 84,
+                              "endLine": 396,
+                              "endCol": 89
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "expr": "string",
+                            "value": "endpoint",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 396,
+                              "col": 91,
+                              "endLine": 396,
+                              "endCol": 101
+                            }
+                          },
+                          "value": {
+                            "expr": "string",
+                            "value": "http://127.0.0.1:18999/mcp",
+                            "span": {
+                              "file": "builtin_en.agl",
+                              "line": 396,
+                              "col": 103,
+                              "endLine": 396,
+                              "endCol": 131
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 396,
+                        "col": 71,
+                        "endLine": 396,
+                        "endCol": 132
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "builtin_en.agl",
+                    "line": 396,
+                    "col": 22,
+                    "endLine": 396,
+                    "endCol": 133
+                  },
+                  "builtin": "call_tool"
+                },
+                "span": {
+                  "file": "builtin_en.agl",
+                  "line": 396,
+                  "col": 2,
+                  "endLine": 396,
+                  "endCol": 133
+                }
+              },
+              {
+                "stmt": "expr",
+                "value": {
+                  "expr": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "expr": "name",
+                      "name": "answer",
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 397,
+                        "col": 8,
+                        "endLine": 397,
+                        "endCol": 14
+                      }
+                    },
+                    {
+                      "expr": "name",
+                      "name": "direct_answer",
+                      "span": {
+                        "file": "builtin_en.agl",
+                        "line": 397,
+                        "col": 16,
+                        "endLine": 397,
+                        "endCol": 29
+                      }
+                    }
+                  ],
+                  "span": {
+                    "file": "builtin_en.agl",
+                    "line": 397,
+                    "col": 2,
+                    "endLine": 397,
+                    "endCol": 30
+                  },
+                  "builtin": "print"
+                },
+                "span": {
+                  "file": "builtin_en.agl",
+                  "line": 397,
+                  "col": 2,
+                  "endLine": 397,
+                  "endCol": 30
+                }
+              }
+            ],
+            "span": {
+              "file": "builtin_en.agl",
+              "line": 394,
+              "col": 0,
+              "endLine": 398,
+              "endCol": 1
+            }
           }
         ],
         "span": {
           "file": "builtin_en.agl",
           "line": 1,
           "col": 13,
-          "endLine": 382,
+          "endLine": 399,
           "endCol": 0
-        }
+        },
+        "declarations": [
+          {
+            "kind": "tool",
+            "name": "weather_probe",
+            "span": {
+              "file": "builtin_en.agl",
+              "line": 384,
+              "col": 0,
+              "endLine": 384,
+              "endCol": 18
+            },
+            "params": [
+              {
+                "name": "city",
+                "type": {
+                  "type": "String"
+                }
+              }
+            ],
+            "return": {
+              "type": "String"
+            },
+            "config": {
+              "protocol": {
+                "expr": "string",
+                "value": "mcp",
+                "span": {
+                  "file": "builtin_en.agl",
+                  "line": 386,
+                  "col": 15,
+                  "endLine": 386,
+                  "endCol": 20
+                }
+              },
+              "endpoint": {
+                "expr": "string",
+                "value": "http://127.0.0.1:18999/mcp",
+                "span": {
+                  "file": "builtin_en.agl",
+                  "line": 387,
+                  "col": 15,
+                  "endLine": 387,
+                  "endCol": 43
+                }
+              },
+              "timeout_sec": {
+                "expr": "int",
+                "value": 5,
+                "span": {
+                  "file": "builtin_en.agl",
+                  "line": 388,
+                  "col": 18,
+                  "endLine": 388,
+                  "endCol": 19
+                }
+              }
+            }
+          }
+        ]
       }
     ]
   }

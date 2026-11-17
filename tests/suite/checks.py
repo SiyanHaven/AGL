@@ -1574,6 +1574,102 @@ def check_card() -> Check:
     return c.done("示例可跑 · 骨架可跑" if not bad else "")
 
 
+def check_tool_runtime() -> Check:
+    """`工具` 声明：直接按工具名调用，经 MCP 真正拿到结果。"""
+    import json
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    c = Check("工具声明与 MCP 运行时")
+    bad: list[str] = []
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def do_POST(self):
+            n = int(self.headers.get("Content-Length", 0))
+            req = json.loads(self.rfile.read(n) or b"{}")
+            method = req.get("method")
+            if method == "initialize":
+                body = {"jsonrpc": "2.0", "id": req.get("id"), "result": {
+                    "protocolVersion": "2024-11-05", "capabilities": {"tools": {}},
+                    "serverInfo": {"name": "fake", "version": "0"}}}
+            elif method == "notifications/initialized":
+                self.send_response(202)
+                self.end_headers()
+                return
+            elif method == "tools/call":
+                body = {"jsonrpc": "2.0", "id": req.get("id"), "result": {
+                    "content": [{"type": "text", "text": "晴，23度"}],
+                    "isError": False}}
+            else:
+                body = {"jsonrpc": "2.0", "id": req.get("id"),
+                        "error": {"message": "unknown"}}
+            data = json.dumps(body, ensure_ascii=False).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+    port = server.server_address[1]
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        src = f'''#语言=中文
+工具 天气 {{
+  配置 {{
+    协议 = "mcp"
+    地址 = "http://127.0.0.1:{port}/mcp"
+    超时秒数 = 5
+  }}
+  入参(城市: 文本)
+  返回 文本
+}}
+
+函数 主入口() 效应 外部调用 {{
+  变量 答复 = 天气("杭州")
+  打印(答复)
+}}
+'''
+        res = pipeline.compile_source(src, "tool_runtime.agl")
+        if not res.ok:
+            bad.append("工具声明没有编译通过：" +
+                       "; ".join(d.code for d in res.diagnostics))
+        else:
+            body = res.ir["program"]["modules"][0]["functions"][0]["body"]
+            call = body[0]["value"]
+            if call.get("builtin") != "call_tool":
+                bad.append("直接工具调用没有降成 call_tool")
+            ok, diag, out = pipeline.run_result(res)
+            if not ok or out.strip() != "晴，23度":
+                bad.append("Python 后端没有拿到工具结果：" +
+                           (diag.code if diag else out.strip()))
+            from compiler import bytecode, vm
+            try:
+                agb = bytecode.compile_program(res.ir)
+                got = vm.run(agb, res.lang, allowed_effects={"External"})
+                if got.strip() != "晴，23度":
+                    bad.append("VM 没有拿到工具结果：" + got.strip())
+                try:
+                    vm.run(agb, res.lang, allowed_effects=set())
+                except Exception as e:
+                    if getattr(e, "code", "") != "AGL-RT-0092":
+                        bad.append("VM 未授权外部调用时没有报 0092：" +
+                                   getattr(e, "code", repr(e)))
+                else:
+                    bad.append("VM 未授权外部调用时仍然跑通了")
+            except Exception as e:
+                bad.append(f"VM 工具调用失败：{e}")
+    finally:
+        server.shutdown()
+    if bad:
+        c.fail("；".join(bad))
+    return c
+
+
 def check_security_defaults() -> Check:
     """安全默认不能回退：回环绑定、协议白名单、BOM、MCP 路径边界。"""
     import os

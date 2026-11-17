@@ -6,7 +6,7 @@ AGL 把 AI 生成的代码变成可检查的结构：固定关键字、显式类
 
 当前版本：**v0.53.0**。仓库：https://github.com/SiyanHaven/AGL
 
-普通用户装的是**运行时包**：不需要看、也不需要改 AGL 的编译器源码。`aglc doctor` 报运行时自检 **5/5**，八个发布示例中六个短进程批跑 **6/6** 通过，双语规范代码块 **12/12** 通过。完整的 28 项验收只在源码树/开发环境跑。
+普通用户装的是**运行时包**：不需要看、也不需要改 AGL 的编译器源码。`aglc doctor` 报运行时自检 **5/5**，八个发布示例中六个短进程批跑 **6/6** 通过，双语规范代码块 **12/12** 通过。完整的 29 项验收只在源码树/开发环境跑。
 
 ## 普通用户：在线安装
 
@@ -54,7 +54,7 @@ cd AGL
 python -m compiler.cli doctor
 ```
 
-源码树保留 `自举/`、`tests/`、`editor/`，`doctor` 跑完整 **28 项**。改编译器、跑黄金用例、看自举源码，都在这个形态里做；这与普通用户的安装包是两套形态，互不下载。
+源码树保留 `自举/`、`tests/`、`editor/`，`doctor` 跑完整 **29 项**。改编译器、跑黄金用例、看自举源码，都在这个形态里做；这与普通用户的安装包是两套形态，互不下载。
 
 ## 压缩包（离线/普通用户）
 
@@ -72,7 +72,7 @@ python -m compiler.cli doctor
 源码树零第三方依赖，不捆绑 Python：默认直接使用当前 `python`（Python 3.10+）。在仓库根目录执行：
 
 ```powershell
-# 1. 体检：源码树跑 28 项，必须全绿
+# 1. 体检：源码树跑 29 项，必须全绿
 python -m compiler.cli doctor
 
 # 2. 跑一个最小示例
@@ -163,7 +163,7 @@ AI 写的 Python，普通人读不懂，只能选择 “相信” AI，没法 �
 
 
 
-1. 改完必须跑 `python -m compiler.cli doctor`，28 项全绿才算没弄坏；
+1. 改完必须跑 `python -m compiler.cli doctor`，29 项全绿才算没弄坏；
 
 2. 期望产物变了，先逐条解释差异，再更新黄金产物；解释不了就是有 bug；
 
@@ -208,6 +208,35 @@ AI 写的 Python，普通人读不懂，只能选择 “相信” AI，没法 �
 工具：`agl_card`、`agl_check`、`agl_check_source`、`agl_build`、`agl_run`、`agl_run_source`、`agl_convert`、`agl_summary`、`agl_version`、`agl_doctor`。
 
 `agl_run` / `agl_run_source` 默认全禁效应和外部库；需要时显式传 `allow_effects` / `allow_tools`（逗号分隔，`all` 才全量放行）。
+
+### 工具声明调用（MCP）
+
+`工具` 声明现在会变成真实可调用的 MCP 工具，不再只是设计词。声明里写清楚协议、地址和入参，函数体内直接按工具名调用：
+
+```agl
+工具 天气 {
+  配置 {
+    协议 = "mcp"
+    地址 = "http://127.0.0.1:18999/mcp"
+    超时秒数 = 5
+  }
+  入参(城市: 文本)
+  返回 文本
+}
+
+函数 主入口() 效应 外部调用 {
+  变量 答复 = 天气("杭州")
+  打印(答复)
+}
+```
+
+`aglc run` 默认拒绝外部调用，必须显式放行：
+
+```powershell
+aglc run 天气.agl --allow-effects External
+```
+
+当前工具运行时只实现 **MCP Streamable HTTP**（`协议 = "mcp"`）；`local-skill` / `acp` 还没接。直接按工具名调用会在编译期降成内建 `调用工具`，参数是工具名、实参映射表和配置映射表；也可以直接写 `调用工具("天气", {...}, {...})`。
 
 
 
@@ -261,7 +290,7 @@ docs/          双语规范、入门教程、标准与契约、发布文档、�
 scripts/       发布验证与快照脚本
 tests/golden/  黄金用例（中英成对 + 期望 IR + 期望产物）
 tests/cases/   错误用例 + expect.toml + 标准库 / 配置 / 优化用例
-tests/suite/   一致性测试套件（28 项；doctor 只是它的壳）
+tests/suite/   一致性测试套件（29 项；doctor 只是它的壳）
 editor/vscode/ VSCode 扩展（零 npm 依赖）
 studio/        .NET WinForms 桌面宿主
 ```
@@ -292,7 +321,7 @@ studio/        .NET WinForms 桌面宿主
 | `card [--lang zh\|en]`          | 关键字速查卡（写码前读）                                               |
 | `init [dir]`                    | 生成能直接跑的工程骨架                                                |
 | `examples`                      | 列出 `examples/` 下的发布示例                                      |
-| `doctor`                        | 自检：用户包 5 项；源码树/完整包 28 项                                  |
+| `doctor`                        | 自检：用户包 5 项；源码树/完整包 29 项                                  |
 | `mcp`                           | 启动 MCP 工具服务器（stdio）                                        |
 | `lsp`                           | 启动语言服务器（stdio）                                             |
 | `grammar [--dir X]`             | 输出编辑器语法高亮                                                  |
@@ -366,7 +395,7 @@ Windows 启动链默认跟随用户 agent 工具调用的 `python`；也可用�
 
 ## 已知边界（不夸大）
 
-当前版本**未实现**：元组、类、继承、泛型函数、闭包、lambda、一等函数值；跨分支的空值流敏感收窄；真正的工具调用运行时（`tool` / `工具` 块仍是设计术语）；OS 级运行时沙箱；重复调用熔断 T19；标准库版本锁定与包管理器。
+当前版本**未实现**：元组、类、继承、泛型函数、闭包、lambda、一等函数值；跨分支的空值流敏感收窄；`local-skill` / `acp` 协议的工具运行时（MCP Streamable HTTP 已可用）；OS 级运行时沙箱；重复调用熔断 T19；标准库版本锁定与包管理器。
 
 这些边界在 [docs/SPEC.zh.md](docs/SPEC.zh.md) / [docs/SPEC.en.md](docs/SPEC.en.md) 和 [docs/标准与契约.md](docs/标准与契约.md) 中有同样表述。
 

@@ -9,6 +9,13 @@ semantic versioning, with the authoritative value in `spec/keywords.toml`
 
 ### Added
 
+- `工具` declarations now have a real runtime. A function can call a declared tool by
+  name; the compiler lowers it to the builtin `调用工具` / `call_tool` with the tool name,
+  argument map and config map. The Python backend and VM share an MCP Streamable HTTP
+  client (`initialize` → `notifications/initialized` → `tools/call`, session id, SSE,
+  timeout and retry). External calls are still denied by default and require
+  `--allow-effects External`. The self-hosted compiler now carries declarations through
+  IR and lowers tool calls to the same builtin.
 - `启动网页应用` / `web_serve`: a programmable HTTP server. Every request becomes a request map
   (`方法` / `路径` / `查询` / `Cookie` / `请求体` / `表单` / `头`), is dispatched to an AGL handler by name,
   and the handler returns a response map (`状态` / `类型` / `内容` / `文件` / `头`). JSON / form parsing,

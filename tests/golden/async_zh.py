@@ -1243,6 +1243,98 @@ def _agl_ffi_call(lib, method, *args):
         raise _AglFfiCallError(lib, method, str(e), orig=e) from None
 
 
+def _agl_call_tool(name, arguments, config):
+    """调用声明的工具。目前支持 MCP Streamable HTTP（JSON-RPC over POST）。"""
+    import json as _json
+    import time as _time
+    import urllib.error as _urlerr
+    import urllib.request as _urlreq
+
+    if not isinstance(name, str) or not name.strip():
+        raise ValueError("工具名必须是非空文本")
+    if not isinstance(arguments, dict):
+        raise TypeError("工具实参必须是映射表")
+    if not isinstance(config, dict):
+        config = {}
+    protocol = config.get("protocol") or config.get("协议")
+    endpoint = config.get("endpoint") or config.get("地址")
+    timeout = config.get("timeout_sec") or config.get("超时秒数") or 30
+    retries = config.get("max_retry") or config.get("最大重试次数") or 0
+    if protocol != "mcp":
+        raise ValueError("工具运行时目前只支持 `协议 = 'mcp'`；"
+                         f"收到的是 `{protocol}`")
+    if not isinstance(endpoint, str) or not endpoint.startswith(("http://", "https://")):
+        raise ValueError("MCP 工具的 `地址` 必须是 http:// 或 https:// 开头的网址")
+    try:
+        timeout = max(1, int(timeout))
+    except Exception:
+        timeout = 30
+    try:
+        retries = max(0, int(retries))
+    except Exception:
+        retries = 0
+
+    def rpc(method, params, session=None, notify=False):
+        payload = {"jsonrpc": "2.0", "method": method, "params": params}
+        if not notify:
+            payload["id"] = 1
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json, text/event-stream",
+        }
+        if session:
+            headers["Mcp-Session-Id"] = session
+        req = _urlreq.Request(endpoint, data=_json.dumps(payload).encode("utf-8"),
+                              headers=headers, method="POST")
+        with _urlreq.urlopen(req, timeout=timeout) as resp:
+            sid = resp.headers.get("Mcp-Session-Id")
+            raw = resp.read()
+            ctype = resp.headers.get("Content-Type", "")
+        if notify:
+            return None, sid
+        if not raw:
+            raise RuntimeError(f"MCP 服务器对 `{method}` 返回了空响应")
+        text = raw.decode("utf-8", "replace")
+        if "text/event-stream" in ctype:
+            data = []
+            for line in text.splitlines():
+                if line.startswith("data:"):
+                    data.append(line[5:].strip())
+            text = data[-1] if data else ""
+        try:
+            obj = _json.loads(text)
+        except Exception:
+            raise RuntimeError(f"MCP 服务器返回的不是 JSON：{text[:200]}")
+        if obj.get("error"):
+            err = obj["error"]
+            raise RuntimeError(f"MCP 工具 `{name}` 出错：{err.get('message', err)}")
+        return obj.get("result") or {}, sid
+
+    last = None
+    for attempt in range(retries + 1):
+        try:
+            init, sid = rpc("initialize", {
+                "protocolVersion": "2024-11-05",
+                "capabilities": {},
+                "clientInfo": {"name": "agl"},
+            })
+            rpc("notifications/initialized", {}, sid, notify=True)
+            result, _ = rpc("tools/call", {"name": name, "arguments": arguments}, sid)
+            if result.get("isError"):
+                raise RuntimeError(f"工具 `{name}` 返回失败结果")
+            content = result.get("content") or []
+            texts = [c.get("text") for c in content
+                     if isinstance(c, dict) and c.get("type") == "text"]
+            return "\n".join(texts) if texts else _json.dumps(result, ensure_ascii=False)
+        except (_urlerr.URLError, TimeoutError, OSError) as e:
+            last = e
+            if attempt < retries:
+                _time.sleep(min(2 ** attempt, 5))
+                continue
+            raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{e}") from None
+    raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{last}")
+
+
 # ── 内建函数的宿主实现 ─────────────────────────────────────────────────
 # 名字与签名由 spec/keywords.toml 的 [[builtin]] 表定义，这里的函数只是它的落地。
 # 两条纪律：

@@ -126,6 +126,9 @@ class Checker:
         self.source_path = source_path
         self.diags: list[Diagnostic] = []
         self.funcs: dict[str, dict] = {}
+        # `工具` 声明在本文件里也是可调用实体：调用它的名字会降成
+        # 内建 `调用工具`，把声明里的配置一起带过去。
+        self.tools: dict[str, dict] = {}
         self.scope = Scope()
         self.cur_fn: dict | None = None
         # 被导入模块的符号表：{模块名: {"exports": {...}, "private": {...}}}
@@ -203,6 +206,12 @@ class Checker:
                          [FixHint("rename", f"{fn['span']['file']}:{fn['span']['line']}",
                                   "给其中一个函数改名")])
             self.funcs[fn["name"]] = fn
+
+        # 工具声明先登记，函数体里才能直接按声明名调用；声明本身的合法性
+        # 仍由 check_declarations 统一检查。
+        for d in mod.get("declarations") or []:
+            if d.get("kind") == "tool":
+                self.tools[d["name"]] = d
 
         entry = self.ir["program"]["entry"]
         # 只有程序入口文件才必须有入口函数；被导入的模块没有入口是正常的
@@ -1113,6 +1122,38 @@ class Checker:
                          [FixHint("fix_type", f"{span['file']}:{span['line']}",
                                   "改实参，或改函数参数声明的类型")])
 
+    def check_tool_call(self, e: dict, tool: dict) -> dict:
+        """把 `工具名(实参…)` 降成内建 `调用工具`，并带上声明里的配置。"""
+        name = tool["name"]
+        params = tool.get("params") or []
+        self.resolve_args(params, e["args"], e["span"], name)
+        entries = []
+        for i, a in enumerate(e["args"]):
+            if a.get("expr") == "named":
+                key, value = a["name"], a["value"]
+            else:
+                key = params[i]["name"] if i < len(params) else f"arg{i + 1}"
+                value = a
+            entries.append({
+                "key": {"expr": "string", "value": key, "span": e["span"]},
+                "value": value,
+            })
+        config_entries = []
+        for key, value in (tool.get("config") or {}).items():
+            config_entries.append({
+                "key": {"expr": "string", "value": key, "span": e["span"]},
+                "value": value,
+            })
+        e["builtin"] = "call_tool"
+        e["args"] = [
+            {"expr": "string", "value": name, "span": e["span"]},
+            {"expr": "map", "entries": entries, "span": e["span"]},
+            {"expr": "map", "entries": config_entries, "span": e["span"]},
+        ]
+        # MCP / local-skill / ACP 都是外部调用；当前函数必须声明该效应。
+        self.check_effects(e, name, {"effects": ["External"]})
+        return tool.get("return") or {"type": "Null"}
+
     def check_builtin_call(self, e: dict, bi) -> dict:
         """内建函数的签名校验，并在 IR 上打 `builtin` 标记。
 
@@ -1404,6 +1445,8 @@ class Checker:
             #   用户自己的函数 → 内建函数 → 报未定义。
             # 用户定义优先，是为了让"新增一个内建函数"永远不会让既有代码失效。
             fn = self.funcs.get(name)
+            if fn is None and name in self.tools:
+                return self.check_tool_call(e, self.tools[name])
             if fn is None and name in self.structs:
                 return self._check_struct_args(self.structs[name], name, e["args"], e["span"], name)
             if fn is not None:

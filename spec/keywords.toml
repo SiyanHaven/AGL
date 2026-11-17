@@ -3255,3 +3255,17 @@ lower = "_agl_映射"
 summary_zh = "对列表每个元素做转换"
 summary_en = "map_list: transform each list element"
 example = '变量 文本们 = 映射([1,2,3], 转文本)'
+
+[[builtin]]
+zh = "调用工具"
+en = "call_tool"
+canonical = "call_tool"
+params = ["文本", "映射表", "映射表"]
+opt = 0
+ret = "任意"
+effect = "External"
+needs_await = false
+lower = "_agl_call_tool"
+summary_zh = "调用声明的工具；参数是工具名、实参映射表和配置映射表"
+summary_en = "call_tool: invoke a declared tool with arguments and config"
+example = '变量 答复 = 调用工具("天气", {"城市": "杭州"}, {"协议": "mcp", "地址": "http://127.0.0.1:8080/mcp"})'
