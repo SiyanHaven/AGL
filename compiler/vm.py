@@ -600,6 +600,19 @@ def _builtins(vm) -> dict:
             fn = rt.get(b.lower)
             if callable(fn):
                 base[b.canonical] = fn
+        if callable(base.get("call_tool")):
+            real_call_tool = base["call_tool"]
+
+            def _call_tool_whitelisted(name, args, config, _real=real_call_tool):
+                if vm.allowed_tools is not None and name not in vm.allowed_tools:
+                    raise VmError(
+                        RT_TOOLS,
+                        f"工具 `{name}` 不在运行时工具白名单里，"
+                        f"用 --allow-tools 显式放行",
+                        0, "<tool>")
+                return _real(name, args, config)
+
+            base["call_tool"] = _call_tool_whitelisted
     except Exception:
         # 共享纯内建只是加速与一致性优化；拿不到时仍保留 VM 本地实现。
         pass

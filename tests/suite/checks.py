@@ -1673,6 +1673,14 @@ def check_tool_runtime() -> Check:
                                    getattr(e, "code", repr(e)))
                 else:
                     bad.append("VM 未授权外部调用时仍然跑通了")
+                try:
+                    vm.run(agb, res.lang, allowed_effects={"External"},
+                           allowed_tools={"别的工具"})
+                except vm.VmError as e:
+                    if e.code != vm.RT_TOOLS:
+                        bad.append("VM 工具白名单拦截错误码不对：" + e.code)
+                else:
+                    bad.append("VM 工具白名单未拦截未声明工具")
             except Exception as e:
                 bad.append(f"VM 工具调用失败：{e}")
     finally:
