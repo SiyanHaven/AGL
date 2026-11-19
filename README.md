@@ -4,16 +4,16 @@
 
 AGL 把 AI 生成的代码变成可检查的结构：固定关键字、显式类型、显式效应（会读文件、会联网、会调用外部程序），错误永远指回 AGL 源码的行号。源码先变成自研 AGB 字节码，再由默认 VM 执行；Python 只负责启动，不生成 `.py` 产物。
 
-当前版本：**v0.53.0**。仓库：https://github.com/SiyanHaven/AGL
+当前版本：**v0.54.0**。仓库：https://github.com/SiyanHaven/AGL
 
 普通用户装的是**运行时包**：不需要看、也不需要改 AGL 的编译器源码。`aglc doctor` 报运行时自检 **5/5**，八个发布示例中六个短进程批跑 **6/6** 通过，双语规范代码块 **12/12** 通过。完整的 29 项验收只在源码树/开发环境跑。
 
 ## 普通用户：在线安装
 
-先让 agent 用仓库地址找到 Release 里的 wheel 资产，再执行；`:v0.53.0` 是发布标签，前提是该 Release 已上传 `agl_lang-0.53.0-py3-none-any.whl`：
+先让 agent 用仓库地址找到 Release 里的 wheel 资产，再执行；`:v0.54.0` 是发布标签，前提是该 Release 已上传 `agl_lang-0.54.0-py3-none-any.whl`：
 
 ```powershell
-python -m pip install "https://github.com/SiyanHaven/AGL/releases/download/v0.53.0/agl_lang-0.53.0-py3-none-any.whl"
+python -m pip install "https://github.com/SiyanHaven/AGL/releases/download/v0.54.0/agl_lang-0.54.0-py3-none-any.whl"
 aglc doctor
 ```
 
@@ -58,7 +58,7 @@ python -m compiler.cli doctor
 
 ## 压缩包（离线/普通用户）
 
-下载 Release 里的 `AGL-v0.53.0.zip`，解压到任意目录，在该目录中执行：
+下载 Release 里的 `AGL-v0.54.0.zip`，解压到任意目录，在该目录中执行：
 
 ```powershell
 .\aglc.cmd doctor
@@ -199,7 +199,7 @@ AI 写的 Python，普通人读不懂，只能选择 “相信” AI，没法 �
 
 
 
-* 服务器版本：**agl-mcp 0.53.0**（跟随 `spec/keywords.toml` 的 `meta.version`，不硬编码）
+* 服务器版本：**agl-mcp 0.54.0**（跟随 `spec/keywords.toml` 的 `meta.version`，不硬编码）
 
 * 协议版本：**2024-11-05**
 
@@ -267,7 +267,7 @@ aglc run 天气.agl --allow-effects External
 
 ```
 python -m compiler.mcp --version
-#   → agl-mcp 0.53.0（协议 2024-11-05）
+#   → agl-mcp 0.54.0（协议 2024-11-05）
 python -m compiler.mcp --list
 #   → 10 个工具清单
 ```

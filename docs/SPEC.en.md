@@ -1,9 +1,9 @@
 # AGL Language Specification (English)
 
-> Version: **0.53.0**　Freeze date: 2026-11-15　Status: release-candidate specification
+> Version: **0.54.0**　Freeze date: 2026-11-19　Status: release-candidate specification
 >
 > This document describes the language surface that is implemented and verified by `aglc doctor` in
-> `v0.53.0`. The machine-readable source of truth is [`spec/keywords.toml`](../spec/keywords.toml).
+> `v0.54.0`. The machine-readable source of truth is [`spec/keywords.toml`](../spec/keywords.toml).
 > If this document and the keyword table disagree, the table and compiler behavior win.
 
 ## 1. Scope
@@ -387,7 +387,7 @@ is kept in the `cause` field.
 ## 12. MCP entry point
 
 - Server name: `agl-mcp`
-- Server version: **0.53.0** (follows `meta.version` in `spec/keywords.toml`; not hard-coded)
+- Server version: **0.54.0** (follows `meta.version` in `spec/keywords.toml`; not hard-coded)
 - Protocol version: **2024-11-05**
 - Tool count: **10**
 
@@ -404,7 +404,7 @@ Configuration:
 }
 ```
 
-Verified version command: `python -m compiler.mcp --version` → `agl-mcp 0.53.0 (protocol 2024-11-05)`.
+Verified version command: `python -m compiler.mcp --version` → `agl-mcp 0.54.0 (protocol 2024-11-05)`.
 `agl_version` returns `server` / `version` / `languageVersion` / `protocolVersion`; when
 `GITHUB_RELEASES_URL` is empty, `checkUpdate=true` returns `not_configured` without network access.
 

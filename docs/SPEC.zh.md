@@ -1,8 +1,8 @@
 # AGL 语言规范（中文）
 
-> 版本：**0.53.0**　　冻结日期：2026-11-15　　状态：发布候选规范
+> 版本：**0.54.0**　　冻结日期：2026-11-19　　状态：发布候选规范
 >
-> 本文件描述 `v0.53.0` 已经实现并经过 `aglc doctor` 验收的语言表面。机器可读的权威来源是
+> 本文件描述 `v0.54.0` 已经实现并经过 `aglc doctor` 验收的语言表面。机器可读的权威来源是
 > [`spec/keywords.toml`](../spec/keywords.toml)；当本文与关键字表冲突时，以关键字表和编译器实测为准。
 
 ## 1. 范围
@@ -355,7 +355,7 @@ language = "zh"
 ## 12. MCP 入口
 
 - 服务器名：`agl-mcp`
-- 服务器版本：**0.53.0**（跟随 `spec/keywords.toml` 的 `meta.version`，不硬编码）
+- 服务器版本：**0.54.0**（跟随 `spec/keywords.toml` 的 `meta.version`，不硬编码）
 - 协议版本：**2024-11-05**
 - 工具数量：**10 个**
 
@@ -374,7 +374,7 @@ language = "zh"
 }
 ```
 
-实测版本命令：`python -m compiler.mcp --version` → `agl-mcp 0.53.0（协议 2024-11-05）`。
+实测版本命令：`python -m compiler.mcp --version` → `agl-mcp 0.54.0（协议 2024-11-05）`。
 `agl_version` 返回 `server` / `version` / `languageVersion` / `protocolVersion`；`GITHUB_RELEASES_URL`
 为空时 `checkUpdate=true` 返回 `not_configured`，不联网。
 
