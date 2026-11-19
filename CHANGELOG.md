@@ -7,6 +7,8 @@ semantic versioning, with the authoritative value in `spec/keywords.toml`
 
 ## [Unreleased]
 
+## [0.54.0] - 2026-11-18
+
 ### Added
 
 - `工具` declarations now have a real runtime. A function can call a declared tool by
@@ -19,7 +21,10 @@ semantic versioning, with the authoritative value in `spec/keywords.toml`
 - T19 repeated-call circuit breaker on the unified tool dispatcher: SHA-256 fingerprint
   over (tool name, canonical arguments), transient retry policy (timeout / reset / 5xx /
   429), hard block of the same fingerprint after retries are exhausted, per-tool breaker
-  after 3 failures, and reset on success. State is scoped to one program run.
+  after 3 failures, and reset on success. State is scoped to one program run. The breaker
+  threshold can be overridden per tool with `熔断阈值` / `fail_limit`.
+- VM tool calls now enforce `--allow-tools`: a tool name not present in the explicit
+  runtime whitelist is rejected with `AGL-RT-0094` before any MCP request is made.
 - `启动网页应用` / `web_serve`: a programmable HTTP server. Every request becomes a request map
   (`方法` / `路径` / `查询` / `Cookie` / `请求体` / `表单` / `头`), is dispatched to an AGL handler by name,
   and the handler returns a response map (`状态` / `类型` / `内容` / `文件` / `头`). JSON / form parsing,

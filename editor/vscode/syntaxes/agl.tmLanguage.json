@@ -5,7 +5,7 @@
   "fileTypes": [
     "agl"
   ],
-  "comment": "由 spec/keywords.toml v0.53.0 生成，不要手改。改表后跑 `aglc grammar`。",
+  "comment": "由 spec/keywords.toml v0.54.0 生成，不要手改。改表后跑 `aglc grammar`。",
   "patterns": [
     {
       "match": "^\\s*#(?:语言|語言|lang)=.*$",

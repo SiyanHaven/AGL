@@ -1273,7 +1273,7 @@ def _agl_tool_blocked_reason(name, fp):
     return None
 
 
-def _agl_tool_note_failure(name, fp):
+def _agl_tool_note_failure(name, fp, limit=_AGL_TOOL_FAIL_LIMIT):
     """记一次失败，返回给调用方看的补充说明。"""
     state = _AGL_TOOL_BREAKER
     count = state["fingerprints"].get(fp, 0) + 1
@@ -1281,7 +1281,7 @@ def _agl_tool_note_failure(name, fp):
     state["blocked_fp"][fp] = True
     total = state["tools"].get(name, 0) + 1
     state["tools"][name] = total
-    if total >= _AGL_TOOL_FAIL_LIMIT:
+    if total >= max(1, int(limit)):
         state["blocked_tool"][name] = True
         return f"同一工具已累计失败 {total} 次，达到熔断阈值"
     return f"同一工具已累计失败 {total} 次"
@@ -1329,6 +1329,11 @@ def _agl_call_tool(name, arguments, config):
         retries = max(0, int(retries))
     except Exception:
         retries = 0
+    limit = config.get("熔断阈值") or config.get("fail_limit") or _AGL_TOOL_FAIL_LIMIT
+    try:
+        limit = max(1, int(limit))
+    except Exception:
+        limit = _AGL_TOOL_FAIL_LIMIT
 
     fp = _agl_tool_fingerprint(name, arguments)
     blocked = _agl_tool_blocked_reason(name, fp)
@@ -1404,19 +1409,19 @@ def _agl_call_tool(name, arguments, config):
             if transient and attempt < retries:
                 _time.sleep(min(2 ** attempt, 5))
                 continue
-            note = _agl_tool_note_failure(name, fp)
+            note = _agl_tool_note_failure(name, fp, limit)
             raise RuntimeError(f"工具 `{name}` 调用失败：HTTP {e.code}；{note}") from None
         except (_urlerr.URLError, TimeoutError, OSError) as e:
             last = e
             if attempt < retries:
                 _time.sleep(min(2 ** attempt, 5))
                 continue
-            note = _agl_tool_note_failure(name, fp)
+            note = _agl_tool_note_failure(name, fp, limit)
             raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{e}；{note}") from None
         except Exception as e:
-            note = _agl_tool_note_failure(name, fp)
+            note = _agl_tool_note_failure(name, fp, limit)
             raise RuntimeError(f"工具 `{name}` 调用失败：{e}；{note}") from None
-    note = _agl_tool_note_failure(name, fp)
+    note = _agl_tool_note_failure(name, fp, limit)
     raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{last}；{note}")
 
 

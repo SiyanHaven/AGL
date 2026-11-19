@@ -48,6 +48,7 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 from pathlib import Path
 
 from compiler.cli import pipeline
@@ -58,6 +59,29 @@ from compiler.tomlutil import loads as toml_loads
 REPO = Path(__file__).resolve().parents[2]
 CASES = REPO / "tests" / "cases"
 GOLDEN = REPO / "tests" / "golden"
+
+# 子进程一律带超时。2026-11-18 事故：doctor 里 43 处子进程调用只有 1 处写了超时，
+# 自举编译一旦卡住，父进程就无限等，肉眼看到的就是"整台机器一动不动"。
+# 超时不是失败，是明确的红灯：返回码 124 + 一句可读的原因。
+_SUBPROC_TIMEOUT = 180
+
+
+def _run(cmd, timeout=None, **kwargs):
+    """带超时的 `subprocess.run`。
+
+    自检要能自己认输：卡住超过 `_SUBPROC_TIMEOUT` 秒就当作失败返回，
+    而不是把整机一起拖进等待。调用方原有的 `returncode/stdout/stderr`
+    判断照旧生效，只是多了一条"超时"分支。
+    """
+    if timeout is None:
+        timeout = _SUBPROC_TIMEOUT
+    try:
+        return subprocess.run(cmd, timeout=timeout, **kwargs)
+    except subprocess.TimeoutExpired:
+        return subprocess.CompletedProcess(
+            cmd, 124, "", f"子进程超过 {timeout} 秒没有结束：{cmd}")
+    except OSError as e:
+        return subprocess.CompletedProcess(cmd, 125, "", f"子进程起不来：{e}")
 
 # 黄金产物检查不再有豁免：`nullable_zh/en` 的期望 `.agl.ir/.py` 已补齐。
 
@@ -116,7 +140,6 @@ def _run_plain_python(path) -> str | None:
     用来跟"导入再编译"的结果做对拍 —— 两边必须逐字一样。
     跑不起来（或非 0 退出）返回 None，那是测试用例本身写坏了。
     """
-    import subprocess
     import sys
 
     env = dict(os.environ)
@@ -124,7 +147,7 @@ def _run_plain_python(path) -> str | None:
     env["PYTHONIOENCODING"] = "utf-8"
     for attempt in range(2):
         try:
-            r = subprocess.run([sys.executable, str(path)],
+            r = _run([sys.executable, str(path)],
                                capture_output=True, text=True,
                                encoding="utf-8", errors="replace",
                                timeout=60, env=env)
@@ -585,7 +608,6 @@ def check_agb_artifacts() -> Check:
     build → 目录里没有 .py、有 .agb；run .agb 与 run .agl --backend py 输出一致；
     超出 AGB 子集时默认 run 必须报错，而不是静默退回 Python。
     """
-    import subprocess
     import sys
     import tempfile
 
@@ -596,7 +618,7 @@ def check_agb_artifacts() -> Check:
 
     with tempfile.TemporaryDirectory(prefix="agl_agb_build_") as td:
         out = Path(td)
-        build = subprocess.run(
+        build = _run(
             [sys.executable, "-m", "compiler.cli", "build", str(main), "-o", str(out)],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
         if build.returncode != 0:
@@ -609,10 +631,10 @@ def check_agb_artifacts() -> Check:
                 return c.fail(f"build 缺少 {need}；实际 {sorted(files)}").done()
 
         agb_path = out / "主程序.agb"
-        vm_run = subprocess.run(
+        vm_run = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(agb_path)],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-        py_run = subprocess.run(
+        py_run = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(main), "--backend", "py"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
         if vm_run.returncode != 0:
@@ -640,7 +662,7 @@ def check_agb_artifacts() -> Check:
   打印(xs[0])
 }
 """, encoding="utf-8", newline="\n")
-        denied = subprocess.run(
+        denied = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(bad),
              "--compiler", "seed"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
@@ -649,7 +671,7 @@ def check_agb_artifacts() -> Check:
         text = denied.stderr + denied.stdout
         if "不会静默退回 Python" not in text:
             return c.fail("超出子集的报错没有说明“不静默退回 Python”").done()
-        py = subprocess.run(
+        py = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(bad), "--backend", "py"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
         if py.returncode != 0 or py.stdout.strip() != "2":
@@ -668,10 +690,10 @@ def check_agb_artifacts() -> Check:
   打印(m["乙"])
 }
 """, encoding="utf-8", newline="\n")
-        vm_idx = subprocess.run(
+        vm_idx = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(idx)],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-        py_idx = subprocess.run(
+        py_idx = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(idx), "--backend", "py"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
         want = "3\n2\n"
@@ -697,10 +719,10 @@ def check_agb_artifacts() -> Check:
   打印(假 或 真)
 }
 """, encoding="utf-8", newline="\n")
-        vm_short = subprocess.run(
+        vm_short = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(short)],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-        py_short = subprocess.run(
+        py_short = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(short), "--backend", "py"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
         want_short = "假\n真\n假\n真\n"
@@ -723,10 +745,10 @@ def check_agb_artifacts() -> Check:
   打印(当前行, 文本值, 结果类型, 函数名)
 }
 """, encoding="utf-8", newline="\n")
-        vm_pref = subprocess.run(
+        vm_pref = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(pref)],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-        py_pref = subprocess.run(
+        py_pref = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(pref), "--backend", "py"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
         want_pref = "2 x x f\n"
@@ -741,7 +763,7 @@ def check_agb_artifacts() -> Check:
     parser = REPO / "自举" / "语法分析器.agl"
     if not lexer.exists() or not parser.exists():
         return c.fail("缺少 bootstrap/词法器.agl 或 bootstrap/语法分析器.agl").done()
-    lex_run = subprocess.run(
+    lex_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(lexer),
          "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
@@ -749,7 +771,7 @@ def check_agb_artifacts() -> Check:
         return c.fail(f"自举词法器运行失败：{lex_run.stderr.strip()}").done()
     if "tests/golden/grammar_zh.agl 记号数 201" not in lex_run.stdout:
         return c.fail(f"自举词法器输出与 Python 词法器不一致：{lex_run.stdout!r}").done()
-    par_run = subprocess.run(
+    par_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(parser),
          "--allow-effects", "IO", "--max-steps", "50000000"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
@@ -762,7 +784,7 @@ def check_agb_artifacts() -> Check:
     compiler = REPO / "自举" / "编译器.agl"
     if not compiler.exists():
         return c.fail("缺少 bootstrap/编译器.agl").done()
-    comp_run = subprocess.run(
+    comp_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(compiler), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if comp_run.returncode != 0:
@@ -772,7 +794,7 @@ def check_agb_artifacts() -> Check:
     made = REPO / "build" / "自举编译器" / "selfhost_hello.agb"
     if not made.exists():
         return c.fail(f"自举编译器声称产出，但文件不存在：{made}").done()
-    made_run = subprocess.run(
+    made_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(made)],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if made_run.returncode != 0 or made_run.stdout.strip() != "你好 AGL":
@@ -784,7 +806,7 @@ def check_agb_artifacts() -> Check:
     ir_gen = REPO / "自举" / "中间表示.agl"
     if not ir_gen.exists():
         return c.fail("缺少 bootstrap/中间表示.agl").done()
-    ir_run = subprocess.run(
+    ir_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(ir_gen), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if ir_run.returncode != 0:
@@ -792,7 +814,7 @@ def check_agb_artifacts() -> Check:
     agl_ir_path = Path(tempfile.gettempdir()) / "agl_agb" / "selfhost_full.ir"
     if not agl_ir_path.exists():
         return c.fail(f"自举 IR 生成器没有产出文件：{agl_ir_path}").done()
-    py_ir_run = subprocess.run(
+    py_ir_run = _run(
         [sys.executable, "-m", "compiler.cli", "ir", str(GOLDEN / "full_zh.agl"), "--json"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if py_ir_run.returncode != 0:
@@ -822,7 +844,7 @@ def check_agb_artifacts() -> Check:
     agb_gen = REPO / "自举" / "字节码.agl"
     if not agb_gen.exists():
         return c.fail("缺少 bootstrap/字节码.agl").done()
-    agb_run = subprocess.run(
+    agb_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(agb_gen), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if agb_run.returncode != 0:
@@ -832,7 +854,7 @@ def check_agb_artifacts() -> Check:
     full_agb = Path(tempfile.gettempdir()) / "agl_agb" / "selfhost_full.agb"
     if not full_agb.exists():
         return c.fail(f"自举 AGB 文件不存在：{full_agb}").done()
-    full_run = subprocess.run(
+    full_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(full_agb)],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if full_run.returncode != 0 or full_run.stdout.strip() != "够大":
@@ -866,7 +888,7 @@ def check_agb_artifacts() -> Check:
         "AGL_BOOTSTRAP_MODULE": "full_zh",
         "AGL_BOOTSTRAP_OUTPUT": "selfhost_pipeline.agb",
     })
-    pipeline_run = subprocess.run(
+    pipeline_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(pipeline_agb),
          "--allow-effects", "IO", "--max-steps", "50000000"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8",
@@ -895,7 +917,7 @@ def check_agb_artifacts() -> Check:
     hello_env["AGL_BOOTSTRAP_SOURCE"] = str(hello_en)
     hello_env["AGL_BOOTSTRAP_MODULE"] = "hello_en"
     hello_env["AGL_BOOTSTRAP_OUTPUT"] = "selfhost_hello_en.agb"
-    hello_build = subprocess.run(
+    hello_build = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(v2_agb),
          "--allow-effects", "IO", "--max-steps", "50000000"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8", env=hello_env)
@@ -903,10 +925,10 @@ def check_agb_artifacts() -> Check:
     if hello_build.returncode != 0 or not hello_agb.exists():
         return c.fail(f"B4c-2 英文 hello_en 编译失败：rc={hello_build.returncode} "
                       f"err={hello_build.stderr.strip()}").done()
-    hello_vm = subprocess.run(
+    hello_vm = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(hello_agb)],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-    hello_py = subprocess.run(
+    hello_py = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(hello_en), "--backend", "py"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if hello_vm.returncode != 0 or hello_py.returncode != 0 or hello_vm.stdout != hello_py.stdout:
@@ -946,7 +968,7 @@ def check_agb_artifacts() -> Check:
 """
     b5_path = Path(tempfile.gettempdir()) / "agl_agb" / "b5_doctor.agl"
     b5_path.write_text(b5_source, encoding="utf-8", newline="\n")
-    py_b5 = subprocess.run(
+    py_b5 = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(b5_path), "--backend", "py"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if py_b5.returncode != 0:
@@ -955,13 +977,13 @@ def check_agb_artifacts() -> Check:
     b5_env["AGL_BOOTSTRAP_SOURCE"] = str(b5_path)
     b5_env["AGL_BOOTSTRAP_MODULE"] = "b5_doctor"
     b5_env["AGL_BOOTSTRAP_OUTPUT"] = "b5_doctor.agb"
-    b5_pipeline = subprocess.run(
+    b5_pipeline = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(pipeline_src), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8", env=b5_env)
     if b5_pipeline.returncode != 0 or "b5_doctor" not in b5_pipeline.stdout:
         return c.fail(f"B5 整链编译失败：rc={b5_pipeline.returncode} out={b5_pipeline.stdout!r} err={b5_pipeline.stderr.strip()}").done()
     b5_agb = Path(tempfile.gettempdir()) / "agl_agb" / "b5_doctor.agb"
-    b5_run = subprocess.run(
+    b5_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(b5_agb)],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if b5_run.returncode != 0 or b5_run.stdout != py_b5.stdout:
@@ -976,7 +998,7 @@ fn main() {
 """
     b5_en_path = Path(tempfile.gettempdir()) / "agl_agb" / "b5_en_doctor.agl"
     b5_en_path.write_text(b5_en_source, encoding="utf-8", newline="\n")
-    py_b5_en = subprocess.run(
+    py_b5_en = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(b5_en_path), "--backend", "py"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if py_b5_en.returncode != 0:
@@ -985,14 +1007,14 @@ fn main() {
     b5_en_env["AGL_BOOTSTRAP_SOURCE"] = str(b5_en_path)
     b5_en_env["AGL_BOOTSTRAP_MODULE"] = "b5_en_doctor"
     b5_en_env["AGL_BOOTSTRAP_OUTPUT"] = "b5_en_doctor.agb"
-    b5_en_pipeline = subprocess.run(
+    b5_en_pipeline = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(pipeline_src), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8", env=b5_en_env)
     b5_en_agb = Path(tempfile.gettempdir()) / "agl_agb" / "b5_en_doctor.agb"
     if b5_en_pipeline.returncode != 0 or not b5_en_agb.exists():
         return c.fail(f"B5b 英文整链编译失败：rc={b5_en_pipeline.returncode} "
                       f"err={b5_en_pipeline.stderr.strip()}").done()
-    b5_en_run = subprocess.run(
+    b5_en_run = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(b5_en_agb)],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if b5_en_run.returncode != 0 or b5_en_run.stdout != py_b5_en.stdout:
@@ -1007,17 +1029,17 @@ fn main() {
     lexer_env["AGL_BOOTSTRAP_SOURCE"] = str(lexer_source)
     lexer_env["AGL_BOOTSTRAP_MODULE"] = "词法器"
     lexer_env["AGL_BOOTSTRAP_OUTPUT"] = "selfhost_lexer_doctor.agb"
-    lexer_pipeline = subprocess.run(
+    lexer_pipeline = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(pipeline_src), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8", env=lexer_env)
     if lexer_pipeline.returncode != 0 or "词法器" not in lexer_pipeline.stdout:
         return c.fail(f"B6 编译真实词法器失败：rc={lexer_pipeline.returncode} "
                       f"out={lexer_pipeline.stdout!r} err={lexer_pipeline.stderr.strip()}").done()
     lexer_agb = Path(tempfile.gettempdir()) / "agl_agb" / "selfhost_lexer_doctor.agb"
-    py_lexer = subprocess.run(
+    py_lexer = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(lexer_source), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-    agb_lexer = subprocess.run(
+    agb_lexer = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(lexer_agb), "--allow-effects", "IO"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if py_lexer.returncode != 0 or agb_lexer.returncode != 0:
@@ -1033,7 +1055,7 @@ fn main() {
     parser_env["AGL_BOOTSTRAP_SOURCE"] = str(parser_source)
     parser_env["AGL_BOOTSTRAP_MODULE"] = "语法分析器"
     parser_env["AGL_BOOTSTRAP_OUTPUT"] = "selfhost_parser_doctor.agb"
-    parser_pipeline = subprocess.run(
+    parser_pipeline = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(pipeline_src),
          "--allow-effects", "IO", "--max-steps", "50000000"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8", env=parser_env)
@@ -1041,11 +1063,11 @@ fn main() {
         return c.fail(f"B7 编译真实解析器失败：rc={parser_pipeline.returncode} "
                       f"out={parser_pipeline.stdout!r} err={parser_pipeline.stderr.strip()}").done()
     parser_agb = Path(tempfile.gettempdir()) / "agl_agb" / "selfhost_parser_doctor.agb"
-    py_parser = subprocess.run(
+    py_parser = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(parser_source),
          "--allow-effects", "IO", "--max-steps", "50000000"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-    agb_parser = subprocess.run(
+    agb_parser = _run(
         [sys.executable, "-m", "compiler.cli", "run", str(parser_agb),
          "--allow-effects", "IO", "--max-steps", "50000000"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
@@ -1069,7 +1091,7 @@ fn main() {
         env["AGL_BOOTSTRAP_SOURCE"] = str(golden_src)
         env["AGL_BOOTSTRAP_MODULE"] = stem
         env["AGL_BOOTSTRAP_OUTPUT"] = "b8_doctor/" + stem + ".agb"
-        golden_build = subprocess.run(
+        golden_build = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(installed_agb),
              "--allow-effects", "IO", "--max-steps", "50000000"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8", env=env)
@@ -1077,11 +1099,11 @@ fn main() {
         if golden_build.returncode != 0 or not golden_agb.exists():
             return c.fail(f"B8 自举编译 {stem} 失败：rc={golden_build.returncode} "
                           f"out={golden_build.stdout!r} err={golden_build.stderr.strip()}").done()
-        vm_golden = subprocess.run(
+        vm_golden = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(golden_agb),
              "--allow-effects", effects, "--allow-tools", "all"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-        py_golden = subprocess.run(
+        py_golden = _run(
             [sys.executable, "-m", "compiler.cli", "run", str(golden_src),
              "--backend", "py", "--allow-effects", effects, "--allow-tools", "all"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
@@ -1130,11 +1152,11 @@ fn main() {
             if not gsrc.exists():
                 continue
             t2_total += 1
-            py_out = subprocess.run(
+            py_out = _run(
                 [sys.executable, "-m", "compiler.cli", "run", str(gsrc),
                  "--backend", "py", "--allow-effects", effects],
                 cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
-            agl_out = subprocess.run(
+            agl_out = _run(
                 [sys.executable, "-m", "compiler.cli", "run", str(gsrc),
                  "--compiler", "agl", "--allow-effects", effects],
                 cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
@@ -1943,12 +1965,11 @@ def check_mcp() -> Check:
         bad.append("调用不存在的工具没有返回协议错误")
 
     # T17：`aglc tools` 工具块三件套导出 —— name/参数 schema 必须结构化正确
-    import subprocess
     import sys
 
     tool_src = GOLDEN / "tool_decl_zh.agl"
     if tool_src.exists():
-        ex = subprocess.run(
+        ex = _run(
             [sys.executable, "-m", "compiler.cli", "tools", str(tool_src), "--json"],
             cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
         try:
@@ -2225,7 +2246,6 @@ def check_lsp() -> Check:
     分两层验：先在进程内把五个能力都调一遍（快、失败信息清楚），
     再起真子进程走一次 stdio 帧（证明 `Content-Length` 的读写没写错）。
     """
-    import subprocess
     import sys
 
     from compiler import lsp
@@ -2428,10 +2448,9 @@ def check_builtin() -> Check:
                 bad.append(f"`{b.en}` 没被英文黄金用例覆盖")
 
     # CLI 的 `list-builtins` 必须读 [[builtin]] 表，而不是只列 4 个关键字。
-    import subprocess
     import sys
 
-    cli = subprocess.run(
+    cli = _run(
         [sys.executable, "-m", "compiler.cli", "list-builtins"],
         cwd=str(REPO), capture_output=True, text=True, encoding="utf-8")
     if cli.returncode != 0 or f"共 {len(t.builtins)} 个内建" not in cli.stdout:

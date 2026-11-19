@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use AGL in academic work, please cite this software release."
 title: "AGL (Agent Grounded Language)"
 abstract: "A declarative language for AI-generated code that humans can review: fixed keywords, explicit types, explicit effects, source-line diagnostics, self-hosted compiler and AGB bytecode VM."
-version: "0.53.0"
-date-released: "2026-11-15"
+version: "0.54.0"
+date-released: "2026-11-18"
 license: MIT
 repository-code: "https://github.com/SiyanHaven/AGL"
 url: "https://github.com/SiyanHaven/AGL"
