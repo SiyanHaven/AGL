@@ -356,6 +356,7 @@ class Parser:
         "传输": "transport", "transport": "transport",
         "命令": "command", "command": "command",
         "工作目录": "cwd", "cwd": "cwd",
+        "复用": "reuse", "reuse": "reuse",
     }
 
     def parse_declaration(self) -> dict:
@@ -407,10 +408,10 @@ class Parser:
                     if key not in ("protocol", "endpoint", "max_retry",
                                    "timeout_sec", "permissions", "subscribe",
                                    "model", "max_turns", "entry",
-                                   "transport", "command", "cwd"):
+                                   "transport", "command", "cwd", "reuse"):
                         self.fail(Code.EXPECT,
                                   f"配置块里不认识的字段 `{key_tok.text}`；"
-                                  "工具只允许 协议/地址/传输/命令/工作目录/入口/"
+                                  "工具只允许 协议/地址/传输/命令/工作目录/复用/入口/"
                                   "最大重试次数/超时秒数/权限/订阅")
                     self.expect("=", "配置赋值")
                     self.skip_newlines()

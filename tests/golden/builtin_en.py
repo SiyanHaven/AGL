@@ -1857,12 +1857,56 @@ def _agl_call_tool_mcp(name, arguments, endpoint, timeout, retries, limit, fp):
     raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{last}；{note}")
 
 
-def _agl_call_tool_mcp_stdio(name, arguments, config, timeout, retries, limit, fp):
-    """MCP stdio：起子进程，按「一行一条 JSON」的帧序完成握手与调用。
+_AGL_MCP_STDIO_SESSIONS = {}
+_AGL_MCP_STDIO_ATEXIT = {"on": False}
 
-    与 HTTP 版共用同一套结果解析、重试与熔断；差别只在传输：
-    子进程 stdout 每行是一个 JSON-RPC 消息，stderr 直接丢弃避免管道堵死。
-    """
+
+def _agl_tool_reuse(config):
+    """`复用 = 真`：同一个 stdio 服务器在一个程序里只起一次进程。"""
+    raw = config.get("reuse")
+    if raw is None:
+        raw = config.get("复用")
+    if raw is True:
+        return True
+    if isinstance(raw, str) and raw.strip().lower() in ("true", "yes", "1", "真"):
+        return True
+    return False
+
+
+def _agl_mcp_stdio_close(session):
+    """关掉一个 stdio 会话：先关 stdin 让它自己退，等不到就 kill。"""
+    if session is None:
+        return
+    session["alive"] = False
+    proc = session.get("proc")
+    if proc is None:
+        return
+    try:
+        proc.stdin.close()
+    except Exception:
+        pass
+    try:
+        proc.wait(timeout=2)
+    except Exception:
+        try:
+            proc.kill()
+        except Exception:
+            pass
+
+
+def _agl_mcp_stdio_drop(key):
+    session = _AGL_MCP_STDIO_SESSIONS.pop(key, None)
+    if session is not None:
+        _agl_mcp_stdio_close(session)
+
+
+def _agl_mcp_stdio_close_all():
+    for key in list(_AGL_MCP_STDIO_SESSIONS.keys()):
+        _agl_mcp_stdio_drop(key)
+
+
+def _agl_mcp_stdio_open(argv, workdir, timeout):
+    """起一个 stdio 服务器并完成握手，返回可复用的会话。"""
     import json as _json
     import os as _os
     import queue as _queue
@@ -1870,84 +1914,135 @@ def _agl_call_tool_mcp_stdio(name, arguments, config, timeout, retries, limit, f
     import threading as _threading
     import time as _time
 
+    env = dict(_os.environ)
+    # AGL 与子进程之间一律按 UTF-8 换帧；Python 类服务器没设过编码时给个默认值，
+    # 否则 Windows 上默认按本地代码页写 stdout，中文一写就 UnicodeEncodeError 崩掉。
+    env.setdefault("PYTHONIOENCODING", "utf-8")
+    env.setdefault("PYTHONUTF8", "1")
+    proc = _sp.Popen(argv, cwd=workdir, stdin=_sp.PIPE, stdout=_sp.PIPE,
+                     stderr=_sp.DEVNULL, env=env, bufsize=0)
+    inbox = _queue.Queue()
+
+    def reader():
+        try:
+            for raw in proc.stdout:
+                text = raw.decode("utf-8", "replace").strip()
+                if not text:
+                    continue
+                try:
+                    inbox.put(_json.loads(text))
+                except Exception:
+                    inbox.put({"_unparsed": text[:200]})
+        finally:
+            inbox.put(None)
+
+    _threading.Thread(target=reader, daemon=True).start()
+    session = {"proc": proc, "inbox": inbox, "next_id": 2, "alive": True,
+               "lock": _threading.Lock(), "argv": list(argv), "workdir": workdir}
+
+    def send(payload):
+        frame = _json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        proc.stdin.write(frame + bytes([10]))
+        proc.stdin.flush()
+
+    def wait_for(mid, deadline):
+        while True:
+            remain = deadline - _time.monotonic()
+            if remain <= 0:
+                raise TimeoutError(timeout)
+            try:
+                msg = inbox.get(timeout=remain)
+            except _queue.Empty:
+                raise TimeoutError(timeout) from None
+            if msg is None:
+                raise RuntimeError("MCP stdio 子进程提前关闭了输出")
+            if msg.get("_unparsed") is not None:
+                continue
+            if msg.get("id") == mid:
+                return msg
+
+    session["send"] = send
+    session["wait_for"] = wait_for
+    try:
+        send({"jsonrpc": "2.0", "id": 1, "method": "initialize",
+              "params": {"protocolVersion": "2024-11-05",
+                         "capabilities": {},
+                         "clientInfo": {"name": "agl"}}})
+        hello = wait_for(1, _time.monotonic() + timeout)
+        if hello.get("error"):
+            err = hello["error"]
+            raise RuntimeError("MCP stdio 握手失败：" + str(err.get("message", err)))
+        send({"jsonrpc": "2.0", "method": "notifications/initialized",
+              "params": {}})
+    except BaseException:
+        _agl_mcp_stdio_close(session)
+        raise
+    return session
+
+
+def _agl_mcp_stdio_session(key, argv, workdir, timeout):
+    """取一个还能用的常驻会话；进程已经退出就重开一个。"""
+    session = _AGL_MCP_STDIO_SESSIONS.get(key)
+    if session is not None and session.get("alive")             and session["proc"].poll() is None:
+        return session
+    _agl_mcp_stdio_drop(key)
+    session = _agl_mcp_stdio_open(argv, workdir, timeout)
+    _AGL_MCP_STDIO_SESSIONS[key] = session
+    if not _AGL_MCP_STDIO_ATEXIT["on"]:
+        import atexit as _atexit
+        _atexit.register(_agl_mcp_stdio_close_all)
+        _AGL_MCP_STDIO_ATEXIT["on"] = True
+    return session
+
+
+def _agl_mcp_stdio_tools_call(session, name, arguments, timeout):
+    """在会话上发一次 tools/call，只等自己那个 id 的响应。"""
+    import time as _time
+    mid = session["next_id"]
+    session["next_id"] = mid + 1
+    deadline = _time.monotonic() + timeout
+    try:
+        session["send"]({"jsonrpc": "2.0", "id": mid, "method": "tools/call",
+                         "params": {"name": name, "arguments": arguments}})
+        resp = session["wait_for"](mid, deadline)
+    except (TimeoutError, OSError):
+        # 进程可能也快死了，标记不可复用，下次调用重开
+        session["alive"] = False
+        raise
+    if resp.get("error"):
+        err = resp["error"]
+        raise RuntimeError(f"MCP 工具 `{name}` 出错：" + str(err.get("message", err)))
+    return _agl_mcp_result_text(name, resp.get("result") or {})
+
+
+def _agl_call_tool_mcp_stdio(name, arguments, config, timeout, retries, limit, fp):
+    """MCP stdio：按「一行一条 JSON」的帧序完成握手与调用。
+
+    默认一次调用起一个子进程、用完关掉；写 `复用 = 真` 时把服务器进程留在
+    会话表里，下次调用直接发 `tools/call`，省掉重新拉起与重新握手。
+    与 HTTP 版共用同一套结果解析、重试与熔断；stderr 直接丢弃避免管道堵死。
+    """
+    import os as _os
+    import time as _time
+
     argv = _agl_mcp_command_spec(config)
     cwd = config.get("cwd") or config.get("工作目录")
     workdir = _os.getcwd()
     if isinstance(cwd, str) and cwd.strip():
         workdir = _os.path.abspath(_os.path.expanduser(cwd.strip()))
+    reuse = _agl_tool_reuse(config)
+    key = (tuple(argv), workdir) if reuse else None
 
     def once():
-        proc = _sp.Popen(argv, cwd=workdir, stdin=_sp.PIPE, stdout=_sp.PIPE,
-                         stderr=_sp.DEVNULL, env=dict(_os.environ), bufsize=0)
-        inbox = _queue.Queue()
-
-        def reader():
+        if key is None:
+            session = _agl_mcp_stdio_open(argv, workdir, timeout)
             try:
-                for raw in proc.stdout:
-                    text = raw.decode("utf-8", "replace").strip()
-                    if not text:
-                        continue
-                    try:
-                        inbox.put(_json.loads(text))
-                    except Exception:
-                        inbox.put({"_unparsed": text[:200]})
+                return _agl_mcp_stdio_tools_call(session, name, arguments, timeout)
             finally:
-                inbox.put(None)
-
-        _threading.Thread(target=reader, daemon=True).start()
-        deadline = _time.monotonic() + timeout
-
-        def send(payload):
-            frame = _json.dumps(payload, ensure_ascii=False).encode("utf-8")
-            proc.stdin.write(frame + bytes([10]))
-            proc.stdin.flush()
-
-        def wait_for(mid):
-            while True:
-                remain = deadline - _time.monotonic()
-                if remain <= 0:
-                    raise TimeoutError(timeout)
-                try:
-                    msg = inbox.get(timeout=remain)
-                except _queue.Empty:
-                    raise TimeoutError(timeout) from None
-                if msg is None:
-                    raise RuntimeError("MCP stdio 子进程提前关闭了输出")
-                if msg.get("_unparsed") is not None:
-                    continue
-                if msg.get("id") == mid:
-                    return msg
-
-        try:
-            send({"jsonrpc": "2.0", "id": 1, "method": "initialize",
-                  "params": {"protocolVersion": "2024-11-05",
-                             "capabilities": {},
-                             "clientInfo": {"name": "agl"}}})
-            hello = wait_for(1)
-            if hello.get("error"):
-                err = hello["error"]
-                raise RuntimeError("MCP stdio 握手失败：" + str(err.get("message", err)))
-            send({"jsonrpc": "2.0", "method": "notifications/initialized",
-                  "params": {}})
-            send({"jsonrpc": "2.0", "id": 2, "method": "tools/call",
-                  "params": {"name": name, "arguments": arguments}})
-            resp = wait_for(2)
-            if resp.get("error"):
-                err = resp["error"]
-                raise RuntimeError(f"MCP 工具 `{name}` 出错：" + str(err.get("message", err)))
-            return _agl_mcp_result_text(name, resp.get("result") or {})
-        finally:
-            try:
-                proc.stdin.close()
-            except Exception:
-                pass
-            try:
-                proc.wait(timeout=2)
-            except Exception:
-                try:
-                    proc.kill()
-                except Exception:
-                    pass
+                _agl_mcp_stdio_close(session)
+        session = _agl_mcp_stdio_session(key, argv, workdir, timeout)
+        with session["lock"]:
+            return _agl_mcp_stdio_tools_call(session, name, arguments, timeout)
 
     for try_no in range(retries + 1):
         try:

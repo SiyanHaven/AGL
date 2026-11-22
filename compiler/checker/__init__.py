@@ -466,6 +466,14 @@ class Checker:
         elif cwd is not None and not stdio:
             self.err(Code.CONFIG_INVALID,
                      f"工具 `{d['name']}` 只有 `传输 = \"stdio\"` 才能写 `工作目录`", d["span"])
+        reuse = self._decl_lit(cfg.get("reuse"))
+        if reuse is not None and (reuse is self._NOT_LITERAL
+                                  or not isinstance(reuse, bool)):
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 的 `复用` 必须是 真 / 假", d["span"])
+        elif reuse is not None and not stdio:
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 只有 `传输 = \"stdio\"` 才能写 `复用`", d["span"])
         entry = self._decl_lit(cfg.get("entry"))
         if entry is not None and (entry is self._NOT_LITERAL
                                   or not isinstance(entry, str) or not entry.strip()):

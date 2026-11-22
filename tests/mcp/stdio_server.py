@@ -3,9 +3,19 @@
 
 支持 initialize / notifications/initialized / tools/call 三件事，
 不实现 tools/list —— 运行时只用到前三个。
+
+工具 `服务器进程` 回自己的进程号，用来验证「复用 = 真」时两次调用是否同一进程。
 """
 import json
+import os
 import sys
+
+# JSON-RPC 帧一律 UTF-8：Windows 上默认按本地代码页写 stdout，中文会崩。
+for _stream in (sys.stdin, sys.stdout):
+    try:
+        _stream.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 
 def reply(payload) -> None:
@@ -40,6 +50,9 @@ def main() -> int:
                 city = args.get("城市") or "未知"
                 reply({"jsonrpc": "2.0", "id": rid, "result": {
                     "content": [{"type": "text", "text": f"{city}：晴，23度"}]}})
+            elif name == "服务器进程":
+                reply({"jsonrpc": "2.0", "id": rid, "result": {
+                    "content": [{"type": "text", "text": f"进程 {os.getpid()}"}]}})
             else:
                 reply({"jsonrpc": "2.0", "id": rid, "result": {
                     "content": [{"type": "text", "text": "没有这个工具"}],

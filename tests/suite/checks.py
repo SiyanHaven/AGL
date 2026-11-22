@@ -69,6 +69,10 @@ GOLDEN = REPO / "tests" / "golden"
 _SUBPROC_TIMEOUT = 180
 
 
+def _diag_msg(d) -> str:
+    """诊断对象的文本：Diagnostic 用 message_zh，没有就退回 str(d)。"""
+    return getattr(d, "message_zh", None) or str(d)
+
 def _run(cmd, timeout=None, **kwargs):
     """带超时的 `subprocess.run`。
 
@@ -1785,7 +1789,7 @@ def check_tool_runtime() -> Check:
             if not ok or missing:
                 bad.append("Python 后端熔断行为不完整：" +
                            ("; ".join(missing) if missing else
-                            (diag.message if diag else out.strip())))
+                            (_diag_msg(diag) if diag else out.strip())))
             if FailHandler.tool_calls != 3:
                 bad.append(f"Python 后端熔断后仍请求了服务器：{FailHandler.tool_calls} 次")
             try:
@@ -1844,7 +1848,7 @@ def check_local_skill() -> Check:
         done, diag, out = pipeline.run_result(res)
         if not done or out.split() != ["5", "求和"]:
             bad.append("Python 后端本地技能输出不对：" +
-                       (diag.message if diag else out.strip()))
+                       (_diag_msg(diag) if diag else out.strip()))
         try:
             got = vm.run(bytecode.compile_program(res.ir), res.lang,
                          allowed_effects={"External"})
@@ -1878,7 +1882,7 @@ def check_local_skill() -> Check:
         for want in ("退出码 3", "故意失败", "累计失败 1 次", "累计失败 2 次"):
             if want not in out2:
                 bad.append("确定失败路径缺少 `" + want + "`：" +
-                           (diag2.message if diag2 else out2.strip()))
+                           (_diag_msg(diag2) if diag2 else out2.strip()))
 
     tmp = Path(tempfile.mkdtemp(prefix="agl_skill_probe_"))
     try:
@@ -1974,7 +1978,7 @@ def check_tool_stdio() -> Check:
         done, diag, out = pipeline.run_result(res)
         if not done or "杭州：晴，23度" not in out:
             bad.append("Python 后端 stdio 输出不对：" +
-                       (diag.message if diag else out.strip()))
+                       (_diag_msg(diag) if diag else out.strip()))
         try:
             got = vm.run(bytecode.compile_program(res.ir), res.lang,
                          allowed_effects={"External"})
@@ -1994,7 +1998,56 @@ def check_tool_stdio() -> Check:
         done2, diag2, out2 = pipeline.run_result(res2)
         if not done2 or "杭州：晴，23度" not in out2:
             bad.append("字符串数组命令跑不通：" +
-                       (diag2.message if diag2 else out2.strip()))
+                       (_diag_msg(diag2) if diag2 else out2.strip()))
+
+    # `复用 = 真`：同一个程序里两次调用要复用同一个服务器进程。
+    reuse_tpl = """#语言=中文
+工具 服务器进程 {
+  配置 {
+    协议 = "mcp"
+    传输 = "stdio"
+    命令 = "python tests/mcp/stdio_server.py"
+    超时秒数 = 10
+    最大重试次数 = 0
+%%CFG%%
+  }
+  入参()
+  返回 文本
+}
+
+函数 主入口() 效应 外部调用 {
+  变量 甲 = 服务器进程()
+  变量 乙 = 服务器进程()
+  打印(甲)
+  打印(乙)
+}
+"""
+    src_reuse = reuse_tpl.replace("%%CFG%%", "    复用 = 真\n")
+    res_r = pipeline.compile_source(src_reuse, "stdio_reuse.agl")
+    if not res_r.ok:
+        bad.append("复用用例编译失败：" + "; ".join(d.code for d in res_r.diagnostics))
+    else:
+        done_r, diag_r, out_r = pipeline.run_result(res_r)
+        lines = [x.strip() for x in out_r.strip().splitlines() if x.strip()]
+        if not done_r or len(lines) != 2 or not all(x.startswith("进程 ") for x in lines):
+            bad.append("复用用例输出不对：" +
+                       (_diag_msg(diag_r) if diag_r else out_r.strip()))
+        elif lines[0] != lines[1]:
+            bad.append(f"复用 = 真 时两次调用换了进程：{lines[0]} → {lines[1]}")
+
+    # 不写 `复用` 时保持原行为：每次调用一个新进程。
+    src_oneshot = reuse_tpl.replace("%%CFG%%", "")
+    res_o = pipeline.compile_source(src_oneshot, "stdio_oneshot.agl")
+    if not res_o.ok:
+        bad.append("一次性用例编译失败：" + "; ".join(d.code for d in res_o.diagnostics))
+    else:
+        done_o, diag_o, out_o = pipeline.run_result(res_o)
+        lines_o = [x.strip() for x in out_o.strip().splitlines() if x.strip()]
+        if not done_o or len(lines_o) != 2:
+            bad.append("一次性用例输出不对：" +
+                       (_diag_msg(diag_o) if diag_o else out_o.strip()))
+        elif lines_o[0] == lines_o[1]:
+            bad.append(f"没写 `复用` 却复用了进程：{lines_o[0]}")
 
     # 协议/传输/命令三者的组合必须被编译期拦住。
     bad_cases = {
@@ -2002,6 +2055,9 @@ def check_tool_stdio() -> Check:
         .replace('    命令 = "python tests/mcp/stdio_server.py"\n', ""),
         "非法传输值": src.replace('传输 = "stdio"', '传输 = "sse"')
         .replace('    命令 = "python tests/mcp/stdio_server.py"\n', ""),
+        "复用写在 HTTP 上": src_reuse.replace('传输 = "stdio"', '传输 = "http"')
+        .replace('    命令 = "python tests/mcp/stdio_server.py"\n', ""),
+        "复用不是真假": src_reuse.replace("复用 = 真", '复用 = "是"'),
     }
     for label, case_src in bad_cases.items():
         res3 = pipeline.compile_source(case_src, "stdio_bad.agl")
@@ -2013,7 +2069,7 @@ def check_tool_stdio() -> Check:
 
     if bad:
         c.fail("；".join(bad[:4]))
-    return c.done("字符串命令 · 数组命令 · 编译期拒绝缺命令/非法传输")
+    return c.done("字符串命令 · 数组命令 · 复用会话 · 编译期拒绝缺命令/非法传输/复用误用")
 
 
 def check_security_defaults() -> Check:
