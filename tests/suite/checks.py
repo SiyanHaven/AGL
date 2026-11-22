@@ -13,7 +13,7 @@
 
 本文件只放"检查怎么写"，不放"怎么跑、怎么渲染"——那是 `tests/suite/__init__.py` 的事。
 
-三十项检查（编号即验收标准的编号）：
+三十一项检查（编号即验收标准的编号）：
   1. 规格文件齐全且可解析
   2. 关键字表自洽（中英唯一、五效应齐全、运算符双向可逆）
   3. IR schema 可解析、定义齐全
@@ -29,22 +29,23 @@
  13. MCP 工具服务器握手与工具调用
  14. 工具声明与 MCP 运行时：白名单、超时重试、重复调用熔断
  15. 本地技能协议：技能目录 + 入口脚本的子进程调用约定（含失败退出码与缺入口报错）
- 16. 安全默认与路径边界：网页服务默认回环、获取网页协议白名单、BOM 读取、MCP 工作区
- 17. 标准库：声明后可用、中英两份结构等价
- 18. 优化通道：开 `--opt` 后语义不变，且每个 Pass 都真的生效
- 19. 内建函数表：示例真编译、双分支覆盖、效应与实现一致
- 20. 编辑器语法高亮与关键字表一致
- 21. 语言服务器五项能力都真通
- 22. 异步运行时：并发更快、取消生效、错误行号回译到 AGL
- 23. FFI 黑盒调用：能跑、缺效应编译期被拒、外部异常回译中文
- 24. 源码规范自检：零第三方依赖 · 无死导入 · 无待办残留 · 编码声明齐
- 25. 错误输出纯洁性：崩溃时正文只说 AGL 的名词，不甩宿主回溯
- 26. 编译器韧性：畸形输入不许崩成宿主回溯，必须给 AGL 诊断
- 27. Python 源码导入器：能导的必须逐字对拍，不能证明等价的按 blocker 拒绝
- 28. AGB 双后端一致：VM 输出与 Python 后端逐字相同，范围外明确跳过
- 29. AGB 产物与默认 VM：build 只出 .agb/.agl.ir，run 默认 VM，超集显式报错；
+ 16. MCP stdio 传输：一行一条 JSON-RPC 的帧序、命令两种写法、配置歧义编译期拒绝
+ 17. 安全默认与路径边界：网页服务默认回环、获取网页协议白名单、BOM 读取、MCP 工作区
+ 18. 标准库：声明后可用、中英两份结构等价
+ 19. 优化通道：开 `--opt` 后语义不变，且每个 Pass 都真的生效
+ 20. 内建函数表：示例真编译、双分支覆盖、效应与实现一致
+ 21. 编辑器语法高亮与关键字表一致
+ 22. 语言服务器五项能力都真通
+ 23. 异步运行时：并发更快、取消生效、错误行号回译到 AGL
+ 24. FFI 黑盒调用：能跑、缺效应编译期被拒、外部异常回译中文
+ 25. 源码规范自检：零第三方依赖 · 无死导入 · 无待办残留 · 编码声明齐
+ 26. 错误输出纯洁性：崩溃时正文只说 AGL 的名词，不甩宿主回溯
+ 27. 编译器韧性：畸形输入不许崩成宿主回溯，必须给 AGL 诊断
+ 28. Python 源码导入器：能导的必须逐字对拍，不能证明等价的按 blocker 拒绝
+ 29. AGB 双后端一致：VM 输出与 Python 后端逐字相同，范围外明确跳过
+ 30. AGB 产物与默认 VM：build 只出 .agb/.agl.ir，run 默认 VM，超集显式报错；
      并把全部黄金用例交给 AGL 版编译器整链编译、逐字对拍
- 30. VM 效应权限白名单：拒绝时 AGL-RT-0092，放行后正常执行
+ 31. VM 效应权限白名单：拒绝时 AGL-RT-0092，放行后正常执行
 """
 from __future__ import annotations
 
@@ -1937,6 +1938,82 @@ def check_local_skill() -> Check:
     if bad:
         c.fail("；".join(bad[:4]))
     return c.done("示例技能 · 失败退出码 · 缺入口 · acp 明确拒绝")
+
+
+def check_tool_stdio() -> Check:
+    """MCP stdio 传输：真起子进程、真跑 JSON-RPC 三帧；配置歧义在编译期拒绝。
+
+    本地 MCP 服务器大多只提供 stdio，这条链路断了就等于只能连远程 HTTP 服务。
+    """
+    from compiler import bytecode, vm
+
+    c = Check("MCP stdio 传输")
+    bad: list[str] = []
+
+    src = """#语言=中文
+工具 天气 {
+  配置 {
+    协议 = "mcp"
+    传输 = "stdio"
+    命令 = "python tests/mcp/stdio_server.py"
+    超时秒数 = 10
+    最大重试次数 = 0
+  }
+  入参(城市: 文本)
+  返回 文本
+}
+
+函数 主入口() 效应 外部调用 {
+  打印(天气("杭州"))
+}
+"""
+    res = pipeline.compile_source(src, "stdio_ok.agl")
+    if not res.ok:
+        bad.append("stdio 用例编译失败：" + "; ".join(d.code for d in res.diagnostics))
+    else:
+        done, diag, out = pipeline.run_result(res)
+        if not done or "杭州：晴，23度" not in out:
+            bad.append("Python 后端 stdio 输出不对：" +
+                       (diag.message if diag else out.strip()))
+        try:
+            got = vm.run(bytecode.compile_program(res.ir), res.lang,
+                         allowed_effects={"External"})
+            if "杭州：晴，23度" not in got:
+                bad.append("VM stdio 输出不对：" + got.strip())
+        except Exception as e:  # noqa: BLE001
+            bad.append(f"VM 跑 stdio 失败：{e}")
+
+    # 命令写成字符串数组，也要能拉起同一个服务器。
+    src2 = src.replace('命令 = "python tests/mcp/stdio_server.py"',
+                       '命令 = ["python", "tests/mcp/stdio_server.py"]')
+    res2 = pipeline.compile_source(src2, "stdio_argv.agl")
+    if not res2.ok:
+        bad.append("字符串数组命令编译失败：" +
+                   "; ".join(d.code for d in res2.diagnostics))
+    else:
+        done2, diag2, out2 = pipeline.run_result(res2)
+        if not done2 or "杭州：晴，23度" not in out2:
+            bad.append("字符串数组命令跑不通：" +
+                       (diag2.message if diag2 else out2.strip()))
+
+    # 协议/传输/命令三者的组合必须被编译期拦住。
+    bad_cases = {
+        "缺少命令": src.replace('传输 = "stdio"', '传输 = "stdio"')
+        .replace('    命令 = "python tests/mcp/stdio_server.py"\n', ""),
+        "非法传输值": src.replace('传输 = "stdio"', '传输 = "sse"')
+        .replace('    命令 = "python tests/mcp/stdio_server.py"\n', ""),
+    }
+    for label, case_src in bad_cases.items():
+        res3 = pipeline.compile_source(case_src, "stdio_bad.agl")
+        if res3.ok:
+            bad.append(label + " 没有被编译期拒绝")
+        elif all(d.code != "AGL-E-0605" for d in res3.diagnostics):
+            bad.append(label + " 报的不是 AGL-E-0605：" +
+                       "; ".join(d.code for d in res3.diagnostics))
+
+    if bad:
+        c.fail("；".join(bad[:4]))
+    return c.done("字符串命令 · 数组命令 · 编译期拒绝缺命令/非法传输")
 
 
 def check_security_defaults() -> Check:

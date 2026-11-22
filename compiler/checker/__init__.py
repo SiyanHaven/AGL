@@ -422,13 +422,50 @@ class Checker:
             self.err(Code.CONFIG_INVALID,
                      f"工具 `{d['name']}` 的协议 `{protocol}` 不支持；"
                      '只能是 "mcp" / "local-skill" / "acp"', d["span"])
+        transport = self._decl_lit(cfg.get("transport"))
+        if transport is self._NOT_LITERAL or (transport is not None and not isinstance(transport, str)):
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 的 `传输` 必须是字符串字面量", d["span"])
+            transport = None
+        elif isinstance(transport, str):
+            if transport.strip().lower() not in ("http", "stdio"):
+                self.err(Code.CONFIG_INVALID,
+                         f"工具 `{d['name']}` 的传输 `{transport}` 不支持；"
+                         '只能是 "http" / "stdio"', d["span"])
+            elif protocol not in (None, "mcp"):
+                self.err(Code.CONFIG_INVALID,
+                         f"工具 `{d['name']}` 只有协议 `mcp` 才能写 `传输`", d["span"])
+        stdio = (isinstance(transport, str) and transport.strip().lower() == "stdio")
         endpoint = self._decl_lit(cfg.get("endpoint"))
         if endpoint is self._NOT_LITERAL or (endpoint is not None and not isinstance(endpoint, str)):
             self.err(Code.CONFIG_INVALID,
                      f"工具 `{d['name']}` 的 `地址` 必须是字符串字面量", d["span"])
-        elif protocol in ("mcp", "acp", "local-skill") and not endpoint:
+        elif not stdio and protocol in ("mcp", "acp", "local-skill") and not endpoint:
             self.err(Code.CONFIG_INVALID,
                      f"工具 `{d['name']}` 用协议 `{protocol}` 时必须写 `地址`", d["span"])
+        command = self._decl_lit(cfg.get("command"))
+        if command is not None:
+            ok = ((isinstance(command, str) and command.strip())
+                  or (isinstance(command, list) and command
+                      and all(isinstance(x, str) and x.strip() for x in command)))
+            if command is self._NOT_LITERAL or not ok:
+                self.err(Code.CONFIG_INVALID,
+                         f"工具 `{d['name']}` 的 `命令` 必须是命令行文本或非空字符串数组", d["span"])
+            elif not stdio:
+                self.err(Code.CONFIG_INVALID,
+                         f"工具 `{d['name']}` 只有 `协议 = \"mcp\"` 且 `传输 = \"stdio\"` "
+                         "才能写 `命令`", d["span"])
+        if stdio and not command:
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 用 `传输 = \"stdio\"` 时必须写 `命令`", d["span"])
+        cwd = self._decl_lit(cfg.get("cwd"))
+        if cwd is not None and (cwd is self._NOT_LITERAL
+                                or not isinstance(cwd, str) or not cwd.strip()):
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 的 `工作目录` 必须是非空路径文本", d["span"])
+        elif cwd is not None and not stdio:
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 只有 `传输 = \"stdio\"` 才能写 `工作目录`", d["span"])
         entry = self._decl_lit(cfg.get("entry"))
         if entry is not None and (entry is self._NOT_LITERAL
                                   or not isinstance(entry, str) or not entry.strip()):

@@ -177,8 +177,8 @@ TOOLS: list[dict] = [
     },
     {
         "name": "agl_doctor",
-        "description": "编译器自检（30 项验收：规格文件、关键字表、黄金用例、双分支等价、"
-                       "错误码、行号对齐、模块、速查卡、MCP、工具运行时、本地技能协议、安全默认、"
+        "description": "编译器自检（31 项验收：规格文件、关键字表、黄金用例、双分支等价、"
+                       "错误码、行号对齐、模块、速查卡、MCP、工具运行时、本地技能、MCP stdio、安全默认、"
                        "标准库、优化对拍、编辑器高亮、LSP、"
                        "异步、FFI、VM 效应/配额白名单与 AGB 产物）。改完 AGL 工具链后跑它。",
         "inputSchema": {"type": "object", "properties": {}},

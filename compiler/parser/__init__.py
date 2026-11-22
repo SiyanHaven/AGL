@@ -353,6 +353,9 @@ class Parser:
         "模型": "model", "model": "model",
         "最大轮数": "max_turns", "max_turns": "max_turns",
         "入口": "entry", "entry": "entry",
+        "传输": "transport", "transport": "transport",
+        "命令": "command", "command": "command",
+        "工作目录": "cwd", "cwd": "cwd",
     }
 
     def parse_declaration(self) -> dict:
@@ -403,10 +406,12 @@ class Parser:
                     key = self._CONFIG_FIELDS.get(key_tok.text, key_tok.canonical)
                     if key not in ("protocol", "endpoint", "max_retry",
                                    "timeout_sec", "permissions", "subscribe",
-                                   "model", "max_turns", "entry"):
+                                   "model", "max_turns", "entry",
+                                   "transport", "command", "cwd"):
                         self.fail(Code.EXPECT,
                                   f"配置块里不认识的字段 `{key_tok.text}`；"
-                                  "工具只允许 协议/地址/入口/最大重试次数/超时秒数/权限/订阅")
+                                  "工具只允许 协议/地址/传输/命令/工作目录/入口/"
+                                  "最大重试次数/超时秒数/权限/订阅")
                     self.expect("=", "配置赋值")
                     self.skip_newlines()
                     config[key] = self.parse_expr()

@@ -1318,6 +1318,10 @@ def _agl_call_tool(name, arguments, config):
         raise RuntimeError(blocked)
 
     if protocol == "mcp":
+        transport = _agl_tool_transport(config)
+        if transport == "stdio":
+            return _agl_call_tool_mcp_stdio(name, arguments, config, timeout,
+                                            retries, limit, fp)
         if not isinstance(endpoint, str) or not endpoint.startswith(("http://", "https://")):
             raise ValueError("MCP 工具的 `地址` 必须是 http:// 或 https:// 开头的网址")
         return _agl_call_tool_mcp(name, arguments, endpoint, timeout,
@@ -1332,6 +1336,51 @@ def _agl_call_tool(name, arguments, config):
                          "当前可用 `mcp`（HTTP）与 `local-skill`（本地子进程）")
     raise ValueError("工具运行时只支持 `mcp` 与 `local-skill`；"
                      f"收到的是 `{protocol}`")
+
+
+def _agl_tool_transport(config):
+    """MCP 的传输方式：默认 http；只有显式写 stdio（或本地/子进程）才走子进程。"""
+    raw = config.get("transport") or config.get("传输")
+    if not isinstance(raw, str) or not raw.strip():
+        return "http"
+    value = raw.strip().lower()
+    if value in ("stdio", "本地", "子进程"):
+        return "stdio"
+    return "http"
+
+
+def _agl_mcp_command_spec(config):
+    """把 `命令` 折成 argv：字符串按 shell 规则切词，也可以直接写字符串数组。"""
+    import shlex as _shlex
+    cmd = config.get("command") or config.get("命令")
+    if isinstance(cmd, str):
+        parts = []
+        for token in _shlex.split(cmd, posix=False):
+            if len(token) >= 2 and token[0] == token[-1] and token[0] in ('"', "'"):
+                token = token[1:-1]
+            parts.append(token)
+        if not parts:
+            raise ValueError("MCP stdio 的 `命令` 不能是空文本")
+        return parts
+    if isinstance(cmd, list) and cmd and all(isinstance(x, str) for x in cmd):
+        return list(cmd)
+    raise ValueError("MCP stdio 必须用 `命令` 指定启动它的命令行，或给它字符串数组")
+
+
+def _agl_mcp_result_text(name, result):
+    """把 tools/call 的 result 折成文本：优先拼 text 内容，否则给整段 JSON。"""
+    import json as _json
+    if result.get("isError"):
+        detail = []
+        for c in result.get("content") or []:
+            if isinstance(c, dict) and c.get("type") == "text":
+                detail.append(c.get("text") or "")
+        tail = ("：" + "；".join(x for x in detail if x)) if detail else ""
+        raise RuntimeError(f"工具 `{name}` 返回失败结果{tail}")
+    content = result.get("content") or []
+    texts = [c.get("text") for c in content
+             if isinstance(c, dict) and c.get("type") == "text"]
+    return "\n".join(texts) if texts else _json.dumps(result, ensure_ascii=False)
 
 
 def _agl_call_tool_mcp(name, arguments, endpoint, timeout, retries, limit, fp):
@@ -1385,17 +1434,7 @@ def _agl_call_tool_mcp(name, arguments, endpoint, timeout, retries, limit, fp):
         })
         rpc("notifications/initialized", {}, sid, notify=True)
         result, _ = rpc("tools/call", {"name": name, "arguments": arguments}, sid)
-        if result.get("isError"):
-            detail = []
-            for c in result.get("content") or []:
-                if isinstance(c, dict) and c.get("type") == "text":
-                    detail.append(c.get("text") or "")
-            tail = ("：" + "；".join(x for x in detail if x)) if detail else ""
-            raise RuntimeError(f"工具 `{name}` 返回失败结果{tail}")
-        content = result.get("content") or []
-        texts = [c.get("text") for c in content
-                 if isinstance(c, dict) and c.get("type") == "text"]
-        return "\n".join(texts) if texts else _json.dumps(result, ensure_ascii=False)
+        return _agl_mcp_result_text(name, result)
 
     last = None
     for attempt in range(retries + 1):
@@ -1424,6 +1463,123 @@ def _agl_call_tool_mcp(name, arguments, endpoint, timeout, retries, limit, fp):
             raise RuntimeError(f"工具 `{name}` 调用失败：{e}；{note}") from None
     note = _agl_tool_note_failure(name, fp, limit)
     raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{last}；{note}")
+
+
+def _agl_call_tool_mcp_stdio(name, arguments, config, timeout, retries, limit, fp):
+    """MCP stdio：起子进程，按「一行一条 JSON」的帧序完成握手与调用。
+
+    与 HTTP 版共用同一套结果解析、重试与熔断；差别只在传输：
+    子进程 stdout 每行是一个 JSON-RPC 消息，stderr 直接丢弃避免管道堵死。
+    """
+    import json as _json
+    import os as _os
+    import queue as _queue
+    import subprocess as _sp
+    import threading as _threading
+    import time as _time
+
+    argv = _agl_mcp_command_spec(config)
+    cwd = config.get("cwd") or config.get("工作目录")
+    workdir = _os.getcwd()
+    if isinstance(cwd, str) and cwd.strip():
+        workdir = _os.path.abspath(_os.path.expanduser(cwd.strip()))
+
+    def once():
+        proc = _sp.Popen(argv, cwd=workdir, stdin=_sp.PIPE, stdout=_sp.PIPE,
+                         stderr=_sp.DEVNULL, env=dict(_os.environ), bufsize=0)
+        inbox = _queue.Queue()
+
+        def reader():
+            try:
+                for raw in proc.stdout:
+                    text = raw.decode("utf-8", "replace").strip()
+                    if not text:
+                        continue
+                    try:
+                        inbox.put(_json.loads(text))
+                    except Exception:
+                        inbox.put({"_unparsed": text[:200]})
+            finally:
+                inbox.put(None)
+
+        _threading.Thread(target=reader, daemon=True).start()
+        deadline = _time.monotonic() + timeout
+
+        def send(payload):
+            frame = _json.dumps(payload, ensure_ascii=False).encode("utf-8")
+            proc.stdin.write(frame + bytes([10]))
+            proc.stdin.flush()
+
+        def wait_for(mid):
+            while True:
+                remain = deadline - _time.monotonic()
+                if remain <= 0:
+                    raise TimeoutError(timeout)
+                try:
+                    msg = inbox.get(timeout=remain)
+                except _queue.Empty:
+                    raise TimeoutError(timeout) from None
+                if msg is None:
+                    raise RuntimeError("MCP stdio 子进程提前关闭了输出")
+                if msg.get("_unparsed") is not None:
+                    continue
+                if msg.get("id") == mid:
+                    return msg
+
+        try:
+            send({"jsonrpc": "2.0", "id": 1, "method": "initialize",
+                  "params": {"protocolVersion": "2024-11-05",
+                             "capabilities": {},
+                             "clientInfo": {"name": "agl"}}})
+            hello = wait_for(1)
+            if hello.get("error"):
+                err = hello["error"]
+                raise RuntimeError("MCP stdio 握手失败：" + str(err.get("message", err)))
+            send({"jsonrpc": "2.0", "method": "notifications/initialized",
+                  "params": {}})
+            send({"jsonrpc": "2.0", "id": 2, "method": "tools/call",
+                  "params": {"name": name, "arguments": arguments}})
+            resp = wait_for(2)
+            if resp.get("error"):
+                err = resp["error"]
+                raise RuntimeError(f"MCP 工具 `{name}` 出错：" + str(err.get("message", err)))
+            return _agl_mcp_result_text(name, resp.get("result") or {})
+        finally:
+            try:
+                proc.stdin.close()
+            except Exception:
+                pass
+            try:
+                proc.wait(timeout=2)
+            except Exception:
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+
+    for try_no in range(retries + 1):
+        try:
+            out = once()
+            _agl_tool_note_success(name, fp)
+            return out
+        except TimeoutError:
+            if try_no < retries:
+                _time.sleep(min(2 ** try_no, 5))
+                continue
+            note = _agl_tool_note_failure(name, fp, limit)
+            raise RuntimeError(f"MCP stdio 工具 `{name}` 超时：超过 {timeout} 秒没有响应；"
+                               f"{note}") from None
+        except OSError as e:
+            if try_no < retries:
+                _time.sleep(min(2 ** try_no, 5))
+                continue
+            note = _agl_tool_note_failure(name, fp, limit)
+            raise RuntimeError(f"启动 MCP stdio 工具 `{name}` 失败：{e}；{note}") from None
+        except Exception as e:
+            note = _agl_tool_note_failure(name, fp, limit)
+            raise RuntimeError(f"MCP stdio 工具 `{name}` 调用失败：{e}；{note}") from None
+    note = _agl_tool_note_failure(name, fp, limit)
+    raise RuntimeError(f"MCP stdio 工具 `{name}` 调用失败；{note}")
 
 
 def _agl_local_skill_entry(skill_dir, config):
