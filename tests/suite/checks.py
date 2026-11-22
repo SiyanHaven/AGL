@@ -13,7 +13,7 @@
 
 本文件只放"检查怎么写"，不放"怎么跑、怎么渲染"——那是 `tests/suite/__init__.py` 的事。
 
-二十九项检查（编号即验收标准的编号）：
+三十项检查（编号即验收标准的编号）：
   1. 规格文件齐全且可解析
   2. 关键字表自洽（中英唯一、五效应齐全、运算符双向可逆）
   3. IR schema 可解析、定义齐全
@@ -27,22 +27,24 @@
  11. 模块导入：跨文件能跑、导出有边界、依赖里的错误能指回源头
  12. 速查卡里的示例能跑、工程骨架能跑
  13. MCP 工具服务器握手与工具调用
- 14. 标准库：声明后可用、中英两份结构等价
- 15. 优化通道：开 `--opt` 后语义不变，且每个 Pass 都真的生效
- 16. 内建函数表：示例真编译、双分支覆盖、效应与实现一致
- 17. 编辑器语法高亮与关键字表一致
- 18. 语言服务器五项能力都真通
- 19. 异步运行时：并发更快、取消生效、错误行号回译到 AGL
- 20. FFI 黑盒调用：能跑、缺效应编译期被拒、外部异常回译中文
- 21. 源码规范自检：零第三方依赖 · 无死导入 · 无待办残留 · 编码声明齐
- 22. 错误输出纯洁性：崩溃时正文只说 AGL 的名词，不甩宿主回溯
- 23. 编译器韧性：畸形输入不许崩成宿主回溯，必须给 AGL 诊断
- 24. Python 源码导入器：能导的必须逐字对拍，不能证明等价的按 blocker 拒绝
- 25. AGB 双后端一致：VM 输出与 Python 后端逐字相同，范围外明确跳过
- 26. VM 效应权限白名单：拒绝时 AGL-RT-0092，放行后正常执行
- 27. AGB 产物与默认 VM：build 只出 .agb/.agl.ir，run 默认 VM，超集显式报错；
+ 14. 工具声明与 MCP 运行时：白名单、超时重试、重复调用熔断
+ 15. 本地技能协议：技能目录 + 入口脚本的子进程调用约定（含失败退出码与缺入口报错）
+ 16. 安全默认与路径边界：网页服务默认回环、获取网页协议白名单、BOM 读取、MCP 工作区
+ 17. 标准库：声明后可用、中英两份结构等价
+ 18. 优化通道：开 `--opt` 后语义不变，且每个 Pass 都真的生效
+ 19. 内建函数表：示例真编译、双分支覆盖、效应与实现一致
+ 20. 编辑器语法高亮与关键字表一致
+ 21. 语言服务器五项能力都真通
+ 22. 异步运行时：并发更快、取消生效、错误行号回译到 AGL
+ 23. FFI 黑盒调用：能跑、缺效应编译期被拒、外部异常回译中文
+ 24. 源码规范自检：零第三方依赖 · 无死导入 · 无待办残留 · 编码声明齐
+ 25. 错误输出纯洁性：崩溃时正文只说 AGL 的名词，不甩宿主回溯
+ 26. 编译器韧性：畸形输入不许崩成宿主回溯，必须给 AGL 诊断
+ 27. Python 源码导入器：能导的必须逐字对拍，不能证明等价的按 blocker 拒绝
+ 28. AGB 双后端一致：VM 输出与 Python 后端逐字相同，范围外明确跳过
+ 29. AGB 产物与默认 VM：build 只出 .agb/.agl.ir，run 默认 VM，超集显式报错；
      并把全部黄金用例交给 AGL 版编译器整链编译、逐字对拍
- 28. 安全默认与路径边界：网页服务默认回环、获取网页协议白名单、BOM 读取、MCP 工作区
+ 30. VM 效应权限白名单：拒绝时 AGL-RT-0092，放行后正常执行
 """
 from __future__ import annotations
 
@@ -1801,6 +1803,140 @@ def check_tool_runtime() -> Check:
     if bad:
         c.fail("；".join(bad))
     return c
+
+
+def check_local_skill() -> Check:
+    """本地技能协议：真起子进程、真走 JSON、失败和熔断都按约定走。
+
+    这一项守的是「协议 = local-skill」的整条链路：技能目录、入口解析、
+    stdin/stdout 约定、非零退出算确定性失败、缺入口和未实现协议要有可读报错。
+    """
+    import tempfile
+
+    from compiler import bytecode, vm
+
+    c = Check("本地技能协议")
+    bad: list[str] = []
+
+    ok_src = """#语言=中文
+工具 求和 {
+  配置 {
+    协议 = "local-skill"
+    地址 = "tests/skills/示例技能"
+    超时秒数 = 10
+    最大重试次数 = 0
+  }
+  入参(甲: 整数, 乙: 整数)
+  返回 映射表
+}
+
+函数 主入口() 效应 外部调用 {
+  变量 答复 = 求和(2, 3)
+  打印(答复["和"])
+  打印(答复["工具"])
+}
+"""
+    res = pipeline.compile_source(ok_src, "skill_ok.agl")
+    if not res.ok:
+        bad.append("本地技能用例编译失败：" + "; ".join(d.code for d in res.diagnostics))
+    else:
+        done, diag, out = pipeline.run_result(res)
+        if not done or out.split() != ["5", "求和"]:
+            bad.append("Python 后端本地技能输出不对：" +
+                       (diag.message if diag else out.strip()))
+        try:
+            got = vm.run(bytecode.compile_program(res.ir), res.lang,
+                         allowed_effects={"External"})
+            if got.split() != ["5", "求和"]:
+                bad.append("VM 本地技能输出不对：" + got.strip())
+        except Exception as e:  # noqa: BLE001
+            bad.append(f"VM 跑本地技能失败：{e}")
+
+    fail_src = """#语言=中文
+工具 失败技能 {
+  配置 {
+    协议 = "local-skill"
+    地址 = "tests/skills/失败技能"
+    超时秒数 = 10
+    最大重试次数 = 0
+  }
+  入参(输入: 文本)
+  返回 文本
+}
+
+函数 主入口() 效应 外部调用 {
+  尝试 { 失败技能("甲") } 捕获 (错: 全部) { 打印("一", 失败原因(错)) }
+  尝试 { 失败技能("乙") } 捕获 (错: 全部) { 打印("二", 失败原因(错)) }
+}
+"""
+    res2 = pipeline.compile_source(fail_src, "skill_fail.agl")
+    if not res2.ok:
+        bad.append("失败技能用例编译失败：" + "; ".join(d.code for d in res2.diagnostics))
+    else:
+        done2, diag2, out2 = pipeline.run_result(res2)
+        for want in ("退出码 3", "故意失败", "累计失败 1 次", "累计失败 2 次"):
+            if want not in out2:
+                bad.append("确定失败路径缺少 `" + want + "`：" +
+                           (diag2.message if diag2 else out2.strip()))
+
+    tmp = Path(tempfile.mkdtemp(prefix="agl_skill_probe_"))
+    try:
+        empty_dir = tmp / "空技能"
+        empty_dir.mkdir()
+        (empty_dir / "SKILL.md").write_text("# 只有说明没有入口\n", encoding="utf-8")
+        miss_src = f"""#语言=中文
+工具 无入口 {{
+  配置 {{
+    协议 = "local-skill"
+    地址 = "{empty_dir.as_posix()}"
+    最大重试次数 = 0
+  }}
+  入参(内容: 文本)
+  返回 文本
+}}
+
+函数 主入口() 效应 外部调用 {{
+  尝试 {{ 无入口("甲") }} 捕获 (错: 全部) {{ 打印(失败原因(错)) }}
+}}
+"""
+        res3 = pipeline.compile_source(miss_src, "skill_missing.agl")
+        if not res3.ok:
+            bad.append("缺入口用例编译失败：" +
+                       "; ".join(d.code for d in res3.diagnostics))
+        else:
+            _done3, _diag3, out3 = pipeline.run_result(res3)
+            if "找不到入口脚本" not in out3:
+                bad.append("缺入口目录没有报可读原因：" + out3.strip())
+
+        acp_src = """#语言=中文
+工具 上游智能体 {
+  配置 {
+    协议 = "acp"
+    地址 = "http://127.0.0.1:1/acp"
+    最大重试次数 = 0
+  }
+  入参(提示: 文本)
+  返回 文本
+}
+
+函数 主入口() 效应 外部调用 {
+  尝试 { 上游智能体("甲") } 捕获 (错: 全部) { 打印(失败原因(错)) }
+}
+"""
+        res4 = pipeline.compile_source(acp_src, "skill_acp.agl")
+        if not res4.ok:
+            bad.append("acp 用例编译失败：" + "; ".join(d.code for d in res4.diagnostics))
+        else:
+            _done4, _diag4, out4 = pipeline.run_result(res4)
+            if "尚未实现" not in out4:
+                bad.append("acp 未实现时没有给出明确说明：" + out4.strip())
+    finally:
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+    if bad:
+        c.fail("；".join(bad[:4]))
+    return c.done("示例技能 · 失败退出码 · 缺入口 · acp 明确拒绝")
 
 
 def check_security_defaults() -> Check:

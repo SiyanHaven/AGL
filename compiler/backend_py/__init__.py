@@ -1343,12 +1343,7 @@ def _agl_tool_note_success(name, fp):
 
 
 def _agl_call_tool(name, arguments, config):
-    """调用声明的工具。目前支持 MCP Streamable HTTP（JSON-RPC over POST）。"""
-    import json as _json
-    import time as _time
-    import urllib.error as _urlerr
-    import urllib.request as _urlreq
-
+    """调用声明的工具：MCP Streamable HTTP，或本地技能目录里的子进程。"""
     if not isinstance(name, str) or not name.strip():
         raise ValueError("工具名必须是非空文本")
     if not isinstance(arguments, dict):
@@ -1363,11 +1358,6 @@ def _agl_call_tool(name, arguments, config):
         retries = config.get("最大重试次数")
     if retries is None:
         retries = 2
-    if protocol != "mcp":
-        raise ValueError("工具运行时目前只支持 `协议 = 'mcp'`；"
-                         f"收到的是 `{protocol}`")
-    if not isinstance(endpoint, str) or not endpoint.startswith(("http://", "https://")):
-        raise ValueError("MCP 工具的 `地址` 必须是 http:// 或 https:// 开头的网址")
     try:
         timeout = max(1, int(timeout))
     except Exception:
@@ -1386,6 +1376,30 @@ def _agl_call_tool(name, arguments, config):
     blocked = _agl_tool_blocked_reason(name, fp)
     if blocked:
         raise RuntimeError(blocked)
+
+    if protocol == "mcp":
+        if not isinstance(endpoint, str) or not endpoint.startswith(("http://", "https://")):
+            raise ValueError("MCP 工具的 `地址` 必须是 http:// 或 https:// 开头的网址")
+        return _agl_call_tool_mcp(name, arguments, endpoint, timeout,
+                                  retries, limit, fp)
+    if protocol == "local-skill":
+        if not isinstance(endpoint, str) or not endpoint.strip():
+            raise ValueError("本地技能的 `地址` 必须是技能目录路径")
+        return _agl_call_tool_local(name, arguments, endpoint, config, timeout,
+                                    retries, limit, fp)
+    if protocol == "acp":
+        raise ValueError("工具运行时尚未实现 `协议 = 'acp'`；"
+                         "当前可用 `mcp`（HTTP）与 `local-skill`（本地子进程）")
+    raise ValueError("工具运行时只支持 `mcp` 与 `local-skill`；"
+                     f"收到的是 `{protocol}`")
+
+
+def _agl_call_tool_mcp(name, arguments, endpoint, timeout, retries, limit, fp):
+    """MCP Streamable HTTP：initialize → initialized → tools/call。"""
+    import json as _json
+    import time as _time
+    import urllib.error as _urlerr
+    import urllib.request as _urlreq
 
     def rpc(method, params, session=None, notify=False):
         payload = {"jsonrpc": "2.0", "method": method, "params": params}
@@ -1470,6 +1484,106 @@ def _agl_call_tool(name, arguments, config):
             raise RuntimeError(f"工具 `{name}` 调用失败：{e}；{note}") from None
     note = _agl_tool_note_failure(name, fp, limit)
     raise RuntimeError(f"连接 MCP 工具 `{name}` 失败：{last}；{note}")
+
+
+def _agl_local_skill_entry(skill_dir, config):
+    """技能目录里的入口脚本：先看配置的 `入口`，再按常见文件名兜底。"""
+    import os as _os
+    entry = config.get("entry") or config.get("入口")
+    if isinstance(entry, str) and entry.strip():
+        path = _os.path.join(skill_dir, entry)
+        if not _os.path.isfile(path):
+            raise ValueError(f"本地技能的 `入口` 不存在：{path}")
+        return path
+    for candidate in ("run.py", "main.py", "run.cmd", "run.bat", "run.ps1"):
+        path = _os.path.join(skill_dir, candidate)
+        if _os.path.isfile(path):
+            return path
+    raise ValueError(f"本地技能目录 `{skill_dir}` 里找不到入口脚本；"
+                     '请在配置块里写 `入口 = "脚本名"`')
+
+
+def _agl_local_skill_command(entry):
+    """按入口脚本后缀决定用什么解释器拉起它。"""
+    import os as _os
+    suffix = _os.path.splitext(entry)[1].lower()
+    if suffix == ".py":
+        import sys as _sys
+        return [_sys.executable, entry]
+    if suffix in (".cmd", ".bat"):
+        return [_os.environ.get("COMSPEC") or "cmd", "/c", entry]
+    if suffix == ".ps1":
+        return ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+                "-File", entry]
+    return [entry]
+
+
+def _agl_call_tool_local(name, arguments, skill_dir, config, timeout,
+                         retries, limit, fp):
+    """本地技能：把技能目录的入口脚本当子进程，用一次 JSON 往返交换结果。
+
+    约定（写进 docs/标准与契约.md）：子进程从 stdin 读
+    {"tool", "arguments", "config"}，成功时 exit 0，stdout 是 JSON 或纯文本；
+    非零退出带 stderr 视为确定性失败，不重试；超时视为瞬断，可重试。
+    """
+    import json as _json
+    import os as _os
+    import subprocess as _sp
+    import time as _time
+
+    dir_path = _os.path.expanduser(skill_dir.strip())
+    if not _os.path.isabs(dir_path):
+        dir_path = _os.path.join(_os.getcwd(), dir_path)
+    dir_path = _os.path.abspath(dir_path)
+    if not _os.path.isdir(dir_path):
+        raise ValueError(f"本地技能目录不存在：{dir_path}")
+    entry = _agl_local_skill_entry(dir_path, config)
+    cmd = _agl_local_skill_command(entry)
+
+    payload = _json.dumps({
+        "tool": name,
+        "arguments": arguments,
+        "config": {k: v for k, v in config.items()
+                   if k not in ("protocol", "协议", "endpoint", "地址")},
+    }, ensure_ascii=False, default=repr).encode("utf-8")
+    env = dict(_os.environ)
+    env["AGL_TOOL_NAME"] = name
+    env["AGL_SKILL_DIR"] = dir_path
+    env.setdefault("PYTHONIOENCODING", "utf-8")
+
+    last = None
+    for attempt in range(retries + 1):
+        try:
+            proc = _sp.run(cmd, cwd=dir_path, input=payload,
+                           stdout=_sp.PIPE, stderr=_sp.PIPE,
+                           timeout=timeout, env=env)
+        except _sp.TimeoutExpired:
+            last = f"超过 {timeout} 秒没有返回"
+            if attempt < retries:
+                _time.sleep(min(2 ** attempt, 5))
+                continue
+            note = _agl_tool_note_failure(name, fp, limit)
+            raise RuntimeError(f"本地技能 `{name}` 调用超时：{last}；{note}") from None
+        except OSError as e:
+            note = _agl_tool_note_failure(name, fp, limit)
+            raise RuntimeError(f"本地技能 `{name}` 启动失败：{e}；{note}") from None
+
+        out = (proc.stdout or b"").decode("utf-8", "replace")
+        err = (proc.stderr or b"").decode("utf-8", "replace").strip()
+        if proc.returncode != 0:
+            detail = err[-300:] if err else "（子进程没有输出错误信息）"
+            note = _agl_tool_note_failure(name, fp, limit)
+            raise RuntimeError(f"本地技能 `{name}` 退出码 {proc.returncode}："
+                               f"{detail}；{note}") from None
+        _agl_tool_note_success(name, fp)
+        text = out.strip()
+        if not text:
+            return ""
+        try:
+            return _json.loads(text)
+        except Exception:
+            return text
+
 
 
 # ── 内建函数的宿主实现 ─────────────────────────────────────────────────

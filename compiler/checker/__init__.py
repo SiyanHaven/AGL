@@ -426,9 +426,17 @@ class Checker:
         if endpoint is self._NOT_LITERAL or (endpoint is not None and not isinstance(endpoint, str)):
             self.err(Code.CONFIG_INVALID,
                      f"工具 `{d['name']}` 的 `地址` 必须是字符串字面量", d["span"])
-        elif protocol in ("mcp", "acp") and not endpoint:
+        elif protocol in ("mcp", "acp", "local-skill") and not endpoint:
             self.err(Code.CONFIG_INVALID,
                      f"工具 `{d['name']}` 用协议 `{protocol}` 时必须写 `地址`", d["span"])
+        entry = self._decl_lit(cfg.get("entry"))
+        if entry is not None and (entry is self._NOT_LITERAL
+                                  or not isinstance(entry, str) or not entry.strip()):
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 的 `入口` 必须是脚本相对路径文本", d["span"])
+        elif entry is not None and protocol not in ("local-skill",):
+            self.err(Code.CONFIG_INVALID,
+                     f"工具 `{d['name']}` 只有协议 `local-skill` 才能写 `入口`", d["span"])
         retry = self._decl_lit(cfg.get("max_retry"))
         if retry is not None and (retry is self._NOT_LITERAL or not isinstance(retry, int) or retry < 0):
             self.err(Code.CONFIG_INVALID,
